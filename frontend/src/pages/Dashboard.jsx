@@ -27,7 +27,7 @@ const Dashboard = () => {
       const res = await api.get(url, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-      setBlogssetCategories(Array.isArray(res.data) ? res.data : []);
+      setBlogs(Array.isArray(res.data) ? res.data : []);
 
       console.log(res);
     } catch (error) {
