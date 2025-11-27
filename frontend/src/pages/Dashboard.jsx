@@ -22,31 +22,61 @@ const Dashboard = () => {
   }, []);
 
   const fetchPosts = async (categoryId = "") => {
-    try {
-      const url = categoryId ? `/posts?category=${categoryId}` : "/posts";
-      const res = await api.get(url, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-setBlogs(Array.isArray(res.data) ? res.data : []);
+  try {
+    const url = categoryId ? `/posts?category=${categoryId}` : "/posts";
+    const res = await api.get(url, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
 
-      console.log(res);
-    } catch (error) {
-      console.log(error.response?.data || error.message);
+    const data = res.data;
+
+    // CASE 1 → backend returns { posts: [...] }
+    if (Array.isArray(data.posts)) {
+      setBlogs(data.posts);
     }
-  };
+    // CASE 2 → backend returns [...] directly
+    else if (Array.isArray(data)) {
+      setBlogs(data);
+    }
+    // CASE 3 → fallback
+    else {
+      setBlogs([]);
+    }
+
+    console.log("posts:", data);
+  } catch (error) {
+    console.log(error.response?.data || error.message);
+  }
+};
+
 
   const fetchCategories = async () => {
-    try {
-      const res = await api.get("/admin/categories", {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-setCategories(Array.isArray(res.data) ? res.data : []);
+  try {
+    const res = await api.get("/admin/categories", {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
 
-      console.log(categories);
-    } catch (error) {
-      console.log(error.response?.data || error.message);
+    const data = res.data;
+
+    // CASE 1 → backend returns { categories: [...] }
+    if (Array.isArray(data.categories)) {
+      setCategories(data.categories);
     }
-  };
+    // CASE 2 → backend returns [...] directly
+    else if (Array.isArray(data)) {
+      setCategories(data);
+    }
+    // CASE 3 → fallback
+    else {
+      setCategories([]);
+    }
+
+    console.log("categories:", data);
+  } catch (error) {
+    console.log(error.response?.data || error.message);
+  }
+};
+
 
   const handleCategorySelect = (catId) => {
     setSelectedCategory(catId);

@@ -25,7 +25,7 @@ try {
 export const getCategories=async(req,res)=>{
   try {
     const cats=await Category.find();
-    res.json(cats);
+    res.json({cats});
   } catch (error) {
     res.status(500).json({message:error.message})
   }
