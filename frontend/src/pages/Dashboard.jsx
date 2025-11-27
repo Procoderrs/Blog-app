@@ -57,6 +57,7 @@ const Dashboard = () => {
     });
 
     const data = res.data;
+    console.log(data);
 
     // CASE 1 → backend returns { categories: [...] }
     if (Array.isArray(data.categories)) {
