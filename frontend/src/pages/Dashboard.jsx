@@ -27,7 +27,7 @@ const Dashboard = () => {
       const res = await api.get(url, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-      setBlogs(Array.isArray(res.data) ? res.data : []);
+      setBlogs(Array.isArray(res.data.posts) ? res.data.posts : []);
 
       console.log(res);
     } catch (error) {
@@ -40,7 +40,7 @@ const Dashboard = () => {
       const res = await api.get("/admin/categories", {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-setCategories(Array.isArray(res.data) ? res.data : []);
+setCategories(Array.isArray(res.data.categories) ? res.data.categories : []);
 
       console.log(categories);
     } catch (error) {
