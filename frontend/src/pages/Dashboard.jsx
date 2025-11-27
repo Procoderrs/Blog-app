@@ -137,7 +137,7 @@ const Dashboard = () => {
               >
                 {post.image && (
                   <img
-  src={`https://blog-app-h2gv.vercel.app${post.image}`}
+  src={`${import.meta.env.VITE_BACKEND_URI}${post.image}`}
   alt={post.title}
   className="h-64 p-3 rounded-2xl w-full object-cover"
 />
