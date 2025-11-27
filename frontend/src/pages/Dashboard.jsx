@@ -28,7 +28,7 @@ const Dashboard = () => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setBlogs(res.data);
-      console.log(post);
+      console.log(res);
     } catch (error) {
       console.log(error.response?.data || error.message);
     }
