@@ -137,10 +137,10 @@ const Dashboard = () => {
               >
                 {post.image && (
                   <img
-                    src={`http://localhost:5000${post.image}`}
-                    alt={post.title}
-                    className="h-64 p-3 rounded-2xl w-full object-cover"
-                  />
+  src={`https://blog-app-h2gv.vercel.app${post.image}`}
+  alt={post.title}
+  className="h-64 p-3 rounded-2xl w-full object-cover"
+/>
                 )}
                 <div className="p-4 flex flex-col flex-1">
                   <div className="flex gap-2 items-start justify-between">
