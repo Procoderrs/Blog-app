@@ -28,6 +28,7 @@ const Dashboard = () => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setBlogs(res.data);
+      console.log(res.data);
     } catch (error) {
       console.log(error.response?.data || error.message);
     }
@@ -39,6 +40,7 @@ const Dashboard = () => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setCategories(res.data);
+      console.log(res.data);
     } catch (error) {
       console.log(error.response?.data || error.message);
     }
