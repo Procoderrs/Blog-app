@@ -59,7 +59,8 @@ const Dashboard = () => {
       ? wordArray.slice(0, words).join(" ") + "..."
       : text;
   };
-
+console.log('categories',categories);
+console.log('posts',blogs);
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <Header />
