@@ -17,6 +17,8 @@ export default function Register() {
     try {
       const { data } = await api.post("/auth/register", form);
       login(data);
+            console.log('login response',data);
+
       navigate("/dashboard");
     } catch (err) {
       console.log(err.response.data);
