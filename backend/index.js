@@ -18,8 +18,8 @@ const app=express();
 app.use(
 	cors({
 		origin: [
-/* 			"https://blog-app-furm-5y3rll4xm-zeenats-projects-d764cff8.vercel.app",
- */			"http://localhost:5173",
+ 			"https://blog-app-74bn.vercel.app",
+ 			"http://localhost:5173",
 		],
 		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 		allowedHeaders: ["Content-Type", "Authorization"],
