@@ -9,11 +9,18 @@ export default function AuthProvider({children}){
     return JSON.parse(localStorage.getItem('user'))|| null;
   })
 
-const login=(userData)=>{
+const login = (data) => {
+  const userData = {
+    _id: data._id,
+    name: data.name,
+    email: data.email,
+    role: data.role,
+    token: data.token,
+  };
+
   setUser(userData);
-  console.log(userData);
-  localStorage.setItem('user',JSON.stringify(userData));
-}
+  localStorage.setItem("user", JSON.stringify(userData));
+};
 const logout=()=>{
   setUser(null);
   localStorage.removeItem('user')
