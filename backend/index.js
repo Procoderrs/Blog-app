@@ -13,19 +13,19 @@ connectDB();
 createAdmin();
 
 const app=express();
+app.use(cors())
 
-
-app.use(
+/* app.use(
 	cors({
 		origin: [
- 			"https://blog-app-74bn.vercel.app",
+ 			/* "https://blog-app-74bn.vercel.app", 
  			"http://localhost:5173",
 		],
 		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 		allowedHeaders: ["Content-Type", "Authorization"],
 		credentials: true,
 	})
-);
+); */
 app.use(express.json());
 
 
