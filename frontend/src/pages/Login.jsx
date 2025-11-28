@@ -15,7 +15,7 @@ export default function Login() {
     try {
       const { data } = await api.post("/auth/login", form);
       login(data);
-      console.log(data);
+      console.log(res.data);
       navigate("/dashboard"); // ✅ redirect to dashboard
     } catch (err) {
       console.log(err.response.data);
