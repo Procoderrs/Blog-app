@@ -15,6 +15,7 @@ export default function Login() {
 
       if (data?.token) {
         login(data); // store user + token in localStorage
+        console.log('login data',login);
         navigate("/dashboard");
       } else {
         alert("Login failed. Please try again.");
