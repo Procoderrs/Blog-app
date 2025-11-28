@@ -18,7 +18,7 @@ const app=express();
 app.use(
 	cors({
 		origin: [
-			"https://blog-app-kohl-three.vercel.app",
+			"https://blog-app-furm.vercel.app",
 			"http://localhost:5173",
 		],
 		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
