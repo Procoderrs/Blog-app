@@ -13,7 +13,7 @@ const Dashboard = () => {
   const [blogs, setBlogs] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
-
+console.log(user);
   // Redirect admin to admin layout
   useEffect(() => {
     if (user?.role === "admin") {
