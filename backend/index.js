@@ -33,7 +33,7 @@ app.use('/uploads',express.static('uploads'));
 app.use('/api/posts',postRoutes);
 app.use('/api/admin',adminRoutes)
 
-app.use('/',(req,res)=>res.send('api is runningnnnnnnnnn'));
+app.get('/',(req,res)=>res.send('api is runningnnnnnnnnn'));
 
 
 
