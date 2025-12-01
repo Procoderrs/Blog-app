@@ -9,11 +9,21 @@ import adminRoutes from './routes/adminRoutes.js'
 
 
 dotenv.config();
-connectDB().then(()=> app.listen(PORT,()=>console.log(`server is running on port${PORT}`)));
+connectDB().then(()=> app.listen(PORT,()=>
+console.log(`server is running on port${PORT}`)));
 createAdmin();
 
 const app=express();
-app.use(cors())
+app.use(
+	cors({
+		origin: [
+			"https://blog-app-pi-five-79.vercel.app",
+			"http://localhost:5173",
+		],
+		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+		allowedHeaders: ["Content-Type", "Authorization"],
+		credentials: true,
+	}))
 
 app.use(express.json());
 
