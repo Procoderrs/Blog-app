@@ -8,7 +8,7 @@ import AdminSidebar from "./components/AdminSidebar";
     <div className="flex h-screen bg-gray-100">
       <AdminSidebar />
 
-      <div className="flex-1 p-6 overflow-auto">
+      <div className="flex-1 px-1 overflow-auto">
         <Outlet />
       </div>
     </div>

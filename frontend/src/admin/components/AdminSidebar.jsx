@@ -1,40 +1,92 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Users, Folder, UserCircle } from "lucide-react"; // icons
+import api from "../../api/api";
 
 function AdminSidebar() {
-  console.log("admin sidebar render");
   const navigate = useNavigate();
+  const [admin, setAdmin] = useState(null);
+
+  // Fetch admin details (avatar, name)
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      try {
+        const res = await api.get("/admin/me", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        setAdmin(res.data);
+      } catch (err) {
+        console.log("Admin fetch error:", err);
+      }
+    };
+    fetchAdmin();
+  }, []);
 
   return (
-    <div className="w-64 bg-white shadow-lg p-6 space-y-6">
-      <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
+    <div className="lg:w-64 w-16 bg-purple-200 shadow-lg p-4 space-y-6 flex flex-col items-center lg:items-start">
+      
+      {/* Admin Avatar */}
+      <div className="flex items-center gap-3">
+        {admin?.avatar ? (
+          <img
+            src={`http://localhost:5000${admin.avatar}`}
+            className="w-10 h-10 rounded-full object-cover"
+          />
+        ) : (
+          <UserCircle className="w-10 h-10" />
+        )}
 
-      <nav className="space-y-3">
-        <NavLink to="/admin" className="block p-2 hover:bg-gray-200 rounded">
-          Dashboard
-        </NavLink>
+        {/* Show name only on large screens */}
+        <span className="hidden lg:inline text-xl font-bold">
+          {admin?.name || "Admin"}
+        </span>
+      </div>
 
-        <NavLink to="/admin/users" className="block p-2 hover:bg-gray-200 rounded">
-          Users
-        </NavLink>
-
-        <NavLink to="/admin/categories" className="block p-2 hover:bg-gray-200 rounded">
-          Categories
-        </NavLink>
-
-        <button
-          className="block p-2 bg-red-500 text-white rounded mt-6 w-full"
-          onClick={() => {
-            localStorage.removeItem("token");
-            navigate("/login");
-          }}
+      {/* Navigation Menu */}
+      <nav className="space-y-3 w-full">
+        
+        {/* Dashboard */}
+        <NavLink
+          to="/admin"
+          className={({ isActive }) =>
+            `flex items-center gap-3 p-2 rounded font-bold hover:bg-gray-300 ${
+              isActive ? "bg-gray-300 text-purple-900" : ""
+            }`
+          }
         >
-          Logout
-        </button>
+          <LayoutDashboard className="w-6 h-6" />
+          <span className="hidden lg:inline">Dashboard</span>
+        </NavLink>
+
+        {/* Users */}
+        <NavLink
+          to="/admin/users"
+          className={({ isActive }) =>
+            `flex items-center gap-3 p-2 rounded font-bold hover:bg-gray-300 ${
+              isActive ? "bg-gray-300 text-purple-900" : ""
+            }`
+          }
+        >
+          <Users className="w-6 h-6" />
+          <span className="hidden lg:inline">Users</span>
+        </NavLink>
+
+        {/* Categories */}
+        <NavLink
+          to="/admin/categories"
+          className={({ isActive }) =>
+            `flex items-center gap-3 p-2 rounded font-bold hover:bg-gray-300 ${
+              isActive ? "bg-gray-300 text-purple-900" : ""
+            }`
+          }
+        >
+          <Folder className="w-6 h-6" />
+          <span className="hidden lg:inline">Categories</span>
+        </NavLink>
+
       </nav>
     </div>
   );
 }
 
-// ✅ Apply memo correctly here
 export default React.memo(AdminSidebar);

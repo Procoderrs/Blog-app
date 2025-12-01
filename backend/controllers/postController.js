@@ -40,7 +40,7 @@ export const getPost = async (req, res) => {
         .populate('category', 'name');
     }
 
-    res.json({posts});
+    res.json(posts);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -51,7 +51,7 @@ export const getSinglePost=async(req,res)=>{
 try {
   const post=await POSTSCHEMA.findById(req.params.id).populate('author','name');
   if(!post) return res.status(404).json({message:'post not found'});
-  res.json({post});
+  res.json(post);
 } catch (error) {
   res.status(500).json({message:error.message});
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import api from "../../api/api";
 import { AuthContext } from "../../context/AuthContext";
+import Header from "../../components/Header";
 
 export default function Categories() {
   console.log('category render');
@@ -12,18 +13,18 @@ export default function Categories() {
 
   // Fetch categories on mount
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await api.get("/admin/categories", {
-          headers: { Authorization: `Bearer ${user.token}` },
-        });
-        setCategories(res.data);
-      } catch (error) {
-        console.log(error.response?.data || error.message);
-      }
-    };
-
+     const fetchCategories = async () => {
+    try {
+      const res = await api.get("/admin/categories", {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      });
+      setCategories(res.data.cats || []); // FIXED: correctly extract array
+    } catch (err) {
+      console.log("Fetch categories error:", err.response?.data || err.message);
+    }
+  };
     fetchCategories();
+    console.log(user);
   }, [user]);
 
   // Create new category
@@ -85,59 +86,66 @@ export default function Categories() {
   };
 
   return (
-    <div className="p-6 min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6 text-purple-900">Categories</h1>
+  <div className="min-h-screen bg-gray-100 p-4">
+    <Header />
 
-      {/* Create new category */}
-      <form onSubmit={handleCreate} className="mb-6 flex gap-2">
+    <div className="max-w-3xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4 text-purple-900">Manage Categories</h1>
+
+      {/* Create Category */}
+      <form
+        onSubmit={handleCreate}
+        className="mb-5 flex gap-2 bg-white p-3 rounded-xl shadow"
+      >
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="New Category"
-          className="border border-gray-300 px-4 py-2 rounded-lg flex-1"
+          placeholder="New category name"
+          className="border border-gray-300 px-3 py-2 rounded-lg flex-1 text-sm"
         />
+
         <button
           type="submit"
-          className="bg-purple-700 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition"
+          className="bg-purple-700 text-white px-5 py-2 rounded-lg hover:bg-purple-800 text-sm"
         >
           Add
         </button>
       </form>
 
-      {/* Display categories */}
+      {/* Categories List */}
       {categories.length === 0 ? (
-        <p>No categories found.</p>
+        <p className="text-gray-500 text-sm">No categories available.</p>
       ) : (
-        <ul className="space-y-2">
+        <div className="space-y-3">
           {categories.map((c) => (
-            <li
+            <div
               key={c._id}
-              className="bg-white p-3 rounded shadow flex justify-between items-center"
+              className="bg-white p-3 rounded-xl shadow flex justify-between items-center hover:shadow-md transition"
             >
+              {/* Name or Edit Input */}
               {editingId === c._id ? (
                 <input
-                  type="text"
                   value={editingName}
                   onChange={(e) => setEditingName(e.target.value)}
-                  className="border px-2 py-1 rounded flex-1"
+                  className="border px-2 py-1 rounded text-sm flex-1 mr-2"
                 />
               ) : (
-                <span>{c.name}</span>
+                <span className="font-medium text-gray-800">{c.name}</span>
               )}
 
               <div className="flex gap-2">
                 {editingId === c._id ? (
                   <button
                     onClick={() => saveEdit(c._id)}
-                    className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition"
+                    className="bg-purple-700 text-white px-3 py-1 text-sm rounded hover:bg-purple-800"
                   >
                     Save
                   </button>
                 ) : (
                   <button
                     onClick={() => startEdit(c._id, c.name)}
-                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+                    className="bg-purple-500 text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
                   >
                     Edit
                   </button>
@@ -145,15 +153,17 @@ export default function Categories() {
 
                 <button
                   onClick={() => handleDelete(c._id)}
-                  className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                  className="bg-red-600 text-white px-3 py-1 text-sm rounded hover:bg-red-700"
                 >
                   Delete
                 </button>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
-  );
+  </div>
+);
+
 }
