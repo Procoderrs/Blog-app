@@ -132,13 +132,14 @@ console.log(user);
                     transition={{ duration: 0.3 }}
                     className="backdrop-blur-md bg-[#f9f5ff] rounded-xl shadow-lg overflow-hidden flex flex-col"
                   >
-                    {/* {post.image && (
-                      <img
-                        src={`http://localhost:5000${post.image}`}
-                        alt={post.title}
-                        className="h-64 p-3 rounded-2xl w-full object-cover"
-                      />
-                    )} */}
+                    {post.image && (
+  <img
+    src={`${import.meta.env.VITE_API_URI}${post.image}`}
+    alt={post.title}
+    className="h-64 p-3 rounded-2xl w-full object-cover"
+  />
+)}
+
 
                     <div className="p-4 flex flex-col flex-1">
                       <div className="flex gap-2 items-start justify-between">
