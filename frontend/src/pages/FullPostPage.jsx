@@ -34,7 +34,7 @@ export default function FullPost() {
     <div className="max-w-4xl mx-auto mt-10 bg-purple-50 p-8 rounded-lg shadow">
       {post.image && (
         <img
-          src={`http://localhost:5000${post.image}`}
+          src={post.image}
           alt={post.title}
           className="w-full h-80 object-cover rounded mb-4"
         />
