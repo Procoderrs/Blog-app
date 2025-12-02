@@ -24,17 +24,18 @@ const [selectedCategory, setSelectedCategory] = useState(post.category?._id || "
   const [preview, setPreview] = useState(post.image || null); // use Cloudinary URL directly
 
 useEffect(() => {
-  const loadCategories = async () => {
-    try {
-      const res = await api.get("/categories");
-      setCategories(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  loadCategories();
-}, []);
+    const fetchCategories = async () => {
+      try {
+        const res = await api.get("/admin/categories", {
+          headers: { Authorization: `Bearer ${user?.token}` },
+        });
+        setCategories(res.data.cats || []); // FIXED: correctly extract array
+      } catch (error) {
+        console.log("Fetch categories error:", error.response?.data || error.message);
+      }
+    };
+    fetchCategories();
+  }, [user]);
 
 
 
