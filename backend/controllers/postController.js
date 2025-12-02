@@ -1,19 +1,27 @@
 import POSTSCHEMA from "../models/postModel.js";
 
 
-//create post
-export const createPost =async(req,res)=>{
-  try {
-    const{title,short_desc,content,category}=req.body;
 
-    const newPost=await POSTSCHEMA.create({
-      title,short_desc,content,category,author:req.user._id,
-      image: req.file ? '/uploads/' + req.file.filename : '',  // ✅ fix path
-author: req.user._id, // ✅ make sure auth middleware sets req.user
-    })
+
+
+
+//create post
+export const createPost = async (req, res) => {
+  try {
+    const { title, short_desc, content, category } = req.body;
+
+    const newPost = await POSTSCHEMA.create({
+      title,
+      short_desc,
+      content,
+      category,
+      author: req.user._id,
+      image: req.file ? req.file.path : "", // Cloudinary gives full URL here
+    });
+
     res.status(201).json(newPost);
   } catch (error) {
-    res.status(500).json({message:error.message});
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -74,9 +82,10 @@ export const updatePost=async (req,res)=>{
     post.short_desc=req.body.short_desc || post.short_desc;
     post.content=req.body.content|| post.content;
 
-    if(req.file){
-      post.image='/uploads/'+req.file.filename;
+   if (req.file) {
+      post.image = req.file.path; // Cloudinary URL
     }
+
     await post.save();
     res.json({message:'post update successfully',post});
   } catch (error) {
