@@ -82,6 +82,7 @@ export const updatePost=async (req,res)=>{
     //update fields
     post.title= req.body.title || post.title;
     post.short_desc=req.body.short_desc || post.short_desc;
+    post.category=req.body.category || post.category;
     post.content=req.body.content|| post.content;
 
    if (req.file) {

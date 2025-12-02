@@ -17,9 +17,25 @@ export default function UpdatePost() {
 
   const [title, setTitle] = useState(post.title);
   const [shortDesc, setShortDesc] = useState(post.short_desc);
+const [categories, setCategories] = useState([]);
   const [content, setContent] = useState(post.content);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(post.image || null); // use Cloudinary URL directly
+
+useEffect(() => {
+  const loadCategories = async () => {
+    try {
+      const res = await api.get("/categories");
+      setCategories(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  loadCategories();
+}, []);
+
+
 
   // Image preview
   const handleImage = (e) => {
@@ -35,6 +51,7 @@ export default function UpdatePost() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("short_desc", shortDesc);
+    formData.append('category',category)
     formData.append("content", content);
     if (image) formData.append("image", image);
 
@@ -87,6 +104,21 @@ export default function UpdatePost() {
               />
             )}
           </div>
+          {/* Category Select */}
+<select
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+  className="w-full border px-3 py-2 rounded"
+  required
+>
+  <option value="">Select Category</option>
+  {categories.map((c) => (
+    <option key={c._id} value={c._id}>
+      {c.name}
+    </option>
+  ))}
+</select>
+
 
           {/* Tiptap Editor */}
           <div>
