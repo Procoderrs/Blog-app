@@ -23,6 +23,7 @@ router.get('/posts',protect,adminOnly,getAllPostsAdmin)
 
 router.get("/me", protect, adminOnly,   (req, res) => {
   res.json(req.user);
+  console.log(user)
 });
 
 export default router;
