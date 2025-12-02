@@ -38,7 +38,7 @@ export default function UserPosts() {
     if (!confirm("Delete this post?")) return;
 
     try {
-      await api.delete(`/posts/${postId}`, {
+      await api.delete(`/admin/${postId}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setPosts(posts.filter((p) => p._id !== postId));
