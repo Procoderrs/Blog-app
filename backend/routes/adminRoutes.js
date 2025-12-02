@@ -21,4 +21,8 @@ router.delete('/users/:id',protect,adminOnly,deleteUser)
 router.delete('/:id',protect,adminOnly,deletePost)
 router.get('/posts',protect,adminOnly,getAllPostsAdmin)
 
+router.get("/me", protect, adminOnly, (req, res) => {
+  res.json(req.user);
+});
+
 export default router;
