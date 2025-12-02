@@ -18,6 +18,8 @@ export const createPost = async (req, res) => {
       author: req.user._id,
       image: req.file ? req.file.path : "", // Cloudinary gives full URL here
     });
+    console.log("FILE:", req.file);
+
 
     res.status(201).json(newPost);
   } catch (error) {
