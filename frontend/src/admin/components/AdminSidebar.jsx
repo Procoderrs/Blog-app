@@ -32,7 +32,7 @@ function AdminSidebar() {
       <div className="flex items-center gap-3">
         {admin?.avatar ? (
           <img
-            src={`http://localhost:5000${admin.avatar}`}
+            src={admin.avatar}
             className="w-10 h-10 rounded-full object-cover"
           />
         ) : (
