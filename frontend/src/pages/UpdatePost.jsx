@@ -35,7 +35,7 @@ useEffect(() => {
       }
     };
     fetchCategories();
-  }, [user]);
+  }, []);
 
 
 
@@ -53,7 +53,7 @@ useEffect(() => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("short_desc", shortDesc);
-    formData.append('categories',categories)
+formData.append("category", selectedCategory);
     formData.append("content", content);
     if (image) formData.append("image", image);
 
