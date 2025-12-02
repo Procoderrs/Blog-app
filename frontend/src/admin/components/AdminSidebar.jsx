@@ -12,18 +12,19 @@ function AdminSidebar() {
   // Fetch admin details (avatar, name)
   useEffect(() => {
     const fetchAdmin = async () => {
+      if(!user?.token) return;
       try {
         const res = await api.get("/admin/me", {
-          headers: { Authorization: `Bearer  ${user?.token}` },
+          headers: { Authorization: `Bearer ${user?.token}` },
         });
         setAdmin(res.data);
-        console.log(data);
+        console.log(res.data);
       } catch (err) {
         console.log("Admin fetch error:", err);
       }
     };
     fetchAdmin();
-  }, []);
+  }, [user]);
 
   return (
     <div className="lg:w-64 w-16 bg-purple-200 shadow-lg p-4 space-y-6 flex flex-col items-center lg:items-start">
