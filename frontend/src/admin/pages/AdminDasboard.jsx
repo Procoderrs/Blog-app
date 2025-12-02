@@ -29,7 +29,7 @@ export default function AdminDashboard() {
   const fetchPosts = async () => {
     try {
       const res = await api.get("/admin/posts", {
-        headers: { Authorization: `Bearer${user.token}` },
+        headers: { Authorization: `Bearer ${user.token}` },
       });
       setPosts(res.data);
     } catch (error) {
