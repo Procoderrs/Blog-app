@@ -50,7 +50,7 @@ export default function AddPost() {
     formData.append('short_desc', shortDesc);
     formData.append('content', content);
     formData.append('category', selectedCategory);
-    if (image) formData.append('image', image);
+    if (image) formData.append('image', File);
 
     try {
       await api.post('/posts/create', formData, {
@@ -59,6 +59,7 @@ export default function AddPost() {
           Authorization: `Bearer ${user?.token}`,
         },
       });
+      console.log(title,shortDesc,content,selectedCategory,File);
       alert('Post created successfully!');
       navigate('/dashboard');
     } catch (err) {
