@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext, use } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LayoutDashboard, Users, Folder, UserCircle } from "lucide-react"; // icons
 import api from "../../api/api";
+import { AuthContext } from "../../context/AuthContext";
 
 function AdminSidebar() {
   const navigate = useNavigate();
   const [admin, setAdmin] = useState(null);
+  const [user]=useContext(AuthContext)
 
   // Fetch admin details (avatar, name)
   useEffect(() => {
     const fetchAdmin = async () => {
       try {
         const res = await api.get("/admin/me", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer  ${user?.token}` },
         });
         setAdmin(res.data);
       } catch (err) {
