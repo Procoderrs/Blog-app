@@ -17,7 +17,8 @@ export default function UpdatePost() {
 
   const [title, setTitle] = useState(post.title);
   const [shortDesc, setShortDesc] = useState(post.short_desc);
-const [categories, setCategories] = useState(post.categories);
+const [categories, setCategories] = useState([]); // list from DB
+const [selectedCategory, setSelectedCategory] = useState(post.category?._id || "")   // set original category
   const [content, setContent] = useState(post.content);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(post.image || null); // use Cloudinary URL directly
@@ -106,18 +107,20 @@ useEffect(() => {
           </div>
           {/* Category Select */}
 <select
-  value={categories}
-  onChange={(e) => setCategories(e.target.value)}
+  value={selectedCategory}
+  onChange={(e) => setSelectedCategory(e.target.value)}
   className="w-full border px-3 py-2 rounded"
   required
 >
   <option value="">Select Category</option>
+
   {categories.map((c) => (
     <option key={c._id} value={c._id}>
       {c.name}
     </option>
   ))}
 </select>
+
 
 
           {/* Tiptap Editor */}
