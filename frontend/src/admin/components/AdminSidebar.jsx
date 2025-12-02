@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 function AdminSidebar() {
   const navigate = useNavigate();
   const [admin, setAdmin] = useState(null);
-  const [user]=useContext(AuthContext)
+  const {user}=useContext(AuthContext)
 
   // Fetch admin details (avatar, name)
   useEffect(() => {
