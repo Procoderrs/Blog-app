@@ -17,6 +17,7 @@ function AdminSidebar() {
           headers: { Authorization: `Bearer  ${user?.token}` },
         });
         setAdmin(res.data);
+        console.log(data);
       } catch (err) {
         console.log("Admin fetch error:", err);
       }
