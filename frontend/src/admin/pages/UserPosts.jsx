@@ -77,13 +77,13 @@ export default function UserPosts() {
           className="bg-white border border-purple-200 rounded-xl shadow-sm hover:shadow-md transition p-3 flex flex-col"
         >
           {/* Image */}
-          {p.image && (
+          {/* {p.image && (
             <img
               src={`http://localhost:5000${p.image}`}
               alt={p.title}
               className="w-full h-56 md:h-48 lg:h-52 rounded-xl object-cover mb-3"
             />
-          )}
+          )} */}
 
           {/* Title */}
           <h2 className="text-xl font-semibold text-gray-800 mb-1 line-clamp-1">
