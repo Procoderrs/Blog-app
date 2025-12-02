@@ -17,7 +17,7 @@ export default function UpdatePost() {
 
   const [title, setTitle] = useState(post.title);
   const [shortDesc, setShortDesc] = useState(post.short_desc);
-const [categories, setCategories] = useState([]);
+const [categories, setCategories] = useState(post.categories);
   const [content, setContent] = useState(post.content);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(post.image || null); // use Cloudinary URL directly
@@ -51,7 +51,7 @@ useEffect(() => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("short_desc", shortDesc);
-    formData.append('category',category)
+    formData.append('category',categories)
     formData.append("content", content);
     if (image) formData.append("image", image);
 
