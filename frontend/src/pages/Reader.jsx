@@ -48,7 +48,7 @@ export default function Reader() {
           {posts.map((post) => (
             <div
               key={post._id}
-              className="bg-pink-200 rounded-xl shadow hover:shadow-lg transition p-4"
+              className="bg-[#f9f5ff] rounded-xl shadow hover:shadow-lg transition p-4"
             >
 
               {/* FIXED UNIFORM IMAGE */}

@@ -22,7 +22,7 @@ export default function ReaderSinglePost(){
   return(
     <>
     <PublicHeader/>
-      <div className='p-6 max-w-4xl mx-auto'>
+      <div className='p-6 max-w-4xl mx-auto bg-purple-50'>
       <div className="text-gray-600 text-sm mb-4">
   Written by <span className="font-semibold">{post.author.name}</span>
 </div>
