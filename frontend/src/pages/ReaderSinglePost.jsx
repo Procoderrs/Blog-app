@@ -24,7 +24,7 @@ export default function ReaderSinglePost(){
     <PublicHeader/>
       <div className='p-6 max-w-4xl mx-auto bg-purple-50'>
       <div className="text-gray-600 text-sm mb-4">
-  Written by <span className="font-semibold">{post.author.name}</span>
+  Written by <span className="font-semibold text-xl">{post.author.name}</span>
 </div>
 <img src={post.image} alt="" className='h-80 object-cover w-full rounded' />
 <h1 className='text-3xl font-bold mt-4'>{post.title}</h1>

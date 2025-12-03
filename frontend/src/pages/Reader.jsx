@@ -28,12 +28,7 @@ export default function Reader() {
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-4">Latest Blogs</h1>
 
-      <button
-        onClick={() => navigate('/login?redirect=add-post')}
-        className="bg-purple-600 text-white px-4 py-2 mb-6 rounded-lg hover:bg-purple-700 transition"
-      >
-        Add Post
-      </button>
+      
 
       {/* 🔥 SHOW LOADING */}
       {loading && (
