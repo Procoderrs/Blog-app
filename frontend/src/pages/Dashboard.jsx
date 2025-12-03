@@ -121,7 +121,7 @@ const Dashboard = () => {
 					</div>
 
 					{/* Posts Grid */}
-					<div className="grid md:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6 auto-rows-min">
+					<div className="grid md:grid-cols-3 lg:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6 auto-rows-min">
 						<AnimatePresence mode="popLayout">
 							{blogs.length > 0 ? (
 								blogs.map((post) => (
