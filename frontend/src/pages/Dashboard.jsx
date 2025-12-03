@@ -126,13 +126,13 @@ const Dashboard = () => {
 							{blogs.length > 0 ? (
 								blogs.map((post) => (
 									<motion.div
-										key={post._id}
-										initial={{ opacity: 0, y: 20 }}
-										animate={{ opacity: 1, y: 0 }}
-										exit={{ opacity: 0, y: -20 }}
-										transition={{ duration: 0.3 }}
-										className="backdrop-blur-md bg-[#f9f5ff] rounded-xl shadow-lg overflow-hidden flex flex-col"
-									>
+  key={post._id}
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, y: -20 }}
+  transition={{ duration: 0.3 }}
+  className="backdrop-blur-md bg-[#f9f5ff] rounded-xl shadow-lg overflow-hidden flex flex-col max-w-md mx-auto w-full"
+>
 										<img
 											src={post.image}
 											alt={post.title}
