@@ -34,7 +34,7 @@ export default function Reader() {
 
       {/* 🔥 SHOW LOADING */}
       {loading && (
-        <div className="w-full flex  bg-pink-200 justify-center shadow-2xl py-20">
+        <div className="w-full flex   justify-center shadow-2xl py-20">
           <div className="animate-spin h-10 w-10 border-4 border-purple-600 border-t-transparent rounded-full"></div>
         </div>
       )}
@@ -45,7 +45,7 @@ export default function Reader() {
           {posts.map((post) => (
             <div
               key={post._id}
-              className="bg-white rounded-xl shadow hover:shadow-lg transition p-4"
+              className="bg-pink-200 rounded-xl shadow hover:shadow-lg transition p-4"
             >
 
               {/* FIXED UNIFORM IMAGE */}
