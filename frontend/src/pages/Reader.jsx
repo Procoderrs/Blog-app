@@ -64,7 +64,11 @@ export default function Reader() {
               <p className="text-sm text-gray-500 mt-1">
                 By {post.author?.name}
               </p>
-
+<img
+													src="/profile.jpg"
+													alt=""
+													className="w-12 rounded-full"
+												/>
               <button
                 onClick={() => navigate(`/reader/post/${post._id}`)}
                 className="text-blue-600 mt-2 hover:underline"
