@@ -59,7 +59,7 @@ export default function Reader() {
 
               <h2 className="text-xl font-bold mt-3">{post.title}</h2>
 
-              <p className="text-gray-700 line-clamp-2">{post.short_desc}</p>
+              <p className="text-gray-700 line-clamp-1">{post.short_desc}</p>
              <div className="flex gap-4 items-center mt-auto">
 												<img
 													src="/profile.jpg"
