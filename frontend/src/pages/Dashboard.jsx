@@ -42,6 +42,7 @@ const Dashboard = () => {
 				headers: { Authorization: `Bearer ${user?.token}` },
 			});
 			setBlogs(Array.isArray(res.data) ? res.data : []);
+			console.log(res.data)
 		} catch (err) {
 			console.log("Fetch posts error:", err.response?.data || err.message);
 		}
