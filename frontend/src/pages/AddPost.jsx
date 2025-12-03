@@ -8,6 +8,8 @@ import Header from '../components/Header';
 export default function AddPost() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState("");
+
 
   const [title, setTitle] = useState('');
   const [shortDesc, setShortDesc] = useState('');
@@ -44,6 +46,8 @@ export default function AddPost() {
     e.preventDefault();
 
     if (!selectedCategory) return alert('Please select a category');
+      if (!image) return setErrorMsg("Please upload an image");
+
 
     const formData = new FormData();
     formData.append('title', title);
@@ -130,6 +134,11 @@ export default function AddPost() {
             Publish Post
           </button>
         </form>
+        {errorMsg && (
+  <p className="bg-red-100 text-red-700 p-3 rounded border border-red-300">
+    {errorMsg}
+  </p>
+)}
       </div>
     </>
   );
