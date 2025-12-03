@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/api';
 import { useNavigate } from 'react-router-dom';
+import PublicHeader from '../components/PublicHeader';
 
 export default function Reader() {
   const [posts, setPosts] = useState([]);
@@ -22,6 +23,8 @@ export default function Reader() {
   }, []);
 
   return (
+    <>
+    <PublicHeader/>
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-4">Latest Blogs</h1>
 
@@ -85,5 +88,6 @@ export default function Reader() {
         </div>
       )}
     </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api/api';
+import PublicHeader from '../components/PublicHeader';
 
 
 export default function ReaderSinglePost(){
@@ -20,6 +21,7 @@ export default function ReaderSinglePost(){
 
   return(
     <>
+    <PublicHeader/>
       <div className='p-6 max-w-4xl mx-auto'>
       <div className="text-gray-600 text-sm mb-4">
   Written by <span className="font-semibold">{post.author.name}</span>
