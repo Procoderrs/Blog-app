@@ -24,7 +24,7 @@ export default function ReaderSinglePost(){
       <div className="text-gray-600 text-sm mb-4">
   Written by <span className="font-semibold">{post.author.name}</span>
 </div>
-<img src={post.img} alt="" className='h-80 object-cover w-full rounded' />
+<img src={post.image} alt="" className='h-80 object-cover w-full rounded' />
 <h1 className='text-3xl font-bold mt-4'>{post.title}</h1>
 
 <p className='text-gray-600 mt-2'>{post.short_desc}</p>
