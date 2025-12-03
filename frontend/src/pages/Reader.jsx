@@ -57,7 +57,7 @@ export default function Reader() {
                 />
               </div>
 
-              <h2 className="text-xl font-bold mt-3">{post.title}</h2>
+              <h2 className="text-xl font-bold mt-3 line-clamp-1">{post.title}</h2>
 
               <p className="text-gray-700 line-clamp-1">{post.short_desc}</p>
              <div className="flex gap-4 items-center mt-auto">
