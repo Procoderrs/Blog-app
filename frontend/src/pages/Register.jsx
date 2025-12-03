@@ -54,13 +54,14 @@ export default function Register() {
         <button className="w-full bg-blue-600 text-white p-2 rounded">
           Register
         </button>
-      </form>
-      <p className="text-sm text-gray-600 mt-3">
+        <p className="text-sm text-gray-600 mt-3">
   Already have an account?{" "}
   <Link to="/login" className="text-blue-600 underline">
     Login
   </Link>
 </p>
+      </form>
+      
     </div>
   );
 }
