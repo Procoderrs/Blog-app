@@ -98,7 +98,7 @@ export default function AddPost() {
 
           {/* Image upload */}
           <div>
-            <label className="block font-semibold mb-2">Upload image</label>
+            <label className="block font-black text-lg mb-2 ">Upload image</label>
             <input type="file" onChange={handleImage} />
             {preview && (
               <img
