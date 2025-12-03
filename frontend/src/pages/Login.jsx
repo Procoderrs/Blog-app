@@ -15,6 +15,12 @@ export default function Login() {
       const { data } = await api.post("/auth/login", form);
       login(data); // Store token & user in context
       console.log("Login successful:", data);
+      const params=new URLSearchParams(location.search);
+      const redirect=params.get('redirect');
+
+      if(redirect){
+        navigate(`/${redirect}`);
+      }
       navigate("/dashboard");
     } catch (err) {
       console.log(err.response?.data || err.message);

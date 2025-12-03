@@ -7,7 +7,8 @@ import LoggedIn from "./components/LoggedIn";
 import AddPost from "./pages/AddPost";
 import UpdatePost from "./pages/UpdatePost";
 import FullPostPage from "./pages/FullPostPage";
-
+import Reader from "./pages/Reader";
+import ReaderSinglePost from "./pages/ReaderSinglePost";
 
 
 import AdminLayout from "./admin/AdminLayout";
@@ -22,8 +23,13 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
+
+<Route path="/" element={<Reader/>} />
+<Route path="/reader/post/:id" element={<ReaderSinglePost/>} />
+
+
 				<Route
-					path="/"
+					path="/register"
 					element={
 						<LoggedIn>
 							<Register />
