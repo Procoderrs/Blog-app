@@ -24,7 +24,7 @@ export default function Reader(){
       Add Post
       </button>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
       {posts.map((post)=>(
         <div key={post._id} className='bg-white rounded shadow p-4'>
         <img src={post.image} className='h-48 object-cover rounded' alt="" />
