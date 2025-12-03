@@ -131,7 +131,7 @@ const Dashboard = () => {
   animate={{ opacity: 1, y: 0 }}
   exit={{ opacity: 0, y: -20 }}
   transition={{ duration: 0.3 }}
-  className="backdrop-blur-md bg-[#f9f5ff] rounded-xl shadow-lg overflow-hidden flex flex-col max-w-md mx-auto w-full"
+  className="backdrop-blur-md bg-[#f9f5ff] rounded-xl shadow-lg overflow-hidden flex flex-col max-w-md  w-full"
 >
 										<img
 											src={post.image}
