@@ -27,7 +27,7 @@ export default function Reader(){
       <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
       {posts.map((post)=>(
         <div key={post._id} className='bg-white rounded shadow p-4'>
-        <img src={post.image} className='h-48 object-cover rounded' alt="" />
+        <img src={post.image} className='w-full object-cover rounded' alt="" />
         <h2 className='text-xl font-bold mt-3'>{post.title}</h2>
 
         <p className='text-gray-700 line-clamp-2'>{post.short_desc}</p>
