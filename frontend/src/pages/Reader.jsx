@@ -60,7 +60,10 @@ export default function Reader() {
               <h2 className="text-xl font-bold mt-3">{post.title}</h2>
 
               <p className="text-gray-700 line-clamp-2">{post.short_desc}</p>
-<div className='flex flex-col gap-3'>
+              <div className='flex flex-col'>
+
+             
+<div className='flex  gap-3'>
 
 
               <p className="text-sm text-gray-500 mt-1">
@@ -72,6 +75,8 @@ export default function Reader() {
 													className="w-12 rounded-full"
 												/>
 </div>
+<p>{new Date(post.createdAt).toLocaleDateString()}</p>
+ </div>
               <button
                 onClick={() => navigate(`/reader/post/${post._id}`)}
                 className="text-blue-600 mt-2 hover:underline"
