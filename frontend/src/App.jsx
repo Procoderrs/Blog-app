@@ -19,6 +19,9 @@ import Categories from "./admin/pages/Categories";
 import AdminRoute from "./middleware/AdminRoute";
 import "./App.css";
 
+//VITE_API_URI=https://blog-app-mjc3.vercel.app
+
+
 function App() {
 	return (
 		<BrowserRouter>
