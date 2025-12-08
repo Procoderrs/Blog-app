@@ -18,11 +18,10 @@ export default function AddPost() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
 
-  // Fetch categories on mount
+  // Fetch categories for the user
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        
         const res = await api.get("/categories", {
           headers: { Authorization: `Bearer ${user?.token}` },
         });
@@ -34,14 +33,14 @@ export default function AddPost() {
     fetchCategories();
   }, [user]);
 
-  // Image preview
+  // Handle image selection and preview
   const handleImage = (e) => {
     const file = e.target.files[0];
     setImage(file);
     setPreview(URL.createObjectURL(file));
   };
 
-  // Submit form
+  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
@@ -59,13 +58,14 @@ export default function AddPost() {
     formData.append("image", image);
 
     try {
-      await api.post("/posts/create", formData, {
+      const res = await api.post("/posts/create", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${user?.token}`,
         },
       });
-console.log("Created post:", response.data);
+
+      console.log("Post created:", res.data);
 
       alert("Post created successfully!");
       navigate("/dashboard/posts");
@@ -99,7 +99,7 @@ console.log("Created post:", response.data);
         {/* Image upload */}
         <div>
           <label className="block font-black text-lg mb-2">Upload image</label>
-          <input type="file" onChange={handleImage} />
+          <input type="file" accept="image/*" onChange={handleImage} />
           {preview && (
             <img
               src={preview}
@@ -129,7 +129,7 @@ console.log("Created post:", response.data);
           <Editor content={content} onChange={setContent} />
         </div>
 
-        <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold hover:bg-blue-200">
+        <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold">
           Publish Post
         </button>
       </form>

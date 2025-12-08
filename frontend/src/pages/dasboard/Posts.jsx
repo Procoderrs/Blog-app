@@ -19,17 +19,19 @@ const Posts = () => {
     fetchPosts();
   }, []);
 
+  // Fetch categories for user
   const fetchCategories = async () => {
     try {
       const res = await api.get("/categories", {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
-      setCategories(res.data.cats || []);
+      setCategories(res.data || []);
     } catch (err) {
       console.log("Fetch categories error:", err.response?.data || err.message);
     }
   };
 
+  // Fetch posts for user (with optional category filter)
   const fetchPosts = async (categoryId = "") => {
     try {
       const url = categoryId ? `/posts?category=${categoryId}` : "/posts";
