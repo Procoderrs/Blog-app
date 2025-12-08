@@ -1,25 +1,25 @@
 import mongoose from "mongoose";
 
-const categorySchema =new mongoose.Schema({
-  name:{type:String,
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
     required: true,
-    unique:true,
+    unique: true
   },
-user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Userss", // make sure this matches your User model
-    required: true,
-    default:null,
-  },
-  createdBy:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:'User',
-    required:true,
-  },
-  createdAt:{
-    type:Date,default:Date.now
-  },
-  
-})
 
-export default mongoose.model('Category',categorySchema);
+  // WHO CREATED THIS CATEGORY
+  // null or undefined means: admin-created global category
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Userss",
+    required: false,  // must NOT be required
+    default: null
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+export default mongoose.model("Category", categorySchema);

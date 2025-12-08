@@ -6,8 +6,7 @@ import createAdmin from './utils/createAdmin.js';
 import authRoutes from './routes/authRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-import userCategoryRoutes from './routes/userCategoryRoutes.js'
-
+import categoryRoutes from './routes/categoryRoutes.js'
 
 dotenv.config();
 
@@ -35,7 +34,7 @@ app.use('/api/auth', authRoutes);
 app.use('/uploads', express.static('uploads'));
 app.use('/api/posts', postRoutes);
  app.use('/api/admin', adminRoutes); 
- app.use('/api/categories',userCategoryRoutes)
+ app.use('/api/categories',categoryRoutes)
 
 // 404 Fallback
 app.use((req, res) => {
