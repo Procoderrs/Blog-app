@@ -25,7 +25,9 @@ app.use(
   })
 );
 
+// Add this ------------------------
 app.options('*', cors());
+// ----------------------------------
 
 app.use(express.json());
 
