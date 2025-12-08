@@ -8,25 +8,35 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const { data } = await api.post("/auth/login", form);
-      login(data); // Store token & user in context
-      console.log("Login successful:", data);
-      const params=new URLSearchParams(location.search);
-      const redirect=params.get('redirect');
+  try {
+    const { data } = await api.post("/auth/login", form);
+    login(data); 
 
-      if(redirect){
-        navigate(`/${redirect}`);
-      }
-      navigate("/dashboard");
-    } catch (err) {
-      console.log(err.response?.data || err.message);
-      alert(err.response?.data?.message || "Login failed");
+    console.log("Login successful:", data);
+
+    const params = new URLSearchParams(location.search);
+    const redirect = params.get("redirect");
+
+    if (redirect) {
+      navigate(`/${redirect}`);
+      return;
     }
-  };
+
+    if (data.role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/dashboard/posts");
+    }
+
+  } catch (err) {
+    console.log(err.message);
+    alert(err.message);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

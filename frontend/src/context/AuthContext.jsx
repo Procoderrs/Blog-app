@@ -4,12 +4,14 @@ export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading,setLoading]=useState(true)
 
   // Load user from localStorage (only in browser)
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedUser = JSON.parse(localStorage.getItem("user"));
       if (savedUser) setUser(savedUser);
+      setLoading(false)
     }
   }, []);
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PublicHeader = () => {
   const navigate = useNavigate();
@@ -21,12 +22,9 @@ const PublicHeader = () => {
           className="w-8 md:hidden cursor-pointer"
           onClick={() => navigate("/login?redirect=add-post")}
         />
-        <button
-          onClick={() => navigate("/login?redirect=add-post")}
-          className="bg-[#33006F] text-white px-6 py-3 hidden md:inline rounded-lg shadow hover:bg-purple-600 transition"
-        >
-          Add Post
-        </button>
+        <p>
+        <Link to='/login'>Login</Link>
+        </p>
       </div>
     </div>
   );

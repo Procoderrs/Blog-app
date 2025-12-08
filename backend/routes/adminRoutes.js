@@ -7,13 +7,12 @@ import { deletePost } from '../controllers/postController.js';
 
 const router = express.Router();
 
-router.post('/category', protect, adminOnly, createCategory);
+router.post('/category', protect, createCategory);
 router.get('/categories' , getCategories);
 
 // adminRoutes.js
-router.put("/category/:id", protect, adminOnly, updateCategory);
-router.delete("/category/:id", protect, adminOnly, deleteCategory);
-
+router.put("/category/:id", protect,  updateCategory);
+router.delete("/category/:id", protect, deleteCategory);
 
 router.get('/users',protect,adminOnly,getAllUsers);
 router.get('/users/:id/posts',protect,adminOnly,getUserPosts)

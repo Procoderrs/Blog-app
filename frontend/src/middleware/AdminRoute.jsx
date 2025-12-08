@@ -4,11 +4,11 @@ import { Navigate } from "react-router-dom";
 
 export default function AdminRoute({children}){
   console.log('admin-route-render');
-  const {user}=useContext(AuthContext);
+const {user, loading} = useContext(AuthContext);
 
-  if(!user) return <Navigate to='/login'/>
+  if(loading) return null; // or spinner
+if(!user) return <Navigate to='/login' />;
+if(user.role !== 'admin') return <Navigate to='/' />;
 
-  if(user.role!=='admin') return <Navigate to='/'/>
-
-  return children;
+return children;
 }
