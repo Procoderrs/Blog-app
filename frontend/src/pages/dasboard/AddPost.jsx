@@ -129,7 +129,7 @@ console.log("Created post:", response.data);
           <Editor content={content} onChange={setContent} />
         </div>
 
-        <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold">
+        <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold hover:bg-blue-200">
           Publish Post
         </button>
       </form>
