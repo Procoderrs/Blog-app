@@ -37,8 +37,7 @@ export default function AdminDashboard() {
     }
   };
 
-  useEffect(() => {
-    const fetchCategories = async () => {
+  const fetchCategories = async () => {
       try {
         const res = await api.get("/categories", {
           headers: { Authorization: `Bearer ${user?.token}` },
@@ -48,8 +47,9 @@ export default function AdminDashboard() {
         console.log("Fetch categories error:", err.response?.data || err.message);
       }
     };
-    fetchCategories();
-  }, [user]);
+
+
+    
   return (
     <div className="min-h-screen bg-gray-100 ">
       <Header />
