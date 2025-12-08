@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+/* import { useState, useContext, useEffect } from 'react';
 import api from '../api/api';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -13,20 +13,20 @@ export default function AddPost() {
 
   const [title, setTitle] = useState('');
   const [shortDesc, setShortDesc] = useState('');
-  const [categories, setCategories] = useState([]);        // Array of categories
-  const [selectedCategory, setSelectedCategory] = useState(""); // Selected category
+  const [categories, setCategories] = useState([]);       
+  const [selectedCategory, setSelectedCategory] = useState(""); 
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
 
-  // Fetch categories on mount
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await api.get("/admin/categories", {
           headers: { Authorization: `Bearer ${user?.token}` },
         });
-        setCategories(res.data.cats || []); // FIXED: correctly extract array
+        setCategories(res.data.cats || []); 
       } catch (error) {
         console.log("Fetch categories error:", error.response?.data || error.message);
       }
@@ -34,14 +34,13 @@ export default function AddPost() {
     fetchCategories();
   }, [user]);
 
-  // Image preview
   const handleImage = (e) => {
     const file = e.target.files[0];
     setImage(file);
     setPreview(URL.createObjectURL(file));
   };
 
-  // Submit form
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -96,7 +95,7 @@ export default function AddPost() {
             onChange={(e) => setShortDesc(e.target.value)}
           />
 
-          {/* Image upload */}
+         
           <div>
             <label className="block font-black text-lg mb-2 ">Upload image</label>
             <input type="file" onChange={handleImage} />
@@ -109,7 +108,7 @@ export default function AddPost() {
             )}
           </div>
 
-          {/* Category dropdown */}
+          
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -124,7 +123,7 @@ export default function AddPost() {
             ))}
           </select>
 
-          {/* Editor */}
+          
           <div>
             <label className="block font-semibold mb-2">Content</label>
             <Editor content={content} onChange={setContent} />
@@ -143,3 +142,4 @@ export default function AddPost() {
     </>
   );
 }
+ */
