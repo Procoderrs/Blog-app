@@ -54,16 +54,18 @@ export const updateCategory = async (req, res) => {
 
 
 // DELETE category
+// DELETE category
 export const deleteCategory = async (req, res) => {
   const cat = await Category.findById(req.params.id);
 
   if (!cat) return res.status(404).json({ msg: "Category not found" });
 
-  if (String(cat.createdBy) !== String(req.user._id)) {
+  // Admin can delete any category, user can delete only their own
+  if (req.user.role !== "admin" && cat.createdBy?.toString() !== req.user._id.toString()) {
     return res.status(403).json({ msg: "Not allowed to delete this category" });
   }
 
   await cat.deleteOne();
-
   res.json({ msg: "Category deleted" });
 };
+
