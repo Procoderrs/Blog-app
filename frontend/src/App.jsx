@@ -10,7 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DashboardLayout from "./layout/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
-import AddPost from "./pages/AddPost";
+import AddPost from "./pages/dasboard/AddPost";
 import UpdatePost from "./pages/UpdatePost";
 import FullPostPage from "./pages/FullPostPage";
 import AddCategory from "./pages/dasboard/AddCategory";
