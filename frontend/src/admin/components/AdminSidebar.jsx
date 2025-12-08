@@ -62,7 +62,7 @@ export default function AdminSidebar() {
         </NavLink>
 
         <NavLink
-          to="/categories"
+          to="/admin/categories"
           className={({ isActive }) =>
             `flex items-center gap-3 p-2 rounded font-bold hover:bg-gray-300 ${
               isActive ? "bg-gray-300 text-purple-900" : ""
