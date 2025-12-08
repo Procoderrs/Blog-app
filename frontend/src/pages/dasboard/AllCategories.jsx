@@ -55,32 +55,24 @@ const AllCategories = () => {
 
         {categories.length > 0 ? (
           <ul className="space-y-3">
-            {categories.map(cat => (
-  <div key={cat._id} className="flex justify-between items-center p-2 border-b">
-    <span>{cat.name}</span>
-
-    {cat.createdBy === user._id ? (
-      <div className="flex space-x-3">
-        <button
-          onClick={() => handleEdit(cat._id)}
-          className="text-blue-500"
-        >
-          Edit
-        </button>
-
-        <button
-          onClick={() => handleDelete(cat._id)}
-          className="text-red-500"
-        >
-          Delete
-        </button>
-      </div>
-    ) : (
-      <span className="text-gray-500 text-sm">Admin category</span>
-    )}
-  </div>
-))}
-
+            {categories.map((cat) => (
+              <li
+                key={cat._id}
+                className="flex justify-between items-center bg-purple-50 p-3 rounded shadow"
+              >
+                <span className="font-semibold">{cat.name}</span>
+                <button
+                  onClick={() => handleDelete(cat._id)}
+                  className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-500">You have no categories yet.</p>
+        )}
       </div>
     </div>
   );
