@@ -8,7 +8,7 @@ import { deletePost } from '../controllers/postController.js';
 const router = express.Router();
 
 router.post('/category', protect, createCategory);
-router.get('/categories' , getCategories);
+router.get('/categories',protect , getCategories);
 
 // adminRoutes.js
 router.put("/category/:id", protect,  updateCategory);
