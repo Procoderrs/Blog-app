@@ -42,38 +42,34 @@ export default function AddPost() {
 
   // Handle form submit
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setErrorMsg("");
+  e.preventDefault();
+  setErrorMsg("");
 
-    if (!title || !shortDesc || !content || !selectedCategory) {
-      return setErrorMsg("Please fill all fields.");
-    }
-    if (!image) return setErrorMsg("Please upload an image.");
+  if (!title || !shortDesc || !content || !selectedCategory || !image) {
+    return setErrorMsg("Please fill all fields and upload an image.");
+  }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("short_desc", shortDesc);
-    formData.append("content", content);
-    formData.append("category", selectedCategory);
-    formData.append("image", image);
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("short_desc", shortDesc);
+  formData.append("content", content);
+  formData.append("category", selectedCategory);
+  formData.append("image", image);
 
-    try {
-      const res = await api.post("/posts/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
+  try {
+    const res = await api.post("/posts/create", formData, {
+      headers: { Authorization: `Bearer ${user?.token}` }, // no Content-Type manually
+    });
 
-      console.log("Post created:", res.data);
+    console.log("Post created:", res.data);
+    alert(res.data.message || "Post created successfully!");
+    navigate("/dashboard/posts");
+  } catch (err) {
+    console.error("Post creation error:", err.response?.data || err.message);
+    setErrorMsg(err.response?.data?.message || "Failed to create post.");
+  }
+};
 
-      alert("Post created successfully!");
-      navigate("/dashboard/posts");
-    } catch (err) {
-      console.error("Post creation error:", err.response?.data || err.message);
-      setErrorMsg(err.response?.data?.message || "Failed to create post.");
-    }
-  };
 
   return (
     <div className="max-w-4xl mx-auto mt-10 bg-purple-50 p-8 rounded-lg shadow">
