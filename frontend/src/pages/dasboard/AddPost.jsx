@@ -22,7 +22,7 @@ export default function AddPost() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        // For now, only admin API is available; if you want user-specific categories, create an endpoint for that
+        
         const res = await api.get("/categories", {
           headers: { Authorization: `Bearer ${user?.token}` },
         });
