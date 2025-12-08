@@ -20,7 +20,7 @@ const AllCategories = () => {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
       setCategories(res.data || []);
-      console.log(res);
+      console.log(res)
     } catch (err) {
       console.error(err.response?.data || err.message);
     }
