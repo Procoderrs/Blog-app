@@ -15,7 +15,7 @@ export default function Categories() {
   useEffect(() => {
      const fetchCategories = async () => {
     try {
-      const res = await api.get("/admin/categories", {
+      const res = await api.get("/categories", {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
       setCategories(res.data.cats || []); // FIXED: correctly extract array
@@ -34,7 +34,7 @@ export default function Categories() {
 
     try {
       const res = await api.post(
-        "/admin/category",
+        "/category",
         { name },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -50,7 +50,7 @@ export default function Categories() {
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this category?")) return;
     try {
-      await api.delete(`/admin/category/${id}`, {
+      await api.delete(`/category/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setCategories(categories.filter((c) => c._id !== id));
