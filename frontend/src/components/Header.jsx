@@ -29,13 +29,7 @@ const Header = () => {
           className="w-8 md:hidden"
           onClick={() => navigate("/add-post")}
         />
-        <button
-          onClick={() => navigate("/add-post")}
-          className="bg-[#33006F] text-white px-6 py-3 hidden md:inline rounded-lg shadow hover:bg-purple-600 transition"
-        >
-          Add Post
-        </button>
-
+        
         {/* Profile Dropdown */}
         <div className="relative">
           <img
