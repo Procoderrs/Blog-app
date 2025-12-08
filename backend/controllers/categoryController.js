@@ -1,71 +1,86 @@
 import Category from "../models/categoryModel.js";
 
-
-// GET categories
+// GET all categories
+// Admin sees ALL, User sees admin/global + their own
 export const getCategories = async (req, res) => {
-  const userId = req.user._id;
-  const role = req.user.role;
+  try {
+    const { _id: userId, role } = req.user;
 
-  let filters = {};
+    let filters = {};
+    if (role !== "admin") {
+      // User: only their own + admin/global categories
+      filters = {
+        $or: [
+          { createdBy: userId },     // user's categories
+          { createdBy: null },       // global/admin categories
+          { createdBy: { $exists: false } }
+        ]
+      };
+    }
 
-  if (role !== "admin") {
-    filters = {
-      $or: [
-        { createdBy: userId }, 
-        { createdBy: null }, 
-        { createdBy: { $exists: false } }
-      ]
-    };
+    const cats = await Category.find(filters).sort({ createdAt: -1 });
+    res.json(cats);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Failed to fetch categories" });
   }
-
-  const cats = await Category.find(filters).sort({ createdAt: -1 });
-  res.json(cats);
 };
-
 
 // CREATE category
 export const createCategory = async (req, res) => {
-  const createdBy = req.user.role === "admin" ? null : req.user._id;
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ msg: "Name is required" });
 
-  const cat = await Category.create({
-    name: req.body.name,
-    createdBy
-  });
+    const cat = await Category.create({
+      name,
+      // Admin creates global categories (createdBy = null), user creates personal categories
+      createdBy: req.user.role === "admin" ? null : req.user._id
+    });
 
-  res.status(201).json(cat);
+    res.status(201).json(cat);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Failed to create category" });
+  }
 };
-
 
 // UPDATE category
 export const updateCategory = async (req, res) => {
-  const cat = await Category.findById(req.params.id);
+  try {
+    const cat = await Category.findById(req.params.id);
+    if (!cat) return res.status(404).json({ msg: "Category not found" });
 
-  if (!cat) return res.status(404).json({ msg: "Category not found" });
+    // Admin can edit any category, user only their own
+    if (req.user.role !== "admin" && cat.createdBy?.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ msg: "Not allowed to edit this category" });
+    }
 
-  if (String(cat.createdBy) !== String(req.user._id)) {
-    return res.status(403).json({ msg: "Not allowed to edit this category" });
+    cat.name = req.body.name || cat.name;
+    await cat.save();
+
+    res.json(cat);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Failed to update category" });
   }
-
-  cat.name = req.body.name;
-  await cat.save();
-
-  res.json(cat);
 };
 
-
-// DELETE category
 // DELETE category
 export const deleteCategory = async (req, res) => {
-  const cat = await Category.findById(req.params.id);
+  try {
+    const cat = await Category.findById(req.params.id);
+    if (!cat) return res.status(404).json({ msg: "Category not found" });
 
-  if (!cat) return res.status(404).json({ msg: "Category not found" });
+    // Admin can delete any category, user only their own
+    if (req.user.role !== "admin" && cat.createdBy?.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ msg: "Not allowed to delete this category" });
+    }
 
-  // Admin can delete any category, user can delete only their own
-  if (req.user.role !== "admin" && cat.createdBy?.toString() !== req.user._id.toString()) {
-    return res.status(403).json({ msg: "Not allowed to delete this category" });
+    await cat.deleteOne();
+    res.json({ msg: "Category deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Failed to delete category" });
   }
-
-  await cat.deleteOne();
-  res.json({ msg: "Category deleted" });
 };
-
