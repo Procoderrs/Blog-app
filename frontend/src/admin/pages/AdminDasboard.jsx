@@ -43,6 +43,7 @@ export default function AdminDashboard() {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
       setCategories(res.data.cats || []);
+      console.log(res.length);
     } catch (err) {
       console.log("Fetch categories error:", err.response?.data || err.message);
     }
