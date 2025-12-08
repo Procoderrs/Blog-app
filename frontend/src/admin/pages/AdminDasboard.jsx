@@ -39,7 +39,7 @@ export default function AdminDashboard() {
 
   const fetchCategories = async () => {
     try {
-      const res = await api.get("/admin/categories", {
+      const res = await api.get("/categories", {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
       setCategories(res.data.cats || []);
