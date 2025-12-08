@@ -65,6 +65,7 @@ export default function AddPost() {
           Authorization: `Bearer ${user?.token}`,
         },
       });
+console.log("Created post:", response.data);
 
       alert("Post created successfully!");
       navigate("/dashboard/posts");
