@@ -37,18 +37,19 @@ export default function AdminDashboard() {
     }
   };
 
-  const fetchCategories = async () => {
-    try {
-      const res = await api.get("/categories", {
-        headers: { Authorization: `Bearer ${user?.token}` },
-      });
-      setCategories(res.data.cats || []);
-      console.log(res.length);
-    } catch (err) {
-      console.log("Fetch categories error:", err.response?.data || err.message);
-    }
-  };
-
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await api.get("/categories", {
+          headers: { Authorization: `Bearer ${user?.token}` },
+        });
+        setCategories(res.data);
+      } catch (err) {
+        console.log("Fetch categories error:", err.response?.data || err.message);
+      }
+    };
+    fetchCategories();
+  }, [user]);
   return (
     <div className="min-h-screen bg-gray-100 ">
       <Header />
