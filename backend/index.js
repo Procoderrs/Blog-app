@@ -25,8 +25,9 @@ app.use(
   })
 );
 
-app.use(express.json());
 app.options('*', cors());
+
+app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => res.send("API is running"));
