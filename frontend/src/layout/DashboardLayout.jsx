@@ -11,7 +11,7 @@ const DashboardLayout = () => {
     { name: "My Posts", path: "/dashboard/posts" },
     { name: "Add Post", path: "/dashboard/add-post" },
     { name: "My Categories", path: "/dashboard/categories" },
-    { name: "Add Category", path: "/dashboard/add-category" },
+   
     // Users/Add User removed since admin handles them
   ];
 
