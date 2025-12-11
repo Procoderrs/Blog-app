@@ -28,7 +28,7 @@ export default function Login() {
     if (data.role === "admin") {
       navigate("/admin");
     } else {
-      navigate("/dashboard/posts");
+      navigate("/");
     }
 
   } catch (err) {

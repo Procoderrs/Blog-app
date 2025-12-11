@@ -72,6 +72,18 @@ export default function AdminSidebar() {
           <Folder className="w-6 h-6" />
           <span className="hidden lg:inline">Categories</span>
         </NavLink>
+
+        <NavLink
+  to="/admin/add-post"
+  className={({ isActive }) =>
+    `flex items-center gap-3 p-2 rounded font-bold hover:bg-gray-300 ${
+      isActive ? "bg-gray-300 text-purple-900" : ""
+    }`
+  }
+>
+  <Folder className="w-6 h-6" />
+  <span className="hidden lg:inline">Add Post</span>
+</NavLink>
       </nav>
     </div>
   );

@@ -31,7 +31,7 @@ export default function ReaderSinglePost(){
 
 <p className='text-gray-600 mt-2'>{post.short_desc}</p>
 
-<div dangerouslySetInnerHTML={{__html: post.content}} className='mt-6'>
+<div dangerouslySetInnerHTML={{__html: post.content}} className='mt-6 wrap-break-word'>
 
 </div>
       </div>

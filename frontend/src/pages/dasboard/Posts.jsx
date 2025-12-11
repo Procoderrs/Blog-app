@@ -19,25 +19,32 @@ const Posts = () => {
     fetchPosts();
   }, []);
 
-  // Fetch categories for user
+  // Fetch categories
   const fetchCategories = async () => {
-    try {
-      const res = await api.get("/categories", {
-        headers: { Authorization: `Bearer ${user?.token}` },
-      });
-      setCategories(res.data || []);
-    } catch (err) {
-      console.log("Fetch categories error:", err.response?.data || err.message);
-    }
-  };
+	try {
+		// Only send Authorization header when a token exists
+		const config = user?.token
+			? { headers: { Authorization: `Bearer ${user.token}` } }
+			: {};
 
-  // Fetch posts for user (with optional category filter)
+		const res = await api.get("/categories", config);
+
+		setCategories(Array.isArray(res.data) ? res.data : []);
+	} catch (err) {
+		console.log("Fetch categories error:", err.response?.data || err.message);
+	}
+};
+
+  // Fetch posts (fixed!)
   const fetchPosts = async (categoryId = "") => {
     try {
-      const url = categoryId ? `/posts?category=${categoryId}` : "/posts";
+      let url = "/posts/filter/all";
+      if (categoryId) url += `?category=${categoryId}`;
+
       const res = await api.get(url, {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
+
       setBlogs(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.log("Fetch posts error:", err.response?.data || err.message);
@@ -52,6 +59,7 @@ const Posts = () => {
 
   const handleDelete = async (postId) => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
+
     try {
       await api.delete(`/posts/delete/${postId}`, {
         headers: { Authorization: `Bearer ${user?.token}` },
@@ -67,7 +75,7 @@ const Posts = () => {
   return (
     <div>
       {/* Category Dropdown */}
-      <div className="relative w-64 mb-6">
+      <div className="relative w-38 mb-6">
         <button
           onClick={() => setShowDropdown(!showDropdown)}
           className="w-full bg-purple-600 text-white px-4 py-2 rounded shadow flex justify-between items-center"
@@ -87,19 +95,16 @@ const Posts = () => {
           >
             <button
               onClick={() => handleCategorySelect("")}
-              className={`block w-full text-left px-4 py-2 hover:bg-purple-100 ${
-                selectedCategory === "" ? "font-bold text-purple-700" : ""
-              }`}
+              className="block w-full text-left px-4 py-2 hover:bg-purple-100"
             >
               All
             </button>
+
             {categories.map((cat) => (
               <button
                 key={cat._id}
                 onClick={() => handleCategorySelect(cat._id)}
-                className={`block w-full text-left px-4 py-2 hover:bg-purple-100 ${
-                  selectedCategory === cat._id ? "font-bold text-purple-700" : ""
-                }`}
+                className="block w-full text-left px-4 py-2 hover:bg-purple-100"
               >
                 {cat.name}
               </button>
@@ -119,7 +124,7 @@ const Posts = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="backdrop-blur-md bg-[#f9f5ff] rounded-xl shadow-lg overflow-hidden flex flex-col max-w-md w-full"
+                className="backdrop-blur-md bg-[#603F83] rounded-xl shadow-lg overflow-hidden flex flex-col max-w-md w-full"
               >
                 <img
                   src={post.image}
@@ -141,7 +146,7 @@ const Posts = () => {
                   </div>
 
                   {post.category && (
-                    <span className="inline-block bg-purple-200 text-purple-900 px-3 py-1 rounded-full font-semibold mb-2 text-sm animate-pulse">
+                    <span className="inline-block bg-purple-200 text-purple-900 px-3 py-1 rounded-full font-semibold mb-2 text-sm">
                       {post.category.name}
                     </span>
                   )}
@@ -160,26 +165,25 @@ const Posts = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-2 mt-4">
-                    {post.author._id === user._id && (
-                      <>
-                        <button
-                          onClick={() =>
-                            navigate("/update-post", { state: { post } })
-                          }
-                          className="bg-[#33006F] text-white px-3 py-1 rounded hover:bg-purple-500"
-                        >
-                          Update
-                        </button>
-                        <button
-                          onClick={() => handleDelete(post._id)}
-                          className="bg-[#452c63] text-white px-3 py-1 rounded hover:bg-purple-400"
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
-                  </div>
+                  {post.author._id === user._id && (
+                    <div className="flex gap-2 mt-4">
+                      <button
+                        onClick={() =>
+                          navigate("/update-post", { state: { post } })
+                        }
+                        className="bg-[#33006F] text-white px-3 py-1 rounded hover:bg-purple-500"
+                      >
+                        Update
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(post._id)}
+                        className="bg-[#452c63] text-white px-3 py-1 rounded hover:bg-purple-400"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))

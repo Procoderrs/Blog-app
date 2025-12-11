@@ -9,26 +9,20 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
-    <div className="flex justify-between items-center bg-purple-200 rounded-xl shadow p-4 mb-6 relative">
+    <div className="flex justify-between items-center bg-[#EEEEEE] rounded-xl shadow p-4 mb-6 relative">
       {/* Logo */}
       <div className="flex gap-3 items-center">
-        <img src="/blog.png" alt="" className="md:w-12 w-8" />
-        <h1 className="text-2xl font-bold text-purple-900">StoryWave</h1>
+        <img src="/53122.jpg" alt="" className="md:w-12 w-10 rounded" />
+        <h1 className="md:text-3xl text-xl font-bold text-purple-900">BlogStack</h1>
       </div>
 
       {/* Actions */}
       <div className="flex items-center gap-4">
-        {/* Add Post button */}
-        <img
-          src="/add.png"
-          alt=""
-          className="w-8 md:hidden"
-          onClick={() => navigate("/add-post")}
-        />
+        
         
         {/* Profile Dropdown */}
         <div className="relative">

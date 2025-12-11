@@ -13,7 +13,7 @@ const Sidebar = ({ user }) => {
 
   return (
     <div className="bg-purple-100 w-64 min-h-screen p-6">
-      <h2 className="text-2xl font-bold mb-6 text-purple-900">Dashboard</h2>
+      <h2 className="text-2xl font-bold mb-6 text-purple-900">Dashboarddddd</h2>
       <nav className="flex flex-col gap-3">
         {menuItems.map((item) => (
           <NavLink

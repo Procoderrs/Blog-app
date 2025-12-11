@@ -31,7 +31,7 @@ export default function FullPost() {
   return (
     <>
     <Header/>
-    <div className="max-w-4xl mx-auto mt-10 bg-purple-50 p-8 rounded-lg shadow">
+    <div className="max-w-4xl w-full  mx-auto mt-10 bg-purple-50 p-8 rounded-lg shadow">
       {post.image && (
         <img
           src={post.image}
@@ -42,7 +42,7 @@ export default function FullPost() {
       <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
       <p className="text-gray-700 mb-4">{post.short_desc}</p>
       <div
-        className="prose max-w-full"
+        className="prose  wrap-break-word"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
       <button

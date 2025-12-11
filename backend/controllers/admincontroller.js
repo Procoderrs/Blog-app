@@ -8,7 +8,7 @@ import POSTSCHEMA from '../models/postModel.js'
 
 export const getAllUsers=async(req,res)=>{
   try {
-    const users=await User.find().select('-password');
+    const users=await User.find().select('-password').sort({ createdAt: -1 });
     res.json(users);
 
   } catch (error) {
@@ -19,18 +19,26 @@ export const getAllUsers=async(req,res)=>{
 
 //get all post
 
-export const getUserPosts=async(req,res)=>{
+// admincontroller.js
+export const getUserPosts = async (req, res) => {
   try {
-    const userId=req.params.id;
+    const { id } = req.params; // user ID
+    const { category } = req.query; // new: optional category filter
 
-    const posts=await POSTSCHEMA.find({author:userId}).populate('author','name email');
+    let filter = { author: id };
+    if (category) filter.category = category;
+
+    const posts = await POSTSCHEMA.find(filter)
+      .populate("category", "name")
+      .populate("author", "name")
+      .sort({ createdAt: -1 });
 
     res.json(posts);
-    console.log(posts);
-  } catch (error) {
-    res.status(500).json({message:error.message})
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-}
+};
+
 
 
 //deleteUser
@@ -53,7 +61,7 @@ export const deleteUser=async(req,res)=>{
 
 export const getAllPostsAdmin=async(req,res)=>{
   try {
-    const posts=await POSTSCHEMA.find().populate('author','name email').populate('category','name');
+    const posts=await POSTSCHEMA.find().populate('author','name email').populate('category','name').sort({ createdAt: -1 });
 
     res.json(posts);
 

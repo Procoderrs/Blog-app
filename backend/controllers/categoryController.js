@@ -51,7 +51,7 @@ export const updateCategory = async (req, res) => {
     const cat = await Category.findById(req.params.id);
     if (!cat) return res.status(404).json({ msg: "Category not found" });
 
-    // Admin can edit any category, user only their own
+    // Admin can edit any category; user only their own
     if (req.user.role !== "admin" && cat.createdBy?.toString() !== req.user._id.toString()) {
       return res.status(403).json({ msg: "Not allowed to edit this category" });
     }
@@ -72,7 +72,7 @@ export const deleteCategory = async (req, res) => {
     const cat = await Category.findById(req.params.id);
     if (!cat) return res.status(404).json({ msg: "Category not found" });
 
-    // Admin can delete any category, user only their own
+    // Admin can delete any category; user only their own
     if (req.user.role !== "admin" && cat.createdBy?.toString() !== req.user._id.toString()) {
       return res.status(403).json({ msg: "Not allowed to delete this category" });
     }
@@ -82,5 +82,17 @@ export const deleteCategory = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: "Failed to delete category" });
+  }
+};
+
+
+//get public ctaegories
+export const getPublicCategories = async (req, res) => {
+  try {
+    const categories = await Category.find().sort({ createdAt: -1 });
+    res.json(categories);
+  } catch (err) {
+    console.error("Public categories error:", err);
+    res.status(500).json({ msg: "Failed to fetch categories" });
   }
 };

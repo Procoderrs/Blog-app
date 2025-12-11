@@ -4,7 +4,6 @@ import POSTSCHEMA from "../models/postModel.js";
 
 
 
-
 //create post
 export const createPost = async (req, res) => {
   try {
@@ -29,25 +28,24 @@ export const createPost = async (req, res) => {
 
 //get all post
 
+// GET all posts (admin or user)
 export const getPost = async (req, res) => {
   try {
-    const { category } = req.query; // <-- get category from query
+    const { category } = req.query;
     let filter = {};
 
-    if (category) {
-      filter.category = category; // filter by category ObjectId
-    }
+    if (category) filter.category = category;
 
     let posts;
     if (req.user.role === 'admin') {
       posts = await POSTSCHEMA.find(filter)
         .populate('author', 'name email')
-        .populate('category', 'name'); // populate category name
+        .populate('category', 'name').sort({ createdAt: -1 }); // ✅ populate category name
     } else {
       filter.author = req.user._id;
       posts = await POSTSCHEMA.find(filter)
         .populate('author', 'name email')
-        .populate('category', 'name');
+        .populate('category', 'name').sort({ createdAt: -1 }); // ✅ populate category name
     }
 
     res.json(posts);
@@ -57,21 +55,25 @@ export const getPost = async (req, res) => {
 };
 
 //get single post
-export const getSinglePost=async(req,res)=>{
-try {
-  const post=await POSTSCHEMA.findById(req.params.id).populate('author','name');
-  if(!post) return res.status(404).json({message:'post not found'});
-  res.json(post);
-} catch (error) {
-  res.status(500).json({message:error.message});
-}
-}
+// GET single post
+export const getSinglePost = async (req, res) => {
+  try {
+    const post = await POSTSCHEMA.findById(req.params.id)
+      .populate('author', 'name')
+      .populate('category', 'name').sort({ createdAt: -1 }); // ✅ populate category name
+
+    if (!post) return res.status(404).json({ message: 'Post not found' });
+    res.json(post);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 //update post
 
 export const updatePost=async (req,res)=>{
   try {
     const {id}=req.params;
-    const post=await POSTSCHEMA.findById(id);
+    const post=await POSTSCHEMA.findById(id).sort({ createdAt: -1 });
     if(!post) return res.status(404).json({message:'post not found'});
 
     //only author and admin can update

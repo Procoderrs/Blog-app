@@ -97,7 +97,7 @@ export default function Editor({ content, onChange }) {
       </style>
 
       {/* Toolbar */}
-      <div className="flex flex-wrap gap-3 p-2 mt-2 border-b bg-gray-50">
+      <div className="flex flex-wrap gap-2 p-2 mt-2 border-b bg-gray-50 w-full">
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -184,7 +184,7 @@ export default function Editor({ content, onChange }) {
       </div>
 
       {/* Editor Area */}
-      <EditorContent editor={editor} className="p-4 min-h-[300px]" />
+      <EditorContent editor={editor} className="p-4 min-h-[300px] max-w-full overflow-hidden" />
     </div>
   );
 }

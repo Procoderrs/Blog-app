@@ -68,7 +68,7 @@ export default function AddPost() {
       console.log("Post created:", res.data);
 
       alert("Post created successfully!");
-      navigate("/dashboard/posts");
+      navigate("/");
     } catch (err) {
       console.error("Post creation error:", err.response?.data || err.message);
       setErrorMsg(err.response?.data?.message || "Failed to create post.");
@@ -76,7 +76,7 @@ export default function AddPost() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 bg-purple-50 p-8 rounded-lg shadow">
+    <div className="w-full max-w-4xl mx-auto mt-10 bg-purple-50 p-3 md:p-8 rounded-lg shadow overflow-hidden">
       <h1 className="text-3xl font-bold mb-6">Create New Post</h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -115,7 +115,7 @@ export default function AddPost() {
           onChange={(e) => setSelectedCategory(e.target.value)}
           className="w-full border px-3 py-2 rounded"
         >
-          <option value="">Select Category</option>
+          <option value="">Select Categoryyyy</option>
           {categories.map((c) => (
             <option key={c._id} value={c._id}>
               {c.name}

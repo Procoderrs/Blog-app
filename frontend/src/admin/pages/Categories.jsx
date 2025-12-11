@@ -125,40 +125,42 @@ export default function AdminCategories() {
                   <span className="font-medium text-gray-800">{cat.name}</span>
                 )}
 
-                <div className="flex gap-2">
-                  {/* Admin can edit/delete only their own or global categories */}
-                  {(!cat.createdBy || cat.createdBy === user._id) && (
-                    editingId === cat._id ? (
-                      <button
-                        onClick={() => saveEdit(cat._id)}
-                        className="bg-purple-700 text-white px-3 py-1 text-sm rounded hover:bg-purple-800"
-                      >
-                        Save
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => startEdit(cat._id, cat.name)}
-                        className="bg-purple-500 text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
-                      >
-                        Edit
-                      </button>
-                    )
-                  )}
+               <div className="flex gap-2">
+  {/* Update button */}
+  {(user.role === "admin" || cat.createdBy === user._id) && (
+    editingId === cat._id ? (
+      <button
+        onClick={() => saveEdit(cat._id)}
+        className="bg-purple-700 text-white px-3 py-1 text-sm rounded hover:bg-purple-800"
+      >
+        Save
+      </button>
+    ) : (
+      <button
+        onClick={() => startEdit(cat._id, cat.name)}
+        className="bg-purple-500 text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
+      >
+        Edit
+      </button>
+    )
+  )}
 
-                  {(!cat.createdBy || cat.createdBy === user._id) && (
-                    <button
-                      onClick={() => handleDelete(cat._id)}
-                      className="bg-red-600 text-white px-3 py-1 text-sm rounded hover:bg-red-700"
-                    >
-                      Delete
-                    </button>
-                  )}
+  {/* Delete button */}
+  {(user.role === "admin" || cat.createdBy === user._id) && (
+    <button
+      onClick={() => handleDelete(cat._id)}
+      className="bg-red-600 text-white px-3 py-1 text-sm rounded hover:bg-red-700"
+    >
+      Delete
+    </button>
+  )}
 
-                  {/* User-created category label */}
-                  {cat.createdBy && cat.createdBy !== user._id && (
-                    <span className="text-gray-400 text-sm">User</span>
-                  )}
-                </div>
+  {/* User-created label */}
+  {cat.createdBy && cat.createdBy !== user._id && (
+    <span className="text-gray-400 text-sm">User</span>
+  )}
+</div>
+
               </div>
             ))}
           </div>
