@@ -7,7 +7,7 @@ export default function AdminRoute({children}){
 const {user, loading} = useContext(AuthContext);
 
   if(loading) return null; // or spinner
-if(!user) return <Navigate to='/login' />;
+if(!user) return <Navigate to='/' />;
 if(user.role !== 'admin') return <Navigate to='/' />;
 
 return children;
