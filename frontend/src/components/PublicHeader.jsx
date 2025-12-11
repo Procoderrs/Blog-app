@@ -13,7 +13,7 @@ const PublicHeader = () => {
   };
 
   return (
-    <header className="flex justify-between items-center bg-[#EEEEEE] rounded-xl shadow-lg py-4 px-16 mb-6 relative">
+    <header className="flex justify-between  top-0 items-center bg-[#EEEEEE] rounded-xl shadow-lg py-4 px-16 mb-6 relative">
       {/* Logo */}
       <div className="flex gap-3 items-center">
         <img src="/53122.jpg" alt="Logo" className="md:w-12 w-10 rounded" />

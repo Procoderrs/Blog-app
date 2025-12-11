@@ -145,7 +145,7 @@ export default function Reader() {
 
                 {/* Category pill */}
                 {post.category && (
-                  <span className="inline-block bg-purple-200 w-full text-purple-900 mt-1 px-3 py-1 rounded-full font-semibold text-sm">
+                  <span className="inline-block bg-purple-200 w-full text-purple-900 my-2 px-3 py-1 rounded-full font-semibold text-sm">
                     {post.category.name}
                   </span>
                 )}
