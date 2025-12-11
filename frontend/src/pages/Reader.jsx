@@ -150,7 +150,7 @@ export default function Reader() {
                   </span>
                 )}
 
-                <p className="text-gray-700 line-clamp-1">{post.short_desc}</p>
+                <p className="text-gray-700 hidden line-clamp-1">{post.short_desc}</p>
 
                 <div className="flex gap-4 items-center mt-auto">
                   <img
