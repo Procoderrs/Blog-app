@@ -34,6 +34,7 @@ export default function UserPosts() {
     const data = res.data.map((post) => ({
       ...post,
       category: post.category ? post.category : { name: "No Category", _id: null },
+      slug:post.slug
     }));
 
     setPosts(data);
@@ -162,6 +163,9 @@ export default function UserPosts() {
                   <h2 className="text-xl font-semibold text-gray-800 mb-1 line-clamp-1">
                     {p.title}
                   </h2>
+                  <p className="text-gray-500 text-sm mb-2">
+  Slug: <span className="font-mono">{p.slug}</span>
+</p>
 
                   <p className="text-purple-700 bg-purple-200 px-2 rounded font-medium text-sm mb-1">
                     {p.category?.name}
@@ -193,7 +197,7 @@ export default function UserPosts() {
                     </button>
 
                     <button
-                      onClick={() => navigate(`/admin/post/${p._id}`)}
+                      onClick={() => navigate(`/admin/post/${p.slug}`)}
                       className="flex-1 bg-purple-700 text-white py-2 px-1 rounded-lg text-sm hover:bg-purple-800 transition"
                     >
                       Full Blog
