@@ -16,11 +16,7 @@ export default function UserPosts() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    loadCategories();
-    loadPosts();
-  }, []);
-
+  
   // Load posts
   const loadPosts = async () => {
   try {
@@ -45,7 +41,11 @@ export default function UserPosts() {
     console.log(error.response?.data || error.message);
   }
 };
-
+useEffect(() => {
+  if (!id) return;
+  loadCategories();
+  loadPosts();
+}, [id]);
 
   // Load categories
   const loadCategories = async () => {
@@ -182,7 +182,7 @@ export default function UserPosts() {
                   <div className="mt-auto flex flex-wrap gap-2">
                     <button
                       onClick={() =>
-                        navigate(`/admin/update-post/${p._id}`, { state: { post: p } })
+                        navigate(`/admin/update-post/${p.slug}`, { state: { userId:id } })
                       }
                       className="flex-1 bg-purple-500 text-white py-2 rounded-lg text-sm hover:bg-purple-600 transition"
                     >
@@ -197,11 +197,11 @@ export default function UserPosts() {
                     </button>
 
                     <button
-                      onClick={() => navigate(`/admin/post/${p.slug}`)}
-                      className="flex-1 bg-purple-700 text-white py-2 px-1 rounded-lg text-sm hover:bg-purple-800 transition"
-                    >
-                      Full Blog
-                    </button>
+  onClick={() => navigate(`/admin/post/${p.slug}`, { state: { post: p } })}
+  className="flex-1 bg-purple-700 text-white py-2 px-1 rounded-lg text-sm hover:bg-purple-800 transition"
+>
+  Full Blog
+</button>
                   </div>
                 </motion.div>
               ))

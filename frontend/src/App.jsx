@@ -80,10 +80,10 @@ function App() {
 						<Route path="users" element={  <AdminRoute><Users /> </AdminRoute>} />
 						<Route path="users/:id/posts" element={<AdminRoute><UserPosts /></AdminRoute>} />
 						<Route path="categories" element={ <AdminRoute> <Categories /></AdminRoute>} />
-						<Route path="/admin/update-post/:id" element={<AdminRoute><AdminUpdatePost /></AdminRoute>
+						<Route path="/admin/update-post/:slug" element={<AdminRoute><AdminUpdatePost /></AdminRoute>
   }
 />
-<Route path="/admin/post/:id" element={<AdminFullPost />} />
+<Route path="/admin/post/:slug" element={<AdminFullPost />} />
 <Route path="add-post" element={
   <AdminRoute>
     <AdminAddPost />

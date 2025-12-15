@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Header from "../../components/Header";
 
 export default function AdminFullPost() {
-  const { id } = useParams();
+  const { slug } = useParams(); // now URL contains slug
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ export default function AdminFullPost() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await api.get(`/posts/${id}`, {
+        const res = await api.get(`/posts/slug/${slug}`, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         setPost(res.data);
@@ -24,7 +24,7 @@ export default function AdminFullPost() {
     };
 
     fetchPost();
-  }, [id, user]);
+  }, [slug, user]);
 
   if (!post) return <p>Loading...</p>;
 
@@ -45,11 +45,11 @@ export default function AdminFullPost() {
         <div dangerouslySetInnerHTML={{ __html: post.content }} className="prose"></div>
 
         <button
-        onClick={() => navigate(-1)}
-        className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Back
-      </button>
+          onClick={() => navigate(-1)}
+          className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Back
+        </button>
       </div>
     </>
   );

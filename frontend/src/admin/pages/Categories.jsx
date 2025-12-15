@@ -17,7 +17,13 @@ export default function AdminCategories() {
         const res = await api.get("/categories", {
           headers: { Authorization: `Bearer ${user?.token}` },
         });
-        setCategories(res.data);
+
+        // Filter out deleted user categories
+        const filtered = res.data.filter(
+          (cat) => cat.createdByRole === "admin" || cat.createdBy
+        );
+
+        setCategories(filtered);
       } catch (err) {
         console.log("Fetch categories error:", err.response?.data || err.message);
       }
@@ -75,6 +81,7 @@ export default function AdminCategories() {
       await api.delete(`/categories/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
+      // Remove deleted category from list
       setCategories(categories.filter(c => c._id !== id));
     } catch (err) {
       console.log(err.response?.data || err.message);
@@ -125,8 +132,8 @@ export default function AdminCategories() {
                   <span className="font-medium text-gray-800">{cat.name}</span>
                 )}
 
-               <div className="flex gap-2">
-               {/* Role span */}
+                <div className="flex gap-2">
+                  {/* Role span */}
                   <span
                     className={`text-sm px-2 py-0.5 rounded-full ${
                       cat.createdByRole === "admin"
@@ -136,41 +143,36 @@ export default function AdminCategories() {
                   >
                     {cat.createdByRole === "admin" ? "Admin created" : "User created"}
                   </span>
-  {/* Update button */}
-  {(user.role === "admin" || cat.createdBy === user._id) && (
-    editingId === cat._id ? (
-      <button
-        onClick={() => saveEdit(cat._id)}
-        className="bg-purple-700 text-white px-3 py-1 text-sm rounded hover:bg-purple-800"
-      >
-        Save
-      </button>
-    ) : (
-      <button
-        onClick={() => startEdit(cat._id, cat.name)}
-        className="bg-purple-500 text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
-      >
-        Edit
-      </button>
-    )
-  )}
 
-  {/* Delete button */}
-  {(user.role === "admin" || cat.createdBy === user._id) && (
-    <button
-      onClick={() => handleDelete(cat._id)}
-      className="bg-red-600 text-white px-3 py-1 text-sm rounded hover:bg-red-700"
-    >
-      Delete
-    </button>
-  )}
+                  {/* Update button */}
+                  {(user.role === "admin" || cat.createdBy === user._id) && (
+                    editingId === cat._id ? (
+                      <button
+                        onClick={() => saveEdit(cat._id)}
+                        className="bg-purple-700 text-white px-3 py-1 text-sm rounded hover:bg-purple-800"
+                      >
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => startEdit(cat._id, cat.name)}
+                        className="bg-purple-500 text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
+                      >
+                        Edit
+                      </button>
+                    )
+                  )}
 
-  {/* User-created label */}
-  {/* {cat.createdBy && cat.createdBy !== user._id && (
-    <span className="text-gray-400 text-sm">User</span>
-  )} */}
-</div>
-
+                  {/* Delete button */}
+                  {(user.role === "admin" || cat.createdBy === user._id) && (
+                    <button
+                      onClick={() => handleDelete(cat._id)}
+                      className="bg-red-600 text-white px-3 py-1 text-sm rounded hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>

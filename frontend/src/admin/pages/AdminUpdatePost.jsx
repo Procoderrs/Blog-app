@@ -4,11 +4,16 @@ import api from "../../api/api";
 import { AuthContext } from "../../context/AuthContext";
 import Header from "../../components/Header";
 import Editor from "../../components/Editor";
+import { useLocation } from "react-router-dom";
 
 export default function AdminUpdatePost() {
-  const { id } = useParams(); // post ID
+  const { slug } = useParams(); // post ID
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const location=useLocation();
+  const userId = location.state?.userId;
+
 
   const [post, setPost] = useState(null);
   const [title, setTitle] = useState("");
@@ -23,7 +28,7 @@ export default function AdminUpdatePost() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await api.get(`/posts/${id}`, {
+        const res = await api.get(`/posts/slug/${slug}`, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         setPost(res.data);
@@ -38,7 +43,7 @@ export default function AdminUpdatePost() {
     };
 
     fetchPost();
-  }, [id, user]);
+  }, [slug, user]);
 
   // Fetch categories
   useEffect(() => {
@@ -64,30 +69,33 @@ export default function AdminUpdatePost() {
     setPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("short_desc", shortDesc);
-    formData.append("category", selectedCategory);
-    formData.append("content", content);
-    if (image) formData.append("image", image);
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("short_desc", shortDesc);
+  formData.append("category", selectedCategory);
+  formData.append("content", content);
+  if (image) formData.append("image", image);
 
-    try {
-      await api.put(`/posts/update/${post._id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      alert("Post updated successfully!");
-      navigate(-1); // go back to user posts page
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      alert("Failed to update post");
-    }
-  };
+  try {
+    await api.put(`/posts/update/slug/${slug}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    alert("Post updated successfully!");
+
+    navigate(`/admin/users/${userId}/posts`);
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+    alert("Failed to update post");
+  }
+};
+
 
   return (
     <>

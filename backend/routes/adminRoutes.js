@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/users',protect,adminOnly,getAllUsers);
 router.get('/users/:id/posts',protect,adminOnly,getUserPosts)
 router.delete('/users/:id',protect,adminOnly,deleteUser)
-router.delete('/:id',protect,adminOnly,deletePost)
+router.delete('/:slug',protect,adminOnly,deletePost)
 router.get('/posts',protect,adminOnly,getAllPostsAdmin)
 
 router.get("/me", protect, adminOnly,   (req, res) => {
