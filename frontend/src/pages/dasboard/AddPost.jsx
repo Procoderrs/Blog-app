@@ -18,6 +18,8 @@ export default function AddPost() {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   // Errors
   const [errors, setErrors] = useState({});
@@ -61,32 +63,37 @@ export default function AddPost() {
 
   // Submit handler
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!validateForm()) return;
+  if (isSubmitting) return; // ⛔ hard stop
+  if (!validateForm()) return;
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("short_desc", shortDesc);
-    formData.append("content", content);
-    formData.append("category", selectedCategory);
-    formData.append("image", image);
+  setIsSubmitting(true);
 
-    try {
-      const res = await api.post("/posts/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
-      console.log('post created',res.data);
-      alert("Post created successfully!");
-      navigate("/");
-    } catch (err) {
-      console.error("Post creation error:", err.response?.data || err.message);
-      setErrors({ submit: err.response?.data?.message || "Failed to create post." });
-    }
-  };
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("short_desc", shortDesc);
+  formData.append("content", content);
+  formData.append("category", selectedCategory);
+  formData.append("image", image);
+
+  try {
+    const res = await api.post("/posts/create", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    alert("Post created successfully!");
+    navigate("/");
+  } catch (err) {
+    console.error("Post creation error:", err.response?.data || err.message);
+    setErrors({ submit: err.response?.data?.message || "Failed to create post." });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="w-full max-w-4xl mx-auto mt-10 bg-purple-50 p-3 md:p-8 rounded-lg shadow">
@@ -182,9 +189,14 @@ export default function AddPost() {
         </div>
 
         {/* Submit */}
-        <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold">
-          Publish Post
-        </button>
+        <button
+  type="submit"
+  disabled={isSubmitting}
+  className={`w-full p-3 rounded font-semibold text-white
+    ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600"}`}
+>
+  {isSubmitting ? "Publishing..." : "Publish Post"}
+</button>
       </form>
 
       {errors.submit && (

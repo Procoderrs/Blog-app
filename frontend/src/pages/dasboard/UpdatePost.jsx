@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 
 export default function UpdatePost() {
   const { user } = useContext(AuthContext);
-  const { id } = useParams();
+  const { slug } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -51,7 +51,7 @@ export default function UpdatePost() {
     const fetchPost = async () => {
       if (!post) {
         try {
-          const res = await api.get(`/posts/${id}`, {
+          const res = await api.get(`/posts/slug/${slug}`, {
             headers: { Authorization: `Bearer ${user?.token}` },
           });
           setPost(res.data);
@@ -75,7 +75,7 @@ export default function UpdatePost() {
     };
 
     fetchPost();
-  }, [id, post, user]);
+  }, [slug, post, user]);
 
   if (!post) return <p>Loading post...</p>;
 
@@ -98,7 +98,7 @@ export default function UpdatePost() {
     if (image) formData.append("image", image);
 
     try {
-      await api.put(`/posts/update/${post._id}`, formData, {
+      await api.put(`/posts/update/slug/${post.slug}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${user.token}`,

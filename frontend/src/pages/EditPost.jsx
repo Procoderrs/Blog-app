@@ -8,7 +8,7 @@ import Editor from '../components/Editor'
 
 const EditPost = () => {
   console.log('editpost render');
-  const {id}=useParams();
+  const {slug}=useParams();
   const navigate=useNavigate();
   const {user}=useContext(AuthContext)
 
@@ -24,7 +24,7 @@ const EditPost = () => {
   //fetch post details
   useEffect(()=>{
     const fetchPost=async()=>{
-      const res=await api.get(`/posts/${id}`,{
+      const res=await api.get(`/posts/slug/${slug}`,{
         headers:{Authorization:`Bearer ${user.token}`},
       });
       setTitle(res.data.title);
@@ -50,7 +50,7 @@ const EditPost = () => {
     fd.append('content',content);
     if(image) fd.append('image',image);
 
-    await api.put(`posts/update/${id}`,fd,{
+    await api.put(`posts/update/slug/${slug}`,fd,{
       headers:{
         Authorization:`Bearer ${user.token}`,
         'Content-Type':'multiprt/form-data',

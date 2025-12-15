@@ -32,7 +32,7 @@ function App() {
 				<Routes>
 					{/* Public */}
 					<Route path="/" element={<Reader />} />
-					<Route path="/reader/post/:id" element={<ReaderSinglePost />} />
+					<Route path="/reader/post/:slug" element={<ReaderSinglePost />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />
 
@@ -51,8 +51,8 @@ function App() {
 						{/* /dashboard/posts */}
 						<Route path="add-post" element={<AddPost />} />{" "}
 						{/* /dashboard/add-post */}
-						<Route path="update-post/:id" element={<UpdatePost />} />
-						<Route path="post/:id" element={<FullPostPage />} />
+						<Route path="update-post/:slug" element={<UpdatePost />} />
+						<Route path="post/:slug" element={<FullPostPage />} />
 						<Route path="categories" element={<AllCategories />} />{" "}
 						{/* /dashboard/categories */}
 						<Route path="add-category" element={<AddCategory />} />{" "}

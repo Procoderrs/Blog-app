@@ -58,60 +58,69 @@ export const getPost = async (req, res) => {
 // GET single post
 export const getSinglePost = async (req, res) => {
   try {
-    const post = await POSTSCHEMA.findById(req.params.id)
+    const post = await POSTSCHEMA.findOne({ slug: req.params.slug })
       .populate('author', 'name')
-      .populate('category', 'name').sort({ createdAt: -1 }); // ✅ populate category name
+      .populate('category', 'name');
 
-    if (!post) return res.status(404).json({ message: 'Post not found' });
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
     res.json(post);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 //update post
 
-export const updatePost=async (req,res)=>{
+export const updatePost = async (req, res) => {
   try {
-    const {id}=req.params;
-    const post=await POSTSCHEMA.findById(id).sort({ createdAt: -1 });
-    if(!post) return res.status(404).json({message:'post not found'});
+    const { slug } = req.params;
 
-    //only author and admin can update
-    if(post.author.toString() !==req.user._id.toString() && req.user.role !=='admin'){
-      return res.status(403).json({message:'unauthorized'});
+    const post = await POSTSCHEMA.findOne({ slug });
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    if (
+      post.author.toString() !== req.user._id.toString() &&
+      req.user.role !== "admin"
+    ) {
+      return res.status(403).json({ message: "unauthorized" });
     }
 
-    //update fields
-    post.title= req.body.title || post.title;
-    post.short_desc=req.body.short_desc || post.short_desc;
-    post.category=req.body.category || post.category;
-    post.content=req.body.content|| post.content;
+    post.title = req.body.title || post.title;
+    post.short_desc = req.body.short_desc || post.short_desc;
+    post.content = req.body.content || post.content;
+    post.category = req.body.category || post.category;
 
-   if (req.file) {
-      post.image = req.file.path; // Cloudinary URL
-    }
+    if (req.file) post.image = req.file.path;
 
-    await post.save();
-    res.json({message:'post update successfully',post});
-  } catch (error) {
-    console.log(error);
-  res.status(500).json({message:error.message})
+    await post.save(); // slug auto-updates if title changed
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-}
+};
 
-export const deletePost=async(req,res)=>{
+
+export const deletePost = async (req, res) => {
   try {
-    const {id}=req.params;
-    const post=await POSTSCHEMA.findById(id);
-    if(!post) return res.status(404).json({message:'post not found'});
+    const { slug } = req.params;
 
-    //only author  or admin
-    if(post.author.toString() !==req.user._id.toString() && req.user.role !=='admin'){
-      return res.status(403).json({message:'unauthorized'});
+    const post = await POSTSCHEMA.findOne({ slug });
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
     }
-    await POSTSCHEMA.findByIdAndDelete(id)
-    res.json({message:'post deleted successfully'})
+
+    if (
+      post.author.toString() !== req.user._id.toString() &&
+      req.user.role !== "admin"
+    ) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    await POSTSCHEMA.deleteOne({ _id: post._id });
+
+    res.json({ message: "Post deleted successfully" });
   } catch (error) {
-    res.status(500).json({message:error.message})
+    res.status(500).json({ message: error.message });
   }
-}
+};

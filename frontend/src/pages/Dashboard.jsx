@@ -60,10 +60,10 @@ const Dashboard = () => {
 		fetchPosts(catId);
 	};
 
-	const handleDelete = async (postId) => {
+	const handleDelete = async (slug) => {
 		if (!window.confirm("Are you sure you want to delete this post?")) return;
 		try {
-			await api.delete(`/posts/delete/${postId}`, {
+			await api.delete(`/posts/delete/slug/${slug}`, {
 				headers: { Authorization: `Bearer ${user?.token}` },
 			});
 			alert("Post deleted successfully!");
@@ -143,7 +143,7 @@ const Dashboard = () => {
 														{post.title}
 													</h2>
 													<button
-														onClick={() => navigate(`/dashboard/post/${post._id}`)}
+														onClick={() => navigate(`/dashboard/post/${post.slug}`)}
 														className=" bg-[#603F83] w-5 h-5 p-1 flex items-center justify-center rounded-full  hover:underline text-sm "
 													>
 														<i className="ri-arrow-right-up-long-line font-black text-[#C7D3D4]"></i>
@@ -179,7 +179,7 @@ const Dashboard = () => {
 														post.author._id === user._id) && (
 														<button
 															onClick={() =>
-																navigate(`/dashboard/update-post/${post._id}`)
+																navigate(`/dashboard/update-post/${post.slug}`)
 															}
 															className="border border-[#603F83] bg-[#D7D3BF] text-[#727D73] px-3 py-1 rounded hover:bg-white transition-colors"
 														>
@@ -190,7 +190,7 @@ const Dashboard = () => {
 													{(user.role === "admin" ||
 														post.author._id === user._id) && (
 														<button
-															onClick={() => handleDelete(post._id)}
+															onClick={() => handleDelete(post.slug)}
 															  className="border border-[#603F83] bg-white text-[#727D73] px-3 py-1 rounded hover:bg-[#D7D3BF] transition-colors"
 
 														>

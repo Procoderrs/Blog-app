@@ -8,14 +8,14 @@ import Header from "../components/Header";
 export default function FullPost() {
   console.log('ful-post-page-render');
   const {user}=useContext(AuthContext)
-  const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await api.get(`/posts/${id}`, {
+        const res = await api.get(`/posts/slug/${slug}`, {
   headers: { Authorization: `Bearer ${user.token}` }
 }); // make sure backend supports get single post
         setPost(res.data);
@@ -24,7 +24,7 @@ export default function FullPost() {
       }
     };
     fetchPost();
-  }, [id]);
+  }, [slug]);
 
   if (!post) return <p>Loading...</p>;
 

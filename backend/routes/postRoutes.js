@@ -45,18 +45,25 @@ router.get("/public", async (req, res) => {
 
 
 // Public get single post
-router.get("/public/:id", async (req, res) => {
-	try {
-		const post = await POSTSCHEMA.findById(req.params.id)
-			.populate("author", "name")
-			.populate("category", "name");
+router.get("/public/slug/:slug", async (req, res) => {
+  try {
+    const { slug } = req.params;
 
-		if (!post) return res.status(404).json({ message: "not found" });
-		res.json(post);
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+    const post = await POSTSCHEMA.findOne({ slug })
+      .populate("author", "name")
+      .populate("category", "name");
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.error("Single public post error:", error);
+    res.status(500).json({ message: error.message });
+  }
 });
+
 
 /* ---------------------------------------------------
    USER PROTECTED ROUTES
@@ -69,13 +76,13 @@ router.post("/create",protect,upload.single("image"),handleImageUpload,createPos
 router.get("/", protect, getPost);
 
 // Get a single post for logged in user
-router.get("/:id", protect, getSinglePost);
+router.get("/slug/:slug", protect, getSinglePost);
 
 // Update
-router.put("/update/:id",protect,upload.single("image"),handleImageUpload,updatePost);
+router.put("/update/slug/:slug",protect,upload.single("image"),handleImageUpload,updatePost);
 
 // Delete
-router.delete("/delete/:id", protect, deletePost);
+router.delete("/delete/slug/:slug", protect, deletePost);
 
 /* ---------------------------------------------------
    UNIVERSAL FILTER ROUTE

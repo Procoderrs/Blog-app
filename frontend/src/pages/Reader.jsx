@@ -167,7 +167,7 @@ export default function Reader() {
                 </div>
 
                 <button
-                  onClick={() => navigate(`/reader/post/${post._id}`)}
+                  onClick={() => navigate(`/reader/post/${post.slug}`)}
                   className="text-blue-600 mt-2 hover:underline"
                 >
                   Read more →

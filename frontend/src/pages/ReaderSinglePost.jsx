@@ -6,12 +6,13 @@ import PublicHeader from '../components/PublicHeader';
 
 export default function ReaderSinglePost(){
 
-  const {id}=useParams();
+  const {slug}=useParams();
+console.log("SLUG FROM URL:", slug);
   const[post,setPosts] =useState(null);
 
   useEffect(()=>{
     const load=async()=>{
-      const res=await api.get(`/posts/public/${id}`);
+      const res=await api.get(`/posts/public/slug/${slug}`);
       setPosts(res.data)
     }
     load();
