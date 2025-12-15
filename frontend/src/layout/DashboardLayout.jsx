@@ -12,6 +12,7 @@ const DashboardLayout = () => {
     { name: "My Posts", path: "/dashboard/posts", icon: FileText },
     { name: "Add Post", path: "/dashboard/add-post", icon: PlusCircle },
     { name: "My Categories", path: "/dashboard/categories", icon: Folder },
+    { name: 'All Posts', path:'/'}
   ];
 
   return (
