@@ -47,7 +47,7 @@ const PublicHeader = () => {
             {openMenu && (
               <div className="absolute right-0 mt-2 w-44 bg-white shadow-lg rounded-xl py-2 z-20 border border-purple-100">
                 <Link
-                  to="/dashboard"
+                  to="/dashboard/posts"
                   className="flex items-center gap-2 px-4 py-2 hover:bg-purple-100 rounded transition text-gray-800"
                   onClick={() => setOpenMenu(false)}
                 >
