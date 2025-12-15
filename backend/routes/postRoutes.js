@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../middleware/upload.js"; // just upload now
+import upload, { handleImageUpload } from "../middleware/upload.js";
 import {createPost,deletePost,getPost,getSinglePost,updatePost,
 } from "../controllers/postController.js";
 import protect from "../middleware/authMidleware.js";
@@ -70,7 +70,7 @@ router.get("/public/slug/:slug", async (req, res) => {
 --------------------------------------------------- */
 
 // Create user post
-router.post("/create",protect,upload.single("image"),createPost);
+router.post("/create",protect,upload.single("image"),handleImageUpload,createPost);
 
 // Get all posts for logged-in user
 router.get("/", protect, getPost);
@@ -79,7 +79,7 @@ router.get("/", protect, getPost);
 router.get("/slug/:slug", protect, getSinglePost);
 
 // Update
-router.put("/update/slug/:slug",protect,upload.single("image"),updatePost);
+router.put("/update/slug/:slug",protect,upload.single("image"),handleImageUpload,updatePost);
 
 // Delete
 router.delete("/delete/slug/:slug", protect, deletePost);
