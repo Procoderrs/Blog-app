@@ -184,21 +184,21 @@ useEffect(() => {
                       onClick={() =>
                         navigate(`/admin/update-post/${p.slug}`, { state: { userId:id } })
                       }
-                      className="flex-1 bg-purple-500 text-white py-2 rounded-lg text-sm hover:bg-purple-600 transition"
+                      className="flex-1 bg-purple-500 cursor-pointer text-white py-2 rounded-lg text-sm hover:bg-purple-600 transition"
                     >
                       Update
                     </button>
 
                     <button
                       onClick={() => deletePost(p._id)}
-                      className="flex-1 bg-red-500 text-white py-2 rounded-lg text-sm hover:bg-red-600 transition"
+                      className="flex-1 bg-red-500 cursor-pointer text-white py-2 rounded-lg text-sm hover:bg-red-600 transition"
                     >
                       Delete
                     </button>
 
                     <button
   onClick={() => navigate(`/admin/post/${p.slug}`, { state: { post: p } })}
-  className="flex-1 bg-purple-700 text-white py-2 px-1 rounded-lg text-sm hover:bg-purple-800 transition"
+  className="flex-1 bg-purple-700 cursor-pointer text-white py-2 px-1 rounded-lg text-sm hover:bg-purple-800 transition"
 >
   Full Blog
 </button>

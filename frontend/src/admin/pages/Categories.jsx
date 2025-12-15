@@ -106,7 +106,7 @@ export default function AdminCategories() {
           />
           <button
             type="submit"
-            className="bg-purple-700 text-white px-5 py-2 rounded-lg hover:bg-purple-800 text-sm"
+            className="bg-purple-700 text-white cursor-pointer px-5 py-2 rounded-lg hover:bg-purple-800 text-sm"
           >
             Add
           </button>
@@ -156,7 +156,7 @@ export default function AdminCategories() {
                     ) : (
                       <button
                         onClick={() => startEdit(cat._id, cat.name)}
-                        className="bg-purple-500 text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
+                        className="bg-purple-500 cursor-pointer text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
                       >
                         Edit
                       </button>
@@ -167,7 +167,7 @@ export default function AdminCategories() {
                   {(user.role === "admin" || cat.createdBy === user._id) && (
                     <button
                       onClick={() => handleDelete(cat._id)}
-                      className="bg-red-600 text-white px-3 py-1 text-sm rounded hover:bg-red-700"
+                      className="bg-red-600 cursor-pointer text-white px-3 py-1 text-sm rounded hover:bg-red-700"
                     >
                       Delete
                     </button>

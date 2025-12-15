@@ -76,7 +76,7 @@ export default function Users() {
                     </Link>
                     <button
                       onClick={() => deleteUser(u._id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+                      className="bg-red-500 text-white cursor-pointer px-3 py-1 rounded hover:bg-red-600 text-sm"
                     >
                       Delete User
                     </button>
