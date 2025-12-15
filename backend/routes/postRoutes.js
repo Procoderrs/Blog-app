@@ -1,5 +1,5 @@
 import express from "express";
-import upload, { handleImageUpload } from "../middleware/upload.js";
+import upload , { handleImageUpload }  from "../middleware/upload.js"; // just the upload middleware
 import {createPost,deletePost,getPost,getSinglePost,updatePost,
 } from "../controllers/postController.js";
 import protect from "../middleware/authMidleware.js";
@@ -70,7 +70,7 @@ router.get("/public/slug/:slug", async (req, res) => {
 --------------------------------------------------- */
 
 // Create user post
-router.post("/create",protect,upload.single("image"),handleImageUpload,createPost);
+router.post("/create",protect,upload.single("image"),handleImageUpload, createPost);
 
 // Get all posts for logged-in user
 router.get("/", protect, getPost);

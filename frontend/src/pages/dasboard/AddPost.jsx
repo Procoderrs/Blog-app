@@ -41,12 +41,7 @@ export default function AddPost() {
   // Image preview
   const handleImage = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-
-  if (file.size > 5 * 1024 * 1024) { // 5MB
-    alert("Image too large. Maximum size is 5MB.");
-    return;
-  }
+    
     setImage(file);
     setPreview(URL.createObjectURL(file));
 

@@ -28,6 +28,9 @@ export const handleImageUpload = async (req, res, next) => {
 
       // Set req.file.path so your controller can use it
       req.file.path = result.secure_url;
+
+      console.log("Cloudinary result:", result.secure_url);
+
     }
     next();
   } catch (error) {
