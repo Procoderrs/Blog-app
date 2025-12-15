@@ -83,7 +83,7 @@ const Dashboard = () => {
 					{/* Category Filter */}
 					<div className="relative mb-6 w-64">
 						<button
-							className="px-4 py-2 bg-[#603F83] text-[#C7D3D4] rounded"
+							className="px-4 cursor-pointer py-2 bg-[#603F83] text-[#C7D3D4] rounded"
 							onClick={() => setShowDropdown(!showDropdown)}
 						>
 							{selectedCategory
@@ -144,7 +144,7 @@ const Dashboard = () => {
 													</h2>
 													<button
 														onClick={() => navigate(`/dashboard/post/${post.slug}`)}
-														className=" bg-[#603F83] w-5 h-5 p-1 flex items-center justify-center rounded-full  hover:underline text-sm "
+														className=" bg-[#603F83] w-5 h-5 p-1 flex items-center justify-center rounded-full cursor-pointer  hover:underline text-sm "
 													>
 														<i className="ri-arrow-right-up-long-line font-black text-[#C7D3D4]"></i>
 													</button>
@@ -181,7 +181,7 @@ const Dashboard = () => {
 															onClick={() =>
 																navigate(`/dashboard/update-post/${post.slug}`)
 															}
-															className="border border-[#603F83] bg-[#D7D3BF] text-[#727D73] px-3 py-1 rounded hover:bg-white transition-colors"
+															className="border border-[#603F83] cursor-pointer bg-[#D7D3BF] text-[#727D73] px-3 py-1 rounded hover:bg-white transition-colors"
 														>
 															Update
 														</button>
@@ -191,7 +191,7 @@ const Dashboard = () => {
 														post.author._id === user._id) && (
 														<button
 															onClick={() => handleDelete(post.slug)}
-															  className="border border-[#603F83] bg-white text-[#727D73] px-3 py-1 rounded hover:bg-[#D7D3BF] transition-colors"
+															  className="border border-[#603F83] bg-white text-[#727D73] px-3 py-1 cursor-pointer rounded hover:bg-[#D7D3BF] transition-colors"
 
 														>
 															Delete

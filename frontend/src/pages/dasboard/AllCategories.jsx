@@ -99,7 +99,7 @@ export default function AllCategories() {
           />
           <button
             type="submit"
-            className="bg-purple-700 text-white px-5 py-2 rounded-lg hover:bg-purple-800 text-sm"
+            className="bg-purple-700 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-purple-800 text-sm"
           >
             Add
           </button>
@@ -132,14 +132,14 @@ export default function AllCategories() {
                     editingId === cat._id ? (
                       <button
                         onClick={() => saveEdit(cat._id)}
-                        className="bg-purple-700 text-white px-3 py-1 text-sm rounded hover:bg-purple-800"
+                        className="bg-purple-700 cursor-pointer text-white px-3 py-1 text-sm rounded hover:bg-purple-800"
                       >
                         Save
                       </button>
                     ) : (
                       <button
                         onClick={() => startEdit(cat._id, cat.name)}
-                        className="bg-purple-500 text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
+                        className="bg-purple-500 cursor-pointer text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
                       >
                         Edit
                       </button>

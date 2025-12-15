@@ -79,7 +79,7 @@ export default function Reader() {
         <div className="relative w-64 mb-6">
           <button
             onClick={() => setShowDropdown(!showDropdown)}
-            className="w-full bg-purple-600 text-white px-4 py-2 rounded shadow flex justify-between items-center"
+            className="w-full bg-purple-600 cursor-pointer text-white px-4 py-2 rounded shadow flex justify-between items-center"
           >
             {selectedCategory
               ? categories.find((c) => c._id === selectedCategory)?.name
@@ -108,7 +108,7 @@ export default function Reader() {
                   <button
                     key={cat._id}
                     onClick={() => handleCategorySelect(cat._id)}
-                    className="block w-full text-left px-4 py-2 hover:bg-purple-100"
+                    className="block w-full text-left px-4 py-2 cursor-pointer hover:bg-purple-100"
                   >
                     {cat.name}
                   </button>
@@ -169,7 +169,7 @@ export default function Reader() {
 
                 <button
                   onClick={() => navigate(`/reader/post/${post.slug}`)}
-                  className="text-blue-600 mt-2 hover:underline"
+                  className="text-blue-600 mt-2 cursor-pointer hover:underline"
                 >
                   Read more →
                 </button>

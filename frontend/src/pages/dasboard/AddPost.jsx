@@ -148,7 +148,7 @@ export default function AddPost() {
         {/* Image */}
         <div>
           <input type="file" accept="image/*" onChange={handleImage} />
-          {preview && <img src={preview} alt="preview" className="w-40 h-40 object-cover rounded mt-2" />}
+          {preview && <img src={preview} alt="preview" className="w-40 h-40 cursor-pointer object-cover rounded mt-2" />}
           {errors.image && <p className="text-red-600 text-sm mt-1">{errors.image}</p>}
         </div>
 
@@ -157,7 +157,7 @@ export default function AddPost() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
+            className="w-full border px-3 py-2 rounded cursor-pointer"
           >
             <option value="">Select Category</option>
             {categories.map((c) => (
@@ -179,7 +179,7 @@ export default function AddPost() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full p-3 rounded font-semibold text-white bg-blue-600"
+          className="w-full p-3 rounded cursor-pointer font-semibold text-white bg-blue-600"
         >
           {isSubmitting ? "Publishing..." : "Publish Post"}
         </button>
