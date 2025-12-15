@@ -49,6 +49,7 @@ export default function Reader() {
       const res = await api.get(url);
 
       const data = Array.isArray(res.data) ? res.data : [];
+      console.log(data);
       setPosts(data);
       setAllPosts(data);
 

@@ -19,7 +19,14 @@ export const getCategories = async (req, res) => {
     }
 
     const cats = await Category.find(filters).sort({ createdAt: -1 });
-    res.json(cats);
+
+    // Add createdByRole field for frontend
+    const mappedCats = cats.map(cat => ({
+      ...cat.toObject(),
+      createdByRole: cat.createdBy ? "user" : "admin"
+    }));
+
+    res.json(mappedCats);
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: "Failed to fetch categories" });
@@ -87,10 +94,17 @@ export const deleteCategory = async (req, res) => {
 
 
 //get public ctaegories
+// GET public categories
 export const getPublicCategories = async (req, res) => {
   try {
     const categories = await Category.find().sort({ createdAt: -1 });
-    res.json(categories);
+
+    const mappedCats = categories.map(cat => ({
+      ...cat.toObject(),
+      createdByRole: cat.createdBy ? "user" : "admin"
+    }));
+
+    res.json(mappedCats);
   } catch (err) {
     console.error("Public categories error:", err);
     res.status(500).json({ msg: "Failed to fetch categories" });

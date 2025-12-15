@@ -126,6 +126,16 @@ export default function AdminCategories() {
                 )}
 
                <div className="flex gap-2">
+               {/* Role span */}
+                  <span
+                    className={`text-sm px-2 py-0.5 rounded-full ${
+                      cat.createdByRole === "admin"
+                        ? "bg-purple-100 text-purple-700"
+                        : "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {cat.createdByRole === "admin" ? "Admin created" : "User created"}
+                  </span>
   {/* Update button */}
   {(user.role === "admin" || cat.createdBy === user._id) && (
     editingId === cat._id ? (
@@ -156,9 +166,9 @@ export default function AdminCategories() {
   )}
 
   {/* User-created label */}
-  {cat.createdBy && cat.createdBy !== user._id && (
+  {/* {cat.createdBy && cat.createdBy !== user._id && (
     <span className="text-gray-400 text-sm">User</span>
-  )}
+  )} */}
 </div>
 
               </div>
