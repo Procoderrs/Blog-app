@@ -77,6 +77,13 @@ export default function AddPost() {
   formData.append("category", selectedCategory);
   formData.append("image", image);
 
+  // LOG FORM DATA FOR DEBUGGING
+  console.log("Submitting blog post:");
+  console.log("Title:", title);
+  console.log("Short Description:", shortDesc);
+  console.log("Content:", content);
+  console.log("Category:", selectedCategory);
+  console.log("Image File:", image);
   try {
     const res = await api.post("/posts/create", formData, {
       headers: {
@@ -88,6 +95,7 @@ export default function AddPost() {
     alert("Post created successfully!");
     navigate("/");
   } catch (err) {
+    console.log();
     console.error("Post creation error:", err.response?.data || err.message);
     setErrors({ submit: err.response?.data?.message || "Failed to create post." });
   } finally {
