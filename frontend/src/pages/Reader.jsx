@@ -13,6 +13,9 @@ export default function Reader() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(true);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
+  //pagination
+const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
 
   const navigate = useNavigate();
 
@@ -20,9 +23,14 @@ export default function Reader() {
 
   // Load categories + posts
   useEffect(() => {
-    loadCategories();
-    loadPosts();
-  }, []);
+  loadCategories(); // <--- THIS WAS MISSING
+}, []); // run once on mount
+
+useEffect(() => {
+  loadPosts(selectedCategory, page);
+}, [page, selectedCategory]);
+
+
 
   // Load categories
  const loadCategories = async () => {
@@ -39,33 +47,32 @@ export default function Reader() {
   }
 };
   // Load posts (with or without category)
-  const loadPosts = async (category = "") => {
-    try {
-      setLoading(true);
+ const loadPosts = async (category = "", pageNumber = 1) => {
+  try {
+    setLoading(true);
 
-      let url = "/posts/public";
-      if (category) url += `?category=${category}`;
+    let url = `/posts/public?page=${pageNumber}&limit=6`;
+    if (category) url += `&category=${category}`;
 
-      const res = await api.get(url);
+    const res = await api.get(url);
 
-      const data = Array.isArray(res.data) ? res.data : [];
-      console.log(data);
-      setPosts(data);
-      setAllPosts(data);
+    setPosts(res.data.posts);              // ✅ correct
+    setPage(res.data.currentPage);         // ✅ correct
+    setTotalPages(res.data.totalPages);    // ✅ correct
 
-
-    } catch (err) {
-      console.log("Posts error:", err.response?.data || err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (err) {
+    console.log("Posts error:", err.response?.data || err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Category selection handler
   const handleCategorySelect = (catId) => {
     setSelectedCategory(catId);
     setShowDropdown(false);
-    loadPosts(catId);
+    //loadPosts(catId);
+    setPage(1)
   };
 
   return (
@@ -176,7 +183,31 @@ export default function Reader() {
               </div>
             ))}
           </div>
+
+          
         )}
+        <div className="flex justify-center gap-2 mt-10">
+  <button
+    disabled={page === 1}
+    onClick={() => setPage(page - 1)}
+    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+  >
+    Prev
+  </button>
+
+  <span className="px-4 py-2 font-semibold">
+    Page {page} of {totalPages}
+  </span>
+
+  <button
+    disabled={page === totalPages}
+    onClick={() => setPage(page + 1)}
+    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+  >
+    Next
+  </button>
+</div>
+
 
         {!loading && posts.length === 0 && (
           <p className="text-gray-600 text-center mt-10 text-lg">

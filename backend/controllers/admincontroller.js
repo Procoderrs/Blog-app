@@ -22,22 +22,33 @@ export const getAllUsers=async(req,res)=>{
 // admincontroller.js
 export const getUserPosts = async (req, res) => {
   try {
-    const { id } = req.params; // user ID
-    const { category } = req.query; // new: optional category filter
+    const { id } = req.params; 
+    const { category, page = 1, limit = 6 } = req.query;
 
-    let filter = { author: id };
+    const filter = { author: id };
     if (category) filter.category = category;
+
+    const skip = (page - 1) * limit;
+    const totalPosts = await POSTSCHEMA.countDocuments(filter);
 
     const posts = await POSTSCHEMA.find(filter)
       .populate("category", "name")
       .populate("author", "name")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
 
-    res.json(posts);
+    res.json({
+      posts,
+      currentPage: Number(page),
+      totalPages: Math.ceil(totalPosts / limit),
+      totalPosts,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 
 
@@ -59,13 +70,28 @@ export const deleteUser=async(req,res)=>{
 
 //get all admin's post
 
-export const getAllPostsAdmin=async(req,res)=>{
+export const getAllPostsAdmin = async (req, res) => {
   try {
-    const posts=await POSTSCHEMA.find().populate('author','name email').populate('category','name').sort({ createdAt: -1 });
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 6;
+    const skip = (page - 1) * limit;
 
-    res.json(posts);
+    const totalPosts = await POSTSCHEMA.countDocuments();
 
+    const posts = await POSTSCHEMA.find()
+      .populate("author", "name email")
+      .populate("category", "name")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.json({
+      posts,
+      currentPage: page,
+      totalPages: Math.ceil(totalPosts / limit),
+      totalPosts,
+    });
   } catch (error) {
-    res.status(500).json({message:error.message})
+    res.status(500).json({ message: error.message });
   }
-}
+};

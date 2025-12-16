@@ -22,18 +22,30 @@ const router = express.Router();
 router.get("/public", async (req, res) => {
   try {
     const { category } = req.query;
-    const filter = {};
 
-    if (category) filter.category = category; // filter by category ID if provided
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 6;
+    const skip = (page - 1) * limit;
+
+    const filter = {};
+    if (category) filter.category = category;
+
+    const totalPosts = await POSTSCHEMA.countDocuments(filter);
 
     const posts = await POSTSCHEMA.find(filter)
-      .populate("author", "name")          // populate author name
-      .populate("category", "name")        // populate category name
-      .sort({ createdAt: -1 });            // newest posts first
+      .populate("author", "name")
+      .populate("category", "name")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
-    res.json(posts);
+    res.json({
+      posts,
+      currentPage: page,
+      totalPages: Math.ceil(totalPosts / limit),
+      totalPosts,
+    });
   } catch (error) {
-    console.error("Public posts fetch error:", error);
     res.status(500).json({ message: error.message });
   }
 });

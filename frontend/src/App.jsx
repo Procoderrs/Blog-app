@@ -32,7 +32,8 @@ function App() {
 				<Routes>
 					{/* Public */}
 					<Route path="/" element={<Reader />} />
-					<Route path="/reader/post/:slug" element={<ReaderSinglePost />} />
+  <Route path="/reader" element={<Reader />} />
+  <Route path="/reader/post/:slug" element={<ReaderSinglePost />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />
 

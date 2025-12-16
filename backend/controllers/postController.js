@@ -32,23 +32,33 @@ export const createPost = async (req, res) => {
 export const getPost = async (req, res) => {
   try {
     const { category } = req.query;
-    let filter = {};
 
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 6;
+    const skip = (page - 1) * limit;
+
+    let filter = {};
     if (category) filter.category = category;
 
-    let posts;
-    if (req.user.role === 'admin') {
-      posts = await POSTSCHEMA.find(filter)
-        .populate('author', 'name email')
-        .populate('category', 'name').sort({ createdAt: -1 }); // ✅ populate category name
-    } else {
+    if (req.user.role !== "admin") {
       filter.author = req.user._id;
-      posts = await POSTSCHEMA.find(filter)
-        .populate('author', 'name email')
-        .populate('category', 'name').sort({ createdAt: -1 }); // ✅ populate category name
     }
 
-    res.json(posts);
+    const totalPosts = await POSTSCHEMA.countDocuments(filter);
+
+    const posts = await POSTSCHEMA.find(filter)
+      .populate("author", "name email")
+      .populate("category", "name")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.json({
+      posts,
+      currentPage: page,
+      totalPages: Math.ceil(totalPosts / limit),
+      totalPosts,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

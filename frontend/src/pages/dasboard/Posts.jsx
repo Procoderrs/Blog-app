@@ -7,6 +7,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Posts = () => {
   const { user } = useContext(AuthContext);
+
+  const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
+
   const navigate = useNavigate();
 
   const [blogs, setBlogs] = useState([]);
@@ -15,9 +19,13 @@ const Posts = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    fetchCategories();
-    fetchPosts();
-  }, []);
+  fetchPosts(selectedCategory, page);
+}, [page, selectedCategory]);
+
+useEffect(() => {
+  fetchCategories();
+}, []);
+
 
   // Fetch categories
   const fetchCategories = async () => {
@@ -36,27 +44,31 @@ const Posts = () => {
 };
 
   // Fetch posts (fixed!)
-  const fetchPosts = async (categoryId = "") => {
-    try {
-      let url = "/posts/filter/all";
-      if (categoryId) url += `?category=${categoryId}`;
+ const fetchPosts = async (categoryId = "", pageNumber = 1) => {
+  try {
+    let url = `/posts?page=${pageNumber}&limit=6`;
+    if (categoryId) url += `&category=${categoryId}`;
 
-      const res = await api.get(url, {
-        headers: { Authorization: `Bearer ${user?.token}` },
-      });
+    const res = await api.get(url, {
+      headers: { Authorization: `Bearer ${user?.token}` },
+    });
 
-      setBlogs(Array.isArray(res.data) ? res.data : []);
-      console.log(res.data);
-    } catch (err) {
-      console.log("Fetch posts error:", err.response?.data || err.message);
-    }
-  };
+    setBlogs(res.data.posts);            // ✅ correct
+    setPage(res.data.currentPage);       // ✅ correct
+    setTotalPages(res.data.totalPages);  // ✅ correct
+
+  } catch (err) {
+    console.log("Fetch posts error:", err.response?.data || err.message);
+  }
+};
+
 
   const handleCategorySelect = (catId) => {
-    setSelectedCategory(catId);
-    setShowDropdown(false);
-    fetchPosts(catId);
-  };
+  setSelectedCategory(catId);
+  setShowDropdown(false);
+  setPage(1); // ✅ REQUIRED
+};
+
 
   const handleDelete = async (postId) => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
@@ -199,6 +211,28 @@ const Posts = () => {
           )}
         </AnimatePresence>
       </div>
+      <div className="flex justify-center gap-2 mt-10">
+  <button
+    disabled={page === 1}
+    onClick={() => setPage(page - 1)}
+    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+  >
+    Prev
+  </button>
+
+  <span className="px-4 py-2 font-semibold">
+    Page {page} of {totalPages}
+  </span>
+
+  <button
+    disabled={page === totalPages}
+    onClick={() => setPage(page + 1)}
+    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+  >
+    Next
+  </button>
+</div>
+
     </div>
   );
 };
