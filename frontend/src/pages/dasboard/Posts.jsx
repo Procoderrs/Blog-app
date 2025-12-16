@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-
+import 'remixicon/fonts/remixicon.css'
 const Posts = () => {
   const { user } = useContext(AuthContext);
 
