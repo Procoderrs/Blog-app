@@ -41,7 +41,7 @@ export default function AdminFullPost() {
             {post.category.name}
           </span>
         )}
-        {post.image && <img src={post.image} alt={post.title} className="w-full h-64 object-fill rounded mb-4" />}
+        {post.image && <img src={post.image} alt={post.title} className="w-full h-64 object-fit rounded mb-4" />}
         <div dangerouslySetInnerHTML={{ __html: post.content }} className="prose"></div>
 
         <button
