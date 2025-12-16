@@ -27,7 +27,7 @@ console.log("SLUG FROM URL:", slug);
       <div className="text-gray-600 text-sm mb-4">
   Written by <span className="font-semibold text-xl">{post.author.name}</span>
 </div>
-<img src={post.image} alt="" className='w-full max-h-[500px] object-cover rounded' />
+<img src={post.image} alt="" className='h-80 object-cover w-full rounded' />
 <h1 className='text-3xl font-bold mt-4'>{post.title}</h1>
 
 <p className='text-gray-600 mt-2'>{post.short_desc}</p>
