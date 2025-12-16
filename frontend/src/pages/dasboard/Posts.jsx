@@ -43,7 +43,7 @@ useEffect(() => {
 	}
 };
 
-  // Fetch posts (fixed!)
+  // Fetch posts 
  const fetchPosts = async (categoryId = "", pageNumber = 1) => {
   try {
     let url = `/posts?page=${pageNumber}&limit=6`;
@@ -154,7 +154,7 @@ useEffect(() => {
                       onClick={() => navigate(`/post/${post._id}`)}
                       className="text-blue-600 hover:underline text-sm flex items-center"
                     >
-                      Read
+                     <i class="ri-arrow-right-up-line"></i>
                     </button>
                   </div>
 
