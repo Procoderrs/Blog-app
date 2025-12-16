@@ -157,7 +157,7 @@ export default function UserPosts() {
                     <img
                       src={p.image}
                       alt={p.title}
-                      className="w-full h-56 md:h-48 lg:h-52 rounded-xl object-cover mb-3"
+                      className="w-full h-64 p-3 rounded-xl object-cover mb-3"
                     />
                   )}
 
