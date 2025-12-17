@@ -52,6 +52,7 @@ export default function Users() {
                 <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
                 <th className="px-6 py-3 text-center text-sm font-semibold">Role</th>
+                <th className="px-6 py-3 text-center text-sm font-semibold">Posts</th>
                 <th className="px-6 py-3 text-center text-sm font-semibold">Actions</th>
               </tr>
             </thead>
@@ -67,6 +68,11 @@ export default function Users() {
                   <td className="px-6 py-4 whitespace-nowrap text-center text-purple-700 font-semibold">
                     {u.role.toUpperCase()}
                   </td>
+ <td className="px-6 py-4 whitespace-nowrap text-center text-purple-700 font-semibold">
+                    {u.posts}
+                  </td>
+
+                  
                   <td className="px-6 py-4 whitespace-nowrap text-center flex justify-center gap-2">
                     <Link
                       to={`/admin/users/${u._id}/posts`}

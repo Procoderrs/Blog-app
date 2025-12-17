@@ -31,7 +31,8 @@ export default function AdminDashboard() {
       const res = await api.get("/admin/posts", {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-      setPosts(res.data);
+      setPosts(res.data.totalPosts || 0);
+      console.log(res.data);
     } catch (error) {
       console.log(error.response?.data || error.message);
     }
@@ -74,7 +75,7 @@ export default function AdminDashboard() {
         {/* Posts */}
         <div className="bg-linear-to-br from-purple-200 to-pink-200 rounded-xl shadow-lg p-10 text-center w-72">
           <p className="text-gray-700 font-medium">Total Posts</p>
-          <p className="text-3xl font-bold mt-2">{posts.length}</p>
+          <p className="text-3xl font-bold mt-2">{posts} </p>
         </div>
 
         {/* Categories */}

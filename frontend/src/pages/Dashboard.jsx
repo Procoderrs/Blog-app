@@ -159,7 +159,7 @@ const Dashboard = () => {
                               }
                               className="text-blue-600 hover:underline text-sm"
                             >
-                              Read
+                              <i class="ri-arrow-right-up-line text-purple-800 text-lg"></i>
                             </button>
                           </div>
 

@@ -6,15 +6,27 @@ import POSTSCHEMA from '../models/postModel.js'
 
 //get all users
 
-export const getAllUsers=async(req,res)=>{
+export const getAllUsers = async (req, res) => {
   try {
-    const users=await User.find().select('-password').sort({ createdAt: -1 });
-    res.json(users);
+    // Get all users
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
+     console.log(users);
+    // Add posts count for each user
+    const usersWithPosts = await Promise.all(
+      users.map(async (user) => {
+        const postCount = await POSTSCHEMA.countDocuments({ author: user._id });
+        return {
+          ...user.toObject(),
+          posts: postCount,
+        };
+      })
+    );
 
+    res.json(usersWithPosts);
   } catch (error) {
-    res.status(500).json({message:error.message});
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
 
 //get all post
