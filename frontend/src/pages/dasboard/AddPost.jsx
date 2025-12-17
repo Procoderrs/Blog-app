@@ -147,6 +147,7 @@ export default function AddPost() {
 
         {/* Image */}
         <div>
+        <label className="block mb-1 font-bold cursor-pointer">Change image</label>
           <input type="file" accept="image/*" onChange={handleImage} />
           {preview && <img src={preview} alt="preview" className="w-40 h-40 cursor-pointer object-cover rounded mt-2" />}
           {errors.image && <p className="text-red-600 text-sm mt-1">{errors.image}</p>}

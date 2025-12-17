@@ -94,7 +94,7 @@ const Dashboard = () => {
           <div className="relative mb-6 w-64">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="w-full bg-purple-600 text-white px-4 py-2 rounded shadow flex justify-between items-center"
+              className="w-full bg-purple-600 cursor-pointer text-white px-4 py-2 rounded shadow flex justify-between items-center"
             >
               {selectedCategory
                 ? categories.find((c) => c._id === selectedCategory)?.name
@@ -157,7 +157,7 @@ const Dashboard = () => {
                               onClick={() =>
                                 navigate(`/dashboard/post/${post.slug}`)
                               }
-                              className="text-blue-600 hover:underline text-sm"
+                              className="text-blue-600 hover:underline cursor-pointer text-sm"
                             >
                               <i class="ri-arrow-right-up-line text-purple-800 text-lg"></i>
                             </button>
@@ -193,14 +193,14 @@ const Dashboard = () => {
                                 onClick={() =>
                                   navigate(`/dashboard/update-post/${post.slug}`)
                                 }
-                                className="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-500"
+                                className="bg-purple-600 cursor-pointer text-white px-3 py-1 rounded hover:bg-purple-500"
                               >
                                 Update
                               </button>
 
                               <button
                                 onClick={() => handleDelete(post.slug)}
-                                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-500"
+                                className="bg-red-600 text-white cursor-pointer  px-3 py-1 rounded hover:bg-red-500"
                               >
                                 Delete
                               </button>

@@ -139,13 +139,13 @@ export default function UpdatePost() {
 
           {/* Image upload */}
           <div>
-            <label className="block font-semibold mb-2">Upload image</label>
+            <label className="block font-semibold cursor-pointer mb-2">Upload image</label>
             <input type="file" onChange={handleImage} />
             {preview && (
               <img
                 src={preview}
                 alt="preview"
-                className="w-40 h-40 object-cover rounded border mt-2"
+                className="w-40 h-40 object-cover cursor-pointer rounded border mt-2"
               />
             )}
           </div>
@@ -154,7 +154,7 @@ export default function UpdatePost() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
+            className="w-full border cursor-pointer px-3 py-2 rounded"
             required
           >
             <option value="">Select Category</option>
@@ -171,7 +171,7 @@ export default function UpdatePost() {
             <Editor content={content} onChange={setContent} />
           </div>
 
-          <button className="w-full bg-[#33006F] text-white p-3 rounded font-semibold">
+          <button className="w-full bg-[#33006F] text-white p-3 cursor-pointer rounded font-semibold">
             Update Post
           </button>
         </form>

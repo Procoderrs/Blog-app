@@ -61,7 +61,7 @@ const DashboardLayout = () => {
 
         {/* Optional Logout */}
         <button
-          className="mt-auto bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          className="mt-auto bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-700"
           onClick={logout}
         >
           Logout

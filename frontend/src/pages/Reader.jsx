@@ -176,7 +176,7 @@ useEffect(() => {
 
                 <button
                   onClick={() => navigate(`/reader/post/${post.slug}`)}
-                  className="text-blue-600 mt-2 cursor-pointer hover:underline"
+                  className="text-purple-500 mt-2 cursor-pointer hover:bg-purple-100 p-1.5 rounded"
                 >
                   Read more →
                 </button>
@@ -190,7 +190,7 @@ useEffect(() => {
   <button
     disabled={page === 1}
     onClick={() => setPage(page - 1)}
-    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+    className="px-4 py-2 bg-purple-600 text-white rounded cursor-pointer  disabled:opacity-50"
   >
     Prev
   </button>
@@ -202,7 +202,7 @@ useEffect(() => {
   <button
     disabled={page === totalPages}
     onClick={() => setPage(page + 1)}
-    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+    className="px-4 py-2 bg-purple-600 text-white rounded cursor-pointer disabled:opacity-50"
   >
     Next
   </button>

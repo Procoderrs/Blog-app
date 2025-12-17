@@ -90,13 +90,13 @@ const EditPost = () => {
         />
 
         <div>
-          <label className="block mb-1 font-semibold">Change image</label>
+          <label className="block mb-1 font-semibold cursor-pointer">Change image</label>
           <input type="file" onChange={handleImage} />
           {preview && (
             <img
               src={preview}
               alt="preview"
-              className="w-40 mt-2 rounded border"
+              className="w-40 cursor-pointer mt-2 rounded border"
             />
           )}
         </div>
