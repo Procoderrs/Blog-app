@@ -82,24 +82,24 @@ export default function AllCategories() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-[#f5f6fa] p-4">
       <Header />
 
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4 text-purple-900">Categories</h1>
+        <h1 className="text-2xl font-semibold mb-6 text-[#3b3363] tracking-tight">Categories</h1>
 
         {/* Add Category */}
-        <form onSubmit={handleCreate} className="mb-5 flex gap-2 bg-white p-3 rounded-xl shadow">
+        <form onSubmit={handleCreate} className="mb-6 flex gap-3 bg-white p-4 rounded-2xl shadow-sm">
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="New category"
-            className="border border-gray-300 px-3 py-2 rounded-lg flex-1 text-sm"
+            className="border border-[#e5e7eb] px-3 py-2.5 rounded-lg flex-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#7c6ee6]/40"
           />
           <button
             type="submit"
-            className="bg-purple-700 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-purple-800 text-sm"
+            className="bg-[#7c6ee6]  cursor-pointer text-white px-5 font-medium py-2.5 rounded-lg hover:bg-[#6a5be2] text-sm"
           >
             Add
           </button>
@@ -113,17 +113,17 @@ export default function AllCategories() {
             {categories.map((cat) => (
               <div
                 key={cat._id}
-                className="bg-white p-3 rounded-xl shadow flex justify-between items-center hover:shadow-md transition"
+                className="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center hover:shadow-md transition"
               >
                 {/* Editable or plain name */}
                 {editingId === cat._id ? (
                   <input
                     value={editingName}
                     onChange={(e) => setEditingName(e.target.value)}
-                    className="border px-2 py-1 rounded text-sm flex-1 mr-2"
+className="border border-[#E5E7EB] px-3 py-2 rounded-lg text-sm flex-1 mr-2 focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40"
                   />
                 ) : (
-                  <span className="font-medium text-gray-800">{cat.name}</span>
+                  <span className="font-medium text-sm text-[#3b3363]">{cat.name}</span>
                 )}
 
                 <div className="flex gap-2">
@@ -132,27 +132,30 @@ export default function AllCategories() {
                     editingId === cat._id ? (
                       <button
                         onClick={() => saveEdit(cat._id)}
-                        className="bg-purple-700 cursor-pointer text-white px-3 py-1 text-sm rounded hover:bg-purple-800"
+                        className="bg-[#7C6EE6] hover:bg-[#6A5BE2] transition text-white px-3 py-1.5 text-sm rounded-lg"
+
                       >
                         Save
                       </button>
                     ) : (
                       <button
                         onClick={() => startEdit(cat._id, cat.name)}
-                        className="bg-purple-500 cursor-pointer text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
+                        className="bg-[#7C6EE6] hover:bg-[#6A5BE2] transition text-white px-3 py-1.5 text-sm rounded-lg"
+
+
                       >
                         Edit
                       </button>
                     )
                   ) : (
-                    <span className="text-gray-400 text-sm">Admin</span>
+                    <span className="text-[#6b7280] text-xs font-medium">Admin</span>
                   )}
 
                   {/* Only user-owned categories are deletable */}
                   {cat.createdBy === user._id && (
                     <button
                       onClick={() => handleDelete(cat._id)}
-                      className="bg-red-600 text-white px-3 py-1 text-sm rounded hover:bg-red-700"
+                      className="bg-red-500 text-white transition px-3 py-1.5 text-sm rounded-lg hover:bg-red-600"
                     >
                       Delete
                     </button>

@@ -106,10 +106,10 @@ export default function AddPost() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto mt-10 bg-purple-50 p-3 md:p-8 rounded-lg shadow">
-      <h1 className="text-3xl font-bold mb-6">Create New Post</h1>
+    <div className="w-full max-w-4xl mx-auto mt-10 bg-white p-6 md:p-8 rounded-2xl shadow-sm">
+      <h1 className="text-2xl md:text-3xl text-[#3b3363] font-bold mb-8 tracking-tight">Create New Post</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Title */}
         <div>
           <input
@@ -117,7 +117,7 @@ export default function AddPost() {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full border p-2 rounded"
+            className="w-full border border-[#E5E7EB] px-3 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40"
           />
           {errors.title && <p className="text-red-600 text-sm mt-1">{errors.title}</p>}
         </div>
@@ -129,7 +129,7 @@ export default function AddPost() {
             placeholder="Slug"
             value={slug}
             readOnly
-            className="w-full border p-2 rounded bg-gray-100 text-gray-600"
+            className="w-full border border-[#E5E7EB] outline-none px-3 py-2.5 rounded-lg bg-[#F5F6FA] text-[#6B7280]"
           />
         </div>
 
@@ -140,26 +140,31 @@ export default function AddPost() {
             placeholder="Short description"
             value={shortDesc}
             onChange={(e) => setShortDesc(e.target.value)}
-            className="w-full border p-2 rounded"
+            className="w-full border border-[#E5E7EB] px-3 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40"
           />
           {errors.shortDesc && <p className="text-red-600 text-sm mt-1">{errors.shortDesc}</p>}
         </div>
 
         {/* Image */}
         <div>
-        <label className="block mb-1 font-bold cursor-pointer">Change image</label>
-          <input type="file" accept="image/*" onChange={handleImage} />
-          {preview && <img src={preview} alt="preview" className="w-40 h-40 cursor-pointer object-cover rounded mt-2" />}
+<label className="block mb-2 text-sm font-medium text-[#3B3363]">
+  Featured Image
+</label>          <input type="file" className="font-medium cursor-pointer hover:bg-purple-50 w-fit " accept="image/*" onChange={handleImage} />
+          {preview && <img
+  src={preview}
+  alt="preview"
+  className="w-40 h-40 object-cover rounded-xl border border-[#E5E7EB] mt-3"
+/>}
           {errors.image && <p className="text-red-600 text-sm mt-1">{errors.image}</p>}
         </div>
 
         {/* Category */}
         <div>
           <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full border px-3 py-2 rounded cursor-pointer"
-          >
+  value={selectedCategory}
+  onChange={(e) => setSelectedCategory(e.target.value)}
+  className="w-full border border-[#E5E7EB] px-3 py-2.5 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40"
+>
             <option value="">Select Category</option>
             {categories.map((c) => (
               <option key={c._id} value={c._id}>
@@ -171,21 +176,22 @@ export default function AddPost() {
         </div>
 
         {/* Content */}
-        <div>
-          <Editor content={content} onChange={setContent} />
-          {errors.content && <p className="text-red-600 text-sm mt-1">{errors.content}</p>}
-        </div>
+        <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
+  <Editor content={content} onChange={setContent} />
+</div>
 
         {/* Submit */}
         <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full p-3 rounded cursor-pointer font-semibold text-white bg-blue-600"
-        >
+  type="submit"
+  disabled={isSubmitting}
+  className="w-full py-3 rounded-lg font-semibold text-white bg-[#7C6EE6] hover:bg-[#6A5BE2] transition disabled:opacity-50"
+>
           {isSubmitting ? "Publishing..." : "Publish Post"}
         </button>
 
-        {errors.submit && <p className="bg-red-100 text-red-700 p-3 rounded mt-4">{errors.submit}</p>}
+        {errors.submit && <p className="bg-red-50 text-red-600 text-sm p-3 rounded-lg mt-4">
+  {errors.submit}
+</p>}
       </form>
     </div>
   );

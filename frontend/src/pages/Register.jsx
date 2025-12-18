@@ -45,76 +45,124 @@ export default function Register() {
       login(data);
       navigate("/dashboard");
     } catch (err) {
-      console.log(err.response?.data);
-
       const serverErr = err.response?.data?.message || "Registration failed.";
       setErrors((prev) => ({ ...prev, server: serverErr }));
     }
   };
 
+  const onChangeField = (key, value) => {
+    setForm({ ...form, [key]: value });
+    setErrors((prev) => {
+      const newErrors = { ...prev };
+      if (value.trim() !== "") delete newErrors[key];
+      return newErrors;
+    });
+  };
+
+  const isFormValid =
+    form.name &&
+    form.email &&
+    form.password &&
+    Object.keys(errors).length === 0;
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow w-96 space-y-4"
-      >
-        <h1 className="text-2xl font-bold text-center">Register</h1>
+    <div className="min-h-screen flex bg-[#F5F6FA]">
+      {/* Left Side Form */}
+      <div className="flex w-full md:w-1/2 justify-center items-center p-8 z-10 relative">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-2xl shadow-lg p-10 w-full max-w-md space-y-6"
+        >
+          <h1 className="text-3xl font-extrabold text-[#3B3363] text-center">
+            Register
+          </h1>
 
-        {/* Server Error */}
-        {errors.server && (
-          <p className="text-red-600 text-center text-sm">{errors.server}</p>
-        )}
+          {/* Server Error */}
+          {errors.server && (
+            <p className="text-red-600 text-sm text-center">{errors.server}</p>
+          )}
 
-        {/* Name */}
-        <input
-          type="text"
-          placeholder="Name"
-          className={`w-full p-2 border rounded ${
-            errors.name ? "border-red-500" : ""
-          }`}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
-        {errors.name && (
-          <p className="text-red-600 text-sm">{errors.name}</p>
-        )}
+          {/* Name */}
+          <div className="flex flex-col">
+            <input
+              type="text"
+              placeholder="Name"
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40 transition ${
+                errors.name ? "border-red-500" : "border-gray-300"
+              }`}
+              value={form.name}
+              onChange={(e) => onChangeField("name", e.target.value)}
+            />
+            {errors.name && (
+              <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+            )}
+          </div>
 
-        {/* Email */}
-        <input
-          type="email"
-          placeholder="Email"
-          className={`w-full p-2 border rounded ${
-            errors.email ? "border-red-500" : ""
-          }`}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
-        {errors.email && (
-          <p className="text-red-600 text-sm">{errors.email}</p>
-        )}
+          {/* Email */}
+          <div className="flex flex-col">
+            <input
+              type="email"
+              placeholder="Email"
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40 transition ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              }`}
+              value={form.email}
+              onChange={(e) => onChangeField("email", e.target.value)}
+            />
+            {errors.email && (
+              <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
 
-        {/* Password */}
-        <input
-          type="password"
-          placeholder="Password"
-          className={`w-full p-2 border rounded ${
-            errors.password ? "border-red-500" : ""
-          }`}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
-        {errors.password && (
-          <p className="text-red-600 text-sm">{errors.password}</p>
-        )}
+          {/* Password */}
+          <div className="flex flex-col">
+            <input
+              type="password"
+              placeholder="Password"
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40 transition ${
+                errors.password ? "border-red-500" : "border-gray-300"
+              }`}
+              value={form.password}
+              onChange={(e) => onChangeField("password", e.target.value)}
+            />
+            {errors.password && (
+              <p className="text-red-600 text-sm mt-1">{errors.password}</p>
+            )}
+          </div>
 
-        <button className="w-full bg-blue-600 text-white p-2 rounded">
-          Register
-        </button>
+          <button
+            disabled={!isFormValid}
+            className={`w-full text-white p-3 rounded-lg font-semibold transition ${
+              isFormValid
+                ? "bg-[#7C6EE6] hover:bg-[#6A5BE2]"
+                : "bg-[#22223b] opacity-50 cursor-not-allowed"
+            }`}
+          >
+            Register
+          </button>
 
-        <p className="text-sm text-gray-600 mt-3 text-center">
-          Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 underline">
-            Login
-          </Link>
-        </p>
-      </form>
+          <p className="text-sm text-gray-500 text-center">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-purple-600 font-medium hover:underline"
+            >
+              Login
+            </Link>
+          </p>
+        </form>
+      </div>
+
+      {/* Right Side Image */}
+      <div className="hidden md:block md:w-1/2 relative">
+        <div className="fixed inset-y-0 right-0 w-1/2 bg-[#3B3363] flex items-center justify-center overflow-hidden">
+          <img
+            src="/img-3.jpg"
+            alt="Register Illustration"
+            className="h-full w-full object-cover"
+          />
+        </div>
+      </div>
     </div>
   );
 }

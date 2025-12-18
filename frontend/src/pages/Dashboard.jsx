@@ -85,7 +85,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#E8E2E2]">
+    <div className="min-h-screen bg-[#F5f6fa]">
       <Header />
 
       {user?.role !== "admin" && (
@@ -94,18 +94,18 @@ const Dashboard = () => {
           <div className="relative mb-6 w-64">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="w-full bg-purple-600 cursor-pointer text-white px-4 py-2 rounded shadow flex justify-between items-center"
+              className="w-full bg-[#7c6ee6] hover:bg-[#6a5be2] cursor-pointer text-white px-4 py-2.5 rounded-lg shadow-sm flex justify-between items-center transition"
             >
               {selectedCategory
                 ? categories.find((c) => c._id === selectedCategory)?.name
                 : "Select Category"}
-              <span className="ml-2">&#9662;</span>
+              <span className="text-sm">&#9662;</span>
             </button>
 
             {showDropdown && (
               <ul className="absolute bg-white shadow-md mt-1 w-full rounded z-50">
                 <li
-                  className="px-4 py-2 hover:bg-purple-100 cursor-pointer"
+                  className="px-4 py-2.5 hover:bg-[#f0eeff] cursor-pointer text-sm transition"
                   onClick={() => handleCategorySelect("")}
                 >
                   All Categories
@@ -125,7 +125,7 @@ const Dashboard = () => {
 
           {/* Posts Grid */}
           {loading ? (
-            <p className="text-center text-gray-500 mt-10">Loading posts...</p>
+            <p className="text-center flex items-center justify-center font-semibold  text-lg text-gray-500 mt-10">Loading posts...</p>
           ) : error ? (
             <p className="text-center text-red-500 mt-10">{error}</p>
           ) : (
@@ -140,7 +140,7 @@ const Dashboard = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="backdrop-blur-md bg-white rounded-xl shadow-lg overflow-hidden flex flex-col max-w-sm w-full"
+                        className="bg-white rounded-2xl  hover:shadow-md transition max-w-sm shadow-sm  overflow-hidden flex flex-col  w-full"
                       >
                         <img
                           src={post.image}
@@ -150,26 +150,26 @@ const Dashboard = () => {
 
                         <div className="p-4 flex flex-col flex-1">
                           <div className="flex gap-2 items-center justify-between">
-                            <h2 className="text-xl font-bold mb-2 line-clamp-1">
+                            <h2 className="text-lg font-semibold  text-[#3b3363] line-clamp-1">
                               {post.title}
                             </h2>
                             <button
                               onClick={() =>
                                 navigate(`/dashboard/post/${post.slug}`)
                               }
-                              className="text-blue-600 hover:underline cursor-pointer text-sm"
+                              className="text-[#7c6ee6] hover:text-[#6a5be2] cursor-pointer transition  text-sm"
                             >
                               <i class="ri-arrow-right-up-line text-purple-800 text-lg"></i>
                             </button>
                           </div>
 
                           {post.category && (
-                            <span className="inline-block bg-purple-200 text-purple-900 px-3 py-1 rounded-full font-semibold mb-2 text-sm">
+                            <span className="inline-block bg-[#f0eeff] text-[#3b3363] px-3 py-1 rounded-full font-medium mb-2 text-xs ">
                               {post.category.name}
                             </span>
                           )}
 
-                          <p className="text-gray-700 mb-2 line-clamp-2">
+                          <p className="text-[#6b7280] text-sm mb-2 line-clamp-2">
                             {post.short_desc}
                           </p>
 
@@ -180,8 +180,8 @@ const Dashboard = () => {
                               className="w-12 rounded-full"
                             />
                             <div>
-                              <p className="font-bold">{post.author?.name}</p>
-                              <p className="text-sm text-gray-600">
+                              <p className="font-medium text-sm text-[#3b3363">{post.author?.name}</p>
+                              <p className="text-xs text-[#6d7280]">
                                 {new Date(post.createdAt).toLocaleDateString()}
                               </p>
                             </div>
@@ -193,14 +193,16 @@ const Dashboard = () => {
                                 onClick={() =>
                                   navigate(`/dashboard/update-post/${post.slug}`)
                                 }
-                                className="bg-purple-600 cursor-pointer text-white px-3 py-1 rounded hover:bg-purple-500"
+                                  className="bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white px-3 py-1.5 rounded-lg text-sm transition"
+
                               >
                                 Update
                               </button>
 
                               <button
                                 onClick={() => handleDelete(post.slug)}
-                                className="bg-red-600 text-white cursor-pointer  px-3 py-1 rounded hover:bg-red-500"
+                                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm transition"
+
                               >
                                 Delete
                               </button>
@@ -227,19 +229,20 @@ const Dashboard = () => {
                   <button
                     disabled={page === 1}
                     onClick={() => setPage(page - 1)}
-                    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+                      className="px-4 py-2 bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white rounded-lg disabled:opacity-50 transition"
+
                   >
                     Prev
                   </button>
 
-                  <span className="px-4 py-2 font-semibold">
+                  <span className="px-4 py-2 font-medium text-[#3b2263]">
                     Page {page} of {totalPages}
                   </span>
 
                   <button
                     disabled={page === totalPages}
                     onClick={() => setPage(page + 1)}
-                    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+                    className="px-4 py-2  bg-[#7c6ee6] hover:bg-[#6a5be2] text-white rounded disabled:opacity-50"
                   >
                     Next
                   </button>

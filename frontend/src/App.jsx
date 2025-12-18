@@ -103,4 +103,10 @@ function App() {
 export default App;
 
 /* VITE_API_URI=https://blog-app-mjc3.vercel.app
+
+
+VITE_API_URI=http://localhost:5000
+
+
+
  */
