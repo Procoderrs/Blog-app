@@ -24,14 +24,14 @@ export default function AdminSidebar() {
   }, [user]);
 
   return (
-    <div className="lg:w-64 w-16 bg-purple-200 shadow-lg p-4 space-y-6 flex flex-col items-center lg:items-start">
+    <div className="lg:w-64 w-16 bg-[#1F1B2E] shadow-lg p-4 space-y-6 flex flex-col items-center lg:items-start">
       <div className="flex items-center gap-3">
         {admin?.avatar ? (
-          <img src={admin.avatar} className="w-10 h-10 rounded-full object-cover" />
+          <img src={admin.avatar} className="w-10 h-10  rounded-full object-cover" />
         ) : (
-          <UserCircle className="w-10 h-10" />
+          <UserCircle className="w-10 h-10 text-white" />
         )}
-        <span className="hidden lg:inline text-xl font-bold">
+        <span className="hidden lg:inline  text-lg font-semibold text-white tracking-tight">
           {admin?.name || "Admin"}
         </span>
       </div>
@@ -41,7 +41,7 @@ export default function AdminSidebar() {
           to="/admin"
           className={({ isActive }) =>
             `flex items-center gap-3 p-2 rounded font-bold hover:bg-gray-300 ${
-              isActive ? "bg-gray-300 text-purple-900" : ""
+              isActive ? "bg-[#3B3363] text-white" : "text-[#C7C5D1] hover:bg-[#2A2540] hover:text-white"
             }`
           }
         >
@@ -53,7 +53,7 @@ export default function AdminSidebar() {
           to="/admin/users"
           className={({ isActive }) =>
             `flex items-center gap-3 p-2 rounded font-bold hover:bg-gray-300 ${
-              isActive ? "bg-gray-300 text-purple-900" : ""
+              isActive ? "bg-[#3B3363] text-white" : "text-[#C7C5D1] hover:bg-[#2A2540] hover:text-white"
             }`
           }
         >
@@ -65,7 +65,7 @@ export default function AdminSidebar() {
           to="/admin/categories"
           className={({ isActive }) =>
             `flex items-center gap-3 p-2 rounded font-bold hover:bg-gray-300 ${
-              isActive ? "bg-gray-300 text-purple-900" : ""
+              isActive ?"bg-[#3B3363] text-white" : "text-[#C7C5D1] hover:bg-[#2A2540] hover:text-white"
             }`
           }
         >
@@ -77,7 +77,7 @@ export default function AdminSidebar() {
   to="/admin/add-post"
   className={({ isActive }) =>
     `flex items-center gap-3 p-2 rounded font-bold hover:bg-gray-300 ${
-      isActive ? "bg-gray-300 text-purple-900" : ""
+      isActive ?"bg-[#3B3363] text-white" : "text-[#C7C5D1] hover:bg-[#2A2540] hover:text-white"
     }`
   }
 >

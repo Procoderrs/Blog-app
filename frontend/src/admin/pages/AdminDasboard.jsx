@@ -52,37 +52,51 @@ export default function AdminDashboard() {
 
     
   return (
-    <div className="min-h-screen bg-gray-100 ">
+    <div className="min-h-screen bg-[#f5f3f7] ">
       <Header />
 
       {/* Admin Welcome */}
-      <div className="px-8 py-5">
+      <div className="px-8 py-6">
 
      
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-purple-900">Admin Dashboard</h1>
-        <p className="mt-2 text-gray-600">Welcome, {user?.name} 👋</p>
+      <div className="mb-8">
+        <h1 className="text-3xl font-semibold text-[#3a3350] tracking-tight">Admin Dashboard</h1>
+        <p className="mt-1 text-gray-600">Welcome back, {user?.name} 👋</p>
       </div>
 
       {/* Dashboard Stats */}
-      <div className="flex flex-wrap justify-between gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Users */}
-        <div className="bg-linear-to-br from-purple-200 to-pink-200 rounded-xl shadow-lg p-10 text-center w-72">
-          <p className="text-gray-700 font-medium">Total Users</p>
-          <p className="text-3xl font-bold mt-2">{users.length}</p>
-        </div>
+        <div className="bg-[#1F1B2E] border border-gray-200 rounded-2xl shadow-sm p-8 hover:shadow-md transition">
+  <p className="text-sm font-medium text-gray-200 uppercase tracking-wide">
+    Total Users
+  </p>
+  <p className="text-4xl font-bold text-[#A7B4D6] mt-3">
+    {users.length}
+  </p>
+</div>
+
 
         {/* Posts */}
-        <div className="bg-linear-to-br from-purple-200 to-pink-200 rounded-xl shadow-lg p-10 text-center w-72">
-          <p className="text-gray-700 font-medium">Total Posts</p>
-          <p className="text-3xl font-bold mt-2">{posts} </p>
-        </div>
+        <div className="bg-[#1F1B2E] border border-gray-200 rounded-2xl shadow-sm p-8 hover:shadow-md transition">
+  <p className="text-sm font-medium text-gray-200 uppercase tracking-wide">
+    Total Posts
+  </p>
+  <p className="text-4xl font-bold text-[#A7B4D6] mt-3">
+    {posts}
+  </p>
+</div>
+
 
         {/* Categories */}
-        <div className="bg-linear-to-br from-purple-200 to-pink-200 rounded-xl shadow-lg p-10 text-center w-72">
-          <p className="text-gray-700 font-medium">Total Categories</p>
-          <p className="text-3xl font-bold mt-2">{categories.length}</p>
-        </div>
+        <div className="bg-[#1F1B2E] border border-gray-200 rounded-2xl shadow-sm p-8 hover:shadow-md transition">
+  <p className="text-sm font-medium text-gray-200 uppercase tracking-wide">
+    Total Categories
+  </p>
+  <p className="text-4xl font-bold text-[#A7B4D6] mt-3">
+    {categories.length}
+  </p>
+</div>
       </div>
     </div>
      </div>

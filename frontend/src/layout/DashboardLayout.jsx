@@ -69,12 +69,12 @@ const DashboardLayout = () => {
     </div>
 
     {/* Logout (Low Priority) */}
-    <button
+    {/* <button
       className="text-sm text-[#C7C5D1] hover:text-white transition"
       onClick={logout}
     >
       Logout
-    </button>
+    </button> */}
   </aside>
 
   {/* Main Content */}

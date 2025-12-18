@@ -36,39 +36,41 @@ export default function Users() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-[#F5F3F7]">
       <Header />
 
       <div className="px-4 sm:px-8 lg:px-8 py-6">
-        <h1 className="text-2xl font-bold mb-2">All Users</h1>
-        <p className="mb-6 text-gray-700">
-          Total Users: <span className="font-semibold">{users.length}</span>
+        <h1 className="text-2xl font-semibold text-[#3A3350] mb-1">All Users</h1>
+        <p className="mb-6 text-gray-600 text-sm">
+          Total Users: <span className="font-semibold text-[#3a3350]">{users.length}</span>
         </p>
 
-        <div className="overflow-x-auto bg-white rounded-lg shadow">
+<div className="overflow-x-auto bg-white rounded-2xl border border-gray-200 shadow-sm">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-purple-600 text-white">
+            <thead className="bg-[#3a3350] text-white">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
-                <th className="px-6 py-3 text-center text-sm font-semibold">Role</th>
-                <th className="px-6 py-3 text-center text-sm font-semibold">Posts</th>
-                <th className="px-6 py-3 text-center text-sm font-semibold">Actions</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide">Name</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide">Email</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide">Role</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide">Posts</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {users.map((u) => (
-                <tr key={u._id} className="hover:bg-purple-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-800 font-medium">
+                <tr key={u._id} className="hover:bg-gray-50 transition">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[#232938] font-medium">
                     {u.name}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[#232938] font-medium">
                     {u.email}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-center text-purple-700 font-semibold">
-                    {u.role.toUpperCase()}
-                  </td>
- <td className="px-6 py-4 whitespace-nowrap text-center text-purple-700 font-semibold">
+                  <td className="px-6 py-4 whitespace-nowrap text-center">
+  <span className="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-[#EDE9FE] text-[#3A3350]">
+    {u.role.toUpperCase()}
+  </span>
+</td>
+ <td className="px-6 py-4 whitespace-nowrap text-sm text-[#232938] font-medium">
                     {u.posts}
                   </td>
 
@@ -76,13 +78,15 @@ export default function Users() {
                   <td className="px-6 py-4 whitespace-nowrap text-center flex justify-center gap-2">
                     <Link
                       to={`/admin/users/${u._id}/posts`}
-                      className="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700 text-sm"
+                        className="bg-[#3A3350] text-white px-3 py-1.5 rounded-md hover:bg-[#4B445F] text-sm transition"
+
                     >
                       View Posts
                     </Link>
                     <button
                       onClick={() => deleteUser(u._id)}
-                      className="bg-red-500 text-white cursor-pointer px-3 py-1 rounded hover:bg-red-600 text-sm"
+                        className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700 text-sm transition"
+
                     >
                       Delete User
                     </button>
@@ -92,10 +96,10 @@ export default function Users() {
               {users.length === 0 && (
                 <tr>
                   <td
-                    colSpan="4"
-                    className="px-6 py-4 text-center text-gray-500"
+                    colSpan="5"
+                    className="px-6 py-8 text-center text-sm text-gray-500"
                   >
-                    No users found.
+                    Users is Loading
                   </td>
                 </tr>
               )}

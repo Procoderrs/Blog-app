@@ -89,24 +89,25 @@ export default function AdminCategories() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-[#f5f3f7] p-4">
       <Header />
 
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4 text-purple-900">Manage Categories</h1>
+        <h1 className="text-2xl font-semibold mb-4 text-[#3a3350]">Manage Categories</h1>
 
         {/* Add Category */}
-        <form onSubmit={handleCreate} className="mb-5 flex gap-2 bg-white p-3 rounded-xl shadow">
+        <form onSubmit={handleCreate} className="mb-6 flex gap-2 bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="New category"
-            className="border border-gray-300 px-3 py-2 rounded-lg flex-1 text-sm"
+  className="border border-gray-300 px-3 py-2 rounded-lg flex-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#3A3350]/30"
           />
           <button
             type="submit"
-            className="bg-purple-700 text-white cursor-pointer px-5 py-2 rounded-lg hover:bg-purple-800 text-sm"
+              className="bg-[#3A3350] cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-[#4B445F] text-sm transition"
+
           >
             Add
           </button>
@@ -114,52 +115,59 @@ export default function AdminCategories() {
 
         {/* Category List */}
         {categories.length === 0 ? (
-          <p className="text-gray-500">No categories available.</p>
+         <p className="text-sm text-gray-500 bg-white p-6 rounded-xl border border-gray-200 text-center">
+  categories is Loading
+</p>
+
         ) : (
           <div className="space-y-3">
             {categories.map((cat) => (
               <div
                 key={cat._id}
-                className="bg-white p-3 rounded-xl shadow flex justify-between items-center hover:shadow-md transition"
+                  className="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex justify-between items-center hover:shadow-md transition"
+
               >
                 {editingId === cat._id ? (
                   <input
-                    value={editingName}
-                    onChange={(e) => setEditingName(e.target.value)}
-                    className="border px-2 py-1 rounded text-sm flex-1 mr-2"
-                  />
+  value={editingName}
+  onChange={(e) => setEditingName(e.target.value)}
+  className="border border-gray-300 px-3 py-1.5 rounded-lg text-sm flex-1 mr-2 focus:ring-2 focus:ring-[#3A3350]/30"
+/>
                 ) : (
-                  <span className="font-medium text-gray-800">{cat.name}</span>
+                  <span className="font-medium text-[#2E2938]">{cat.name}</span>
                 )}
 
                 <div className="flex gap-2">
                   {/* Role span */}
                   <span
-                    className={`text-sm px-2 py-0.5 rounded-full ${
-                      cat.createdByRole === "admin"
-                        ? "bg-purple-100 text-purple-700"
-                        : "bg-gray-100 text-gray-600"
-                    }`}
-                  >
-                    {cat.createdByRole === "admin" ? "Admin created" : "User created"}
-                  </span>
+  className={`text-xs font-semibold px-3 py-1 rounded-full ${
+    cat.createdByRole === "admin"
+      ? "bg-[#EDE9FE] text-[#3A3350]"
+      : "bg-gray-100 text-gray-600"
+  }`}
+>
+  {cat.createdByRole === "admin" ? "Admin" : "User"}
+</span>
+
 
                   {/* Update button */}
                   {(user.role === "admin" || cat.createdBy === user._id) && (
                     editingId === cat._id ? (
                       <button
-                        onClick={() => saveEdit(cat._id)}
-                        className="bg-purple-700 text-white px-3 py-1 text-sm rounded hover:bg-purple-800"
-                      >
-                        Save
-                      </button>
+  onClick={() => saveEdit(cat._id)}
+  className="bg-[#3A3350] text-white px-3 py-1.5 text-sm rounded-md hover:bg-[#4B445F]"
+>
+  Save
+</button>
+
                     ) : (
-                      <button
-                        onClick={() => startEdit(cat._id, cat.name)}
-                        className="bg-purple-500 cursor-pointer text-white px-3 py-1 text-sm rounded hover:bg-purple-400"
-                      >
-                        Edit
-                      </button>
+                     <button
+  onClick={() => startEdit(cat._id, cat.name)}
+  className="bg-[#3A3350] cursor-pointer text-white px-3 py-1.5 text-sm rounded-md hover:bg-[#4B445F] transition"
+>
+  Edit
+</button>
+
                     )
                   )}
 
