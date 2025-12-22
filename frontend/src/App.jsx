@@ -24,6 +24,8 @@ import Categories from "./admin/pages/Categories";
 import AdminUpdatePost from "./admin/pages/AdminUpdatePost";
 import AdminFullPost from "./admin/pages/AdminFullPost";
 import AdminAddPost from "./admin/pages/AdminAddPost";
+import CategoryPage from "./pages/CategoryPage";
+import ExploreBlogs from "./pages/ExploreBlogs";
 
 function App() {
 	return (
@@ -34,6 +36,9 @@ function App() {
 					<Route path="/" element={<Reader />} />
   <Route path="/reader" element={<Reader />} />
   <Route path="/reader/post/:slug" element={<ReaderSinglePost />} />
+ 	        <Route path="/category/:categoryId" element={<CategoryPage />} />
+					<Route path="/readerss" element={<ExploreBlogs />} />
+ 
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />
 

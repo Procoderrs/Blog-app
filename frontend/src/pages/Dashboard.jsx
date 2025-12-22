@@ -159,7 +159,7 @@ const Dashboard = () => {
                               }
                               className="text-[#7c6ee6] hover:text-[#6a5be2] cursor-pointer transition  text-sm"
                             >
-                              <i class="ri-arrow-right-up-line text-purple-800 text-lg"></i>
+                              <i class="ri-arrow-right-up-line text-purple-800 text-lg hover:bg-purple-900 hover:text-white rounded-full"></i>
                             </button>
                           </div>
 
@@ -193,7 +193,7 @@ const Dashboard = () => {
                                 onClick={() =>
                                   navigate(`/dashboard/update-post/${post.slug}`)
                                 }
-                                  className="bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white px-3 py-1.5 rounded-lg text-sm transition"
+                                  className="bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white px-3 py-1.5 rounded-lg text-sm transition cursor-pointer"
 
                               >
                                 Update
@@ -201,7 +201,7 @@ const Dashboard = () => {
 
                               <button
                                 onClick={() => handleDelete(post.slug)}
-                                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm transition"
+                                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm transition cursor-pointer"
 
                               >
                                 Delete
