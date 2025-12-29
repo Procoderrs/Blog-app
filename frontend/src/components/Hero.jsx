@@ -1,8 +1,55 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PublicHeader from "./PublicHeader";
 import { AuthContext } from "../context/AuthContext";
 
+
+/* ===============================
+   Reusable Section Component
+=============================== */
+function FeatureSection({ title, description, image, reverse = false, showButton = false, onAction }) {
+  return (
+    <div className={`max-w-7xl mx-auto px-16 py-12 min-h-[calc(100vh-80px)] flex items-center ${reverse ? "bg-[#b5b8ff]" : "bg-[#c6bbfa]"}`}>
+      <div className={`flex w-full items-center gap-12 ${reverse ? "flex-col-reverse md:flex-row-reverse" : "flex-col-reverse md:flex-row"}`}>
+        {/* TEXT */}
+        <div className="flex-1">
+          <div className="min-h-[180px] flex items-center">
+            <h1 className="text-5xl md:text-6xl font-bold text-[#3B3363] leading-tight whitespace-pre-line">
+              {title}
+            </h1>
+          </div>
+          <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-xl">
+            {description}
+          </p>
+
+          {showButton && (
+            <div className="inline-block transition-transform duration-700 ease-out translate-y-2">
+              <button
+                onClick={onAction}
+                className="px-8 py-3 rounded-full bg-[#7c6ee6] text-white font-semibold hover:bg-[#6a5be2] transition"
+              >
+                Start Writing Free →
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* IMAGE */}
+        <div className="flex-1 flex justify-center">
+          <img
+            src={image}
+            alt="Feature illustration"
+            className="w-full max-w-md max-h-[520px] rounded-lg object-contain"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===============================
+   Main Hero Component
+=============================== */
 export default function Hero() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -12,67 +59,103 @@ export default function Hero() {
     else navigate("/login");
   };
 
-  const handleExploreBlogs = () => {
-    navigate("/readerss");
-  };
+  /* ===============================
+     Typewriter effect only in Hero
+  =============================== */
+  const fullText = "Write Smarter.\nPublish Faster.";
+  const typingSpeed = 90;
+  const resetDelay = 1600;
+
+  const [displayText, setDisplayText] = useState("");
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (index >= fullText.length) return;
+
+    const timeout = setTimeout(() => {
+      setDisplayText((prev) => prev + fullText[index]);
+      setIndex((prev) => prev + 1);
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [index, fullText]);
+
+  useEffect(() => {
+    if (index !== fullText.length) return;
+
+    const resetTimeout = setTimeout(() => {
+      setDisplayText("");
+      setIndex(0);
+    }, resetDelay);
+
+    return () => clearTimeout(resetTimeout);
+  }, [index, fullText]);
 
   return (
-    <section className="bg-[#DFD3E4] min-h-screen">
-      <PublicHeader />
+   <>
+   
+   <section className=" min-h-screen">
+      
 
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Card Container */}
-        <div className="bg-[#DFD3E4] rounded-3xl  px-10 py-20 text-center">
+      {/* ================= HERO SECTION ================= */}
+      <div className=" mx-auto bg-[#e5dded] px-16 py-12  flex items-center">
+        <div className="flex w-full items-center gap-12 flex-col-reverse md:flex-row">
+          <div className="flex-1">
+            <div className="min-h-[180px] flex items-center">
+              <h1 className="text-5xl md:text-6xl font-bold text-[#3B3363] leading-tight whitespace-pre-line">
+                {displayText}
+                <span className="animate-pulse ml-1">
+                  <i className="ri-quill-pen-ai-line"></i>
+                </span>
+              </h1>
+            </div>
+            <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-xl">
+              A modern blogging platform designed for speed, clarity, and focus — so you can write without friction.
+            </p>
 
-          {/* Trust Badge */}
-          {/* <div className="inline-flex items-center gap-2 px-4 py-1 mb-6 text-sm bg-[#F1E6DA] rounded-full text-gray-700">
-            <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
-            Trusted by 10,000+ Writers
-          </div> */}
-
-          {/* Headline */}
-          <h1 className="text-5xl md:text-6xl font-bold text-[#3B3363] leading-tight mb-6">
-            Write Smarter.
-            <br />
-            Publish Faster.
-          </h1>
-
-          {/* Subtext */}
-          <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-600 mb-10">
-            Turn your ideas into published stories with a fast, intuitive blogging experience.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex justify-center flex-wrap gap-4">
-            <button
-              onClick={handleStartWriting}
-              className="px-8 py-3 rounded-full bg-[#7c6ee6] text-white font-semibold hover:bg-[#6a5be2] transition"
+            <div
+              className={`inline-block transition-transform duration-700 ease-out ${
+                index === fullText.length ? "translate-y-2" : "-translate-y-2"
+              }`}
             >
-              Start Writing Free →
-            </button>
-
-            <button
-              onClick={handleExploreBlogs}
-              className="px-8 py-3 rounded-full border border-[#7c6ee6] text-[#7c6ee6] font-semibold hover:bg-orange-50 transition"
-            >
-              See How It Works
-            </button>
-          </div>
-
-          {/* Brand Row */}
-          {/* <div className="mt-16">
-            <p className="text-sm text-gray-500 mb-6">Trusted by writers at</p>
-            <div className="flex justify-center flex-wrap gap-10 opacity-70">
-              <span className="font-semibold">Google</span>
-              <span className="font-semibold">Samsung</span>
-              <span className="font-semibold">Webflow</span>
-              <span className="font-semibold">Forbes</span>
-              <span className="font-semibold">Framer</span>
+              <button
+                onClick={handleStartWriting}
+                className="px-8 py-3 rounded-full bg-[#7c6ee6] text-white font-semibold hover:bg-[#6a5be2] transition"
+              >
+                Start Writing Free →
+              </button>
             </div>
           </div>
- */}
+
+          <div className="flex-1 flex justify-center">
+            <img
+              src="./imggg.png"
+              alt="Hero illustration"
+              className="w-full max-w-md max-h-[520px] rounded-lg object-contain"
+            />
+          </div>
         </div>
       </div>
+
+      {/* ================= SECTION 2 ================= */}
+      {/* <FeatureSection
+        title={"Organize Ideas.\nStay in Control."}
+        description={"Create, edit, and manage your posts from a clean dashboard built for writers who value structure and simplicity."}
+        image="./blue-img.png"
+        reverse
+      /> */}
+
+      {/* ================= SECTION 3 ================= */}
+      {/* <FeatureSection
+        title={"Reach Readers.\nGrow Your Voice."}
+        description={"Publish instantly and let your stories reach readers who care. Built-in discovery makes your content visible."}
+        image="./img-4jpeg copy.jpeg"
+        
+        onAction={handleStartWriting}
+      /> */}
+
+
     </section>
+    </>
   );
 }

@@ -8,16 +8,20 @@ const EditPost = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-
   const API_URI = import.meta.env.VITE_API_URI;
 
+  // ===============================
+  // Form State
+  // ===============================
   const [title, setTitle] = useState("");
   const [short_desc, setShortDesc] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
 
-  // Fetch post details
+  // ===============================
+  // Fetch post details on mount
+  // ===============================
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -37,6 +41,9 @@ const EditPost = () => {
     fetchPost();
   }, [slug, user, API_URI]);
 
+  // ===============================
+  // Handle image upload & preview
+  // ===============================
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -44,7 +51,9 @@ const EditPost = () => {
     setPreview(URL.createObjectURL(file));
   };
 
-  // Submit update
+  // ===============================
+  // Handle post update
+  // ===============================
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -72,38 +81,48 @@ const EditPost = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-10 bg-purple-50 p-8 rounded shadow">
-      <h1 className="text-2xl font-bold mb-4">Edit Post</h1>
+      <h1 className="text-2xl font-bold mb-6">Edit Post</h1>
 
-      <form onSubmit={handleUpdate} className="space-y-5">
+      <form onSubmit={handleUpdate} className="space-y-6">
+        {/* Title */}
         <input
           type="text"
-          className="border p-2 w-full"
+          placeholder="Post Title"
+          className="border p-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
+        {/* Short Description */}
         <input
           type="text"
-          className="border p-2 w-full"
+          placeholder="Short Description"
+          className="border p-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
           value={short_desc}
           onChange={(e) => setShortDesc(e.target.value)}
         />
 
+        {/* Image Upload */}
         <div>
-          <label className="block mb-1 font-semibold cursor-pointer">Change image</label>
+          <label className="block mb-2 font-semibold cursor-pointer">Change Image</label>
           <input type="file" onChange={handleImage} />
           {preview && (
             <img
               src={preview}
-              alt="preview"
+              alt="Preview"
               className="w-40 cursor-pointer mt-2 rounded border"
             />
           )}
         </div>
 
+        {/* Rich Text Editor */}
         <Editor content={content} onChange={setContent} />
 
-        <button className="bg-blue-600 text-white p-3 rounded w-full">
+        {/* Submit */}
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded w-full font-semibold transition"
+        >
           Update Post
         </button>
       </form>

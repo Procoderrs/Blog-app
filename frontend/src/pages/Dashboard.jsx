@@ -1,259 +1,394 @@
-// src/pages/Dashboard.jsx
+// ===============================
+// React & Core Hooks
+// ===============================
 import React, { useContext, useEffect, useState } from "react";
+
+// ===============================
+// Context & Routing
+// ===============================
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+
+// ===============================
+// API & Animation
+// ===============================
 import api from "../api/api";
 import { motion, AnimatePresence } from "framer-motion";
+
+// ===============================
+// Layout Components
+// ===============================
 import Header from "../components/Header";
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
+	// ===============================
+	// Context & Navigation
+	// ===============================
+	const { user } = useContext(AuthContext);
+	const navigate = useNavigate();
 
-  const [categories, setCategories] = useState([]);
-  const [blogs, setBlogs] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+	// ===============================
+	// State Management
+	// ===============================
+	const [categories, setCategories] = useState([]);
+	const [blogs, setBlogs] = useState([]);
 
-  // Pagination
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+	const [selectedCategory, setSelectedCategory] = useState("");
+	const [showDropdown, setShowDropdown] = useState(false);
 
-  // Fetch categories on mount
-  useEffect(() => {
-    if (user?.role !== "admin") fetchCategories();
-  }, [user]);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
 
-  // Fetch posts whenever category or page changes
-  useEffect(() => {
-    if (user?.role !== "admin") fetchPosts(selectedCategory, page);
-  }, [selectedCategory, page, user]);
+	// Pagination
+	const [page, setPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
 
-  const fetchCategories = async () => {
-    try {
-      const res = await api.get("/categories", {
-        headers: { Authorization: `Bearer ${user?.token}` },
-      });
-      setCategories(res.data || []);
-    } catch (err) {
-      console.log("Fetch categories error:", err.response?.data || err.message);
-    }
-  };
+	// ===============================
+	// Fetch Categories on Mount
+	// ===============================
+	useEffect(() => {
+		if (user?.role !== "admin") {
+			fetchCategories();
+		}
+	}, [user]);
 
-  const fetchPosts = async (categoryId = "", pageNumber = 1) => {
-    setLoading(true);
-    setError("");
-    try {
-      let url = `/posts?page=${pageNumber}&limit=6`;
-      if (categoryId) url += `&category=${categoryId}`;
+	// ===============================
+	// Fetch Posts on Category/Page Change
+	// ===============================
+	useEffect(() => {
+		if (user?.role !== "admin") {
+			fetchPosts(selectedCategory, page);
+		}
+	}, [selectedCategory, page, user]);
 
-      const res = await api.get(url, {
-        headers: { Authorization: `Bearer ${user?.token}` },
-      });
+	// ===============================
+	// Fetch User Categories
+	// ===============================
+	const fetchCategories = async () => {
+		try {
+			const res = await api.get("/categories", {
+				headers: {
+					Authorization: `Bearer ${user?.token}`,
+				},
+			});
+			setCategories(res.data || []);
+			console.log(res.data);
+		} catch (err) {
+			console.error(
+				"Fetch categories error:",
+				err.response?.data || err.message
+			);
+		}
+	};
 
-      setBlogs(res.data.posts || []);
-      setPage(res.data.currentPage || 1);
-      setTotalPages(res.data.totalPages || 1);
-    } catch (err) {
-      console.log("Fetch posts error:", err.response?.data || err.message);
-      setError("Failed to fetch posts");
-    } finally {
-      setLoading(false);
-    }
-  };
+	// ===============================
+	// Fetch User Posts (with Pagination)
+	// ===============================
+	const fetchPosts = async (categoryId = "", pageNumber = 1) => {
+		setLoading(true);
+		setError("");
 
-  const handleCategorySelect = (catId) => {
-    setSelectedCategory(catId);
-    setShowDropdown(false);
-    setPage(1); // reset to first page
-  };
+		try {
+			let url = `/posts?page=${pageNumber}&limit=6`;
+			if (categoryId) url += `&category=${categoryId}`;
 
-  const handleDelete = async (slug) => {
-    if (!window.confirm("Are you sure you want to delete this post?")) return;
-    try {
-      await api.delete(`/posts/delete/slug/${slug}`, {
-        headers: { Authorization: `Bearer ${user?.token}` },
-      });
-      alert("Post deleted successfully!");
-      fetchPosts(selectedCategory, page);
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      alert("Failed to delete post");
-    }
-  };
+			const res = await api.get(url, {
+				headers: {
+					Authorization: `Bearer ${user?.token}`,
+				},
+			});
 
-  return (
-    <div className="min-h-screen bg-[#F5f6fa]">
-      <Header />
+			setBlogs(res.data.posts || []);
+			setPage(res.data.currentPage || 1);
+			setTotalPages(res.data.totalPages || 1);
+			console.log(res.data);
+		} catch (err) {
+			console.error(
+				"Fetch posts error:",
+				err.response?.data || err.message
+			);
+			setError("Failed to fetch posts");
+		} finally {
+			setLoading(false);
+		}
+	};
 
-      {user?.role !== "admin" && (
-        <div className="max-w-6xl mx-auto p-6">
-          {/* Category Filter */}
-          <div className="relative mb-6 w-64">
-            <button
-              onClick={() => setShowDropdown(!showDropdown)}
-              className="w-full bg-[#7c6ee6] hover:bg-[#6a5be2] cursor-pointer text-white px-4 py-2.5 rounded-lg shadow-sm flex justify-between items-center transition"
-            >
-              {selectedCategory
-                ? categories.find((c) => c._id === selectedCategory)?.name
-                : "Select Category"}
-              <span className="text-sm">&#9662;</span>
-            </button>
+	// ===============================
+	// Handle Category Selection
+	// ===============================
+	const handleCategorySelect = (catId) => {
+		setSelectedCategory(catId);
+		setShowDropdown(false);
+		setPage(1); // Reset pagination
+	};
 
-            {showDropdown && (
-              <ul className="absolute bg-white shadow-md mt-1 w-full rounded z-50">
-                <li
-                  className="px-4 py-2.5 hover:bg-[#f0eeff] cursor-pointer text-sm transition"
-                  onClick={() => handleCategorySelect("")}
-                >
-                  All Categories
-                </li>
-                {categories.map((cat) => (
-                  <li
-                    key={cat._id}
-                    className="px-4 py-2 hover:bg-purple-100 cursor-pointer"
-                    onClick={() => handleCategorySelect(cat._id)}
-                  >
-                    {cat.name}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+	// ===============================
+	// Delete Post Handler
+	// ===============================
+	const handleDelete = async (slug) => {
+		const confirmDelete = window.confirm(
+			"Are you sure you want to delete this post?"
+		);
+		if (!confirmDelete) return;
 
-          {/* Posts Grid */}
-          {loading ? (
-            <p className="text-center flex items-center justify-center font-semibold  text-lg text-gray-500 mt-10">Loading posts...</p>
-          ) : error ? (
-            <p className="text-center text-red-500 mt-10">{error}</p>
-          ) : (
-            <>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min">
-                <AnimatePresence mode="popLayout">
-                  {blogs.length > 0 ? (
-                    blogs.map((post) => (
-                      <motion.div
-                        key={post._id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                        className="bg-white rounded-2xl  hover:shadow-md transition max-w-sm shadow-sm  overflow-hidden flex flex-col  w-full"
-                      >
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="max-h-48 h-full rounded-2xl w-full object-cover"
-                        />
+		try {
+			await api.delete(`/posts/delete/slug/${slug}`, {
+				headers: {
+					Authorization: `Bearer ${user?.token}`,
+				},
+			});
 
-                        <div className="p-4 flex flex-col flex-1">
-                          <div className="flex gap-2 items-center justify-between">
-                            <h2 className="text-lg font-semibold  text-[#3b3363] line-clamp-1">
-                              {post.title}
-                            </h2>
-                            <button
-                              onClick={() =>
-                                navigate(`/dashboard/post/${post.slug}`)
-                              }
-                              className="text-[#7c6ee6] hover:text-[#6a5be2] cursor-pointer transition  text-sm"
-                            >
-                              <i class="ri-arrow-right-up-line text-purple-800 text-lg hover:bg-purple-900 hover:text-white rounded-full"></i>
-                            </button>
-                          </div>
+			alert("Post deleted successfully!");
+			fetchPosts(selectedCategory, page);
+		} catch (err) {
+			console.error(err.response?.data || err.message);
+			alert("Failed to delete post");
+		}
+	};
 
-                          {post.category && (
-                            <span className="inline-block bg-[#f0eeff] text-[#3b3363] px-3 py-1 rounded-full font-medium mb-2 text-xs ">
-                              {post.category.name}
-                            </span>
-                          )}
+	return (
+		<div className="min-h-screen bg-[#F5F6FA]">
+			{/* ===============================
+				Dashboard Header
+			================================ */}
+			<Header />
 
-                          <p className="text-[#6b7280] text-sm mb-2 line-clamp-2">
-                            {post.short_desc}
-                          </p>
+			{user?.role !== "admin" && (
+				<div className="max-w-6xl mx-auto p-6">
+					{/* ===============================
+						Category Filter Dropdown
+					================================ */}
+					<div className="relative mb-6 w-64">
+						<button
+							onClick={() => setShowDropdown(!showDropdown)}
+							className="
+								w-full
+								bg-[#7C6EE6]
+								hover:bg-[#6A5BE2]
+								text-white
+								px-4
+								py-2.5
+								rounded-lg
+								shadow-sm
+								flex
+								justify-between
+								items-center
+								transition
+							"
+						>
+							{selectedCategory
+								? categories.find(
+										(c) => c._id === selectedCategory
+								  )?.name
+								: "Select Category"}
+							<span className="text-sm">&#9662;</span>
+						</button>
 
-                          <div className="flex gap-4 items-center mt-auto">
-                            <img
-                              src="/profile.jpg"
-                              alt=""
-                              className="w-12 rounded-full"
-                            />
-                            <div>
-                              <p className="font-medium text-sm text-[#3b3363">{post.author?.name}</p>
-                              <p className="text-xs text-[#6d7280]">
-                                {new Date(post.createdAt).toLocaleDateString()}
-                              </p>
-                            </div>
-                          </div>
+						{showDropdown && (
+							<ul className="absolute bg-white shadow-md mt-1 w-full rounded-lg z-50">
+								<li
+									onClick={() => handleCategorySelect("")}
+									className="px-4 py-2.5 hover:bg-[#F0EEFF] cursor-pointer text-sm transition"
+								>
+									All Categories
+								</li>
 
-                          {(user.role === "admin" || post.author._id === user._id) && (
-                            <div className="flex gap-2 mt-4">
-                              <button
-                                onClick={() =>
-                                  navigate(`/dashboard/update-post/${post.slug}`)
-                                }
-                                  className="bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white px-3 py-1.5 rounded-lg text-sm transition cursor-pointer"
+								{categories.map((cat) => (
+									<li
+										key={cat._id}
+										onClick={() =>
+											handleCategorySelect(cat._id)
+										}
+										className="px-4 py-2 hover:bg-purple-100 cursor-pointer text-sm"
+									>
+										{cat.name}
+									</li>
+								))}
+							</ul>
+						)}
+					</div>
 
-                              >
-                                Update
-                              </button>
+					{/* ===============================
+						Posts Section
+					================================ */}
+					{loading ? (
+						<p className="text-center font-semibold text-lg text-gray-500 mt-10">
+							Loading posts...
+						</p>
+					) : error ? (
+						<p className="text-center text-red-500 mt-10">
+							{error}
+						</p>
+					) : (
+						<>
+							{/* Posts Grid */}
+							<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+								<AnimatePresence mode="popLayout">
+									{blogs.length > 0 ? (
+										blogs.map((post) => (
+											<motion.div
+												key={post._id}
+												initial={{ opacity: 0, y: 20 }}
+												animate={{ opacity: 1, y: 0 }}
+												exit={{ opacity: 0, y: -20 }}
+												transition={{ duration: 0.3 }}
+												className="
+													bg-white
+													rounded-2xl
+													shadow-sm
+													hover:shadow-md
+													transition
+													overflow-hidden
+													flex
+													flex-col
+													cursor-pointer
+												"
+												onClick={() =>
+									navigate(`/reader/post/${post.slug}`)
+								}
+											>
+												{/* Post Image */}
+												<img
+													src={post.image}
+													alt={post.title}
+													className="h-48 w-full object-cover"
+												/>
 
-                              <button
-                                onClick={() => handleDelete(post.slug)}
-                                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm transition cursor-pointer"
+												{/* Post Content */}
+												<div className="p-4 flex flex-col flex-1">
+													<div className="flex justify-between items-center gap-2">
+														<h2 className="text-lg font-semibold text-[#3B3363] line-clamp-1">
+															{post.title} 
+														</h2>
 
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))
-                  ) : (
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-center text-gray-500 col-span-full mt-10"
-                    >
-                      No posts found in this category.
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
+														<button
+															onClick={() =>
+																navigate(
+																	`/dashboard/post/${post.slug}`
+																)
+															}
+															className="text-purple-700 hover:text-purple-900 transition"
+														>
+															<i className="ri-arrow-right-up-line text-lg"></i>
+														</button>
+													</div>
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex justify-center gap-2 mt-6">
-                  <button
-                    disabled={page === 1}
-                    onClick={() => setPage(page - 1)}
-                      className="px-4 py-2 bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white rounded-lg disabled:opacity-50 transition"
+													{/* Category Badge */}
+													{post.category && (
+														<span className="inline-block bg-[#F0EEFF] text-[#3B3363] px-3 py-1 rounded-full font-medium mb-2 text-xs">
+															{
+																post.category
+																	.name
+															}
+														</span>
+													)}
 
-                  >
-                    Prev
-                  </button>
+													{/* Description */}
+													<p className="text-gray-500 text-sm mb-3 line-clamp-2">
+														{post.short_desc}
+													</p>
 
-                  <span className="px-4 py-2 font-medium text-[#3b2263]">
-                    Page {page} of {totalPages}
-                  </span>
+													{/* Author */}
+													<div className="flex items-center gap-4 mt-auto">
+														<img
+															src="/profile.jpg"
+															alt="Author"
+															className="w-10 rounded-full"
+														/>
+														<div>
+															<p className="font-medium text-sm text-[#3B3363]">
+																{
+																	post.author
+																		?.name
+																}
+															</p>
+															<p className="text-xs text-gray-500">
+																{new Date(
+																	post.createdAt
+																).toLocaleDateString()}
+															</p>
+														</div>
+													</div>
 
-                  <button
-                    disabled={page === totalPages}
-                    onClick={() => setPage(page + 1)}
-                    className="px-4 py-2  bg-[#7c6ee6] hover:bg-[#6a5be2] text-white rounded disabled:opacity-50"
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
-    </div>
-  );
+													{/* Actions */}
+													{(user.role === "admin" ||
+														post.author._id ===
+															user._id) && (
+														<div className="flex gap-2 mt-4">
+															<button
+																onClick={() =>
+																	navigate(
+																		`/dashboard/update-post/${post.slug}`
+																	)
+																}
+																className="bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white px-3 py-1.5 rounded-lg text-sm transition"
+															>
+																Update
+															</button>
+
+															<button
+																onClick={() =>
+																	handleDelete(
+																		post.slug
+																	)
+																}
+																className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm transition"
+															>
+																Delete
+															</button>
+														</div>
+													)}
+												</div>
+											</motion.div>
+										))
+									) : (
+										<motion.p
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											className="text-center text-gray-500 col-span-full mt-10"
+										>
+											No posts found in this category.
+										</motion.p>
+									)}
+								</AnimatePresence>
+							</div>
+
+							{/* ===============================
+								Pagination
+							================================ */}
+							{totalPages > 1 && (
+								<div className="flex justify-center gap-3 mt-8">
+									<button
+										disabled={page === 1}
+										onClick={() =>
+											setPage((prev) => prev - 1)
+										}
+										className="px-4 py-2 bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white rounded-lg disabled:opacity-50 transition"
+									>
+										Prev
+									</button>
+
+									<span className="px-4 py-2 font-medium text-[#3B3363]">
+										Page {page} of {totalPages}
+									</span>
+
+									<button
+										disabled={page === totalPages}
+										onClick={() =>
+											setPage((prev) => prev + 1)
+										}
+										className="px-4 py-2 bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white rounded-lg disabled:opacity-50 transition"
+									>
+										Next
+									</button>
+								</div>
+							)}
+						</>
+					)}
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default Dashboard;

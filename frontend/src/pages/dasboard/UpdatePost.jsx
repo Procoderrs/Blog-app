@@ -1,4 +1,5 @@
-// src/pages/dasboard/UpdatePost.jsx
+// src/pages/dashboard/UpdatePost.jsx
+
 import React, { useState, useContext, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import api from "../../api/api";
@@ -12,10 +13,10 @@ export default function UpdatePost() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // If navigated from dashboard, get post from state
+  // Get post from location state if navigated from dashboard
   const [post, setPost] = useState(location.state?.post || null);
 
-  // Form fields
+  // Form state
   const [title, setTitle] = useState("");
   const [shortDesc, setShortDesc] = useState("");
   const [content, setContent] = useState("");
@@ -24,29 +25,35 @@ export default function UpdatePost() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
 
-  // Fetch categories and post if needed
+  /**
+   * Fetch all categories on component mount
+   */
   useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const res = await api.get("/categories", {
-        headers: { Authorization: `Bearer ${user?.token}` },
-      });
-      const cats = res.data || [];
-      setCategories(cats);
+    const fetchCategories = async () => {
+      try {
+        const res = await api.get("/categories", {
+          headers: { Authorization: `Bearer ${user?.token}` },
+        });
 
-      // If post exists, set selectedCategory from post
-      if (post && post.category?._id) {
-        setSelectedCategory(post.category._id);
+        const cats = res.data || [];
+        setCategories(cats);
+
+        // If post exists, set selectedCategory
+        if (post && post.category?._id) {
+          setSelectedCategory(post.category._id);
+        }
+      } catch (err) {
+        console.error("Fetch categories error:", err.response?.data || err.message);
       }
-    } catch (err) {
-      console.error("Fetch categories error:", err.response?.data || err.message);
-    }
-  };
+    };
 
-  fetchCategories();
-}, [user, post]);
+    fetchCategories();
+  }, [user, post]);
 
-
+  /**
+   * Fetch post details if not available from location state
+   * Otherwise, initialize form fields from existing post
+   */
   useEffect(() => {
     const fetchPost = async () => {
       if (!post) {
@@ -55,7 +62,8 @@ export default function UpdatePost() {
             headers: { Authorization: `Bearer ${user?.token}` },
           });
           setPost(res.data);
-          // Set form fields
+
+          // Initialize form fields
           setTitle(res.data.title);
           setShortDesc(res.data.short_desc);
           setContent(res.data.content);
@@ -79,14 +87,19 @@ export default function UpdatePost() {
 
   if (!post) return <p>Loading post...</p>;
 
-  // Handle image preview
+  /**
+   * Handle image file selection and preview
+   */
   const handleImage = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
     setImage(file);
     setPreview(URL.createObjectURL(file));
   };
 
-  // Submit updated post
+  /**
+   * Submit updated post
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -104,10 +117,11 @@ export default function UpdatePost() {
           Authorization: `Bearer ${user.token}`,
         },
       });
+
       alert("Post updated successfully!");
       navigate("/dashboard");
     } catch (err) {
-      console.error(err.response?.data || err.message);
+      console.error("Update post error:", err.response?.data || err.message);
       alert("Failed to update post");
     }
   };
@@ -115,10 +129,12 @@ export default function UpdatePost() {
   return (
     <>
       <Header />
+
       <div className="max-w-4xl mx-auto my-10 bg-purple-50 p-8 rounded-lg shadow">
         <h1 className="text-3xl font-bold mb-6">Update Post</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Title */}
           <input
             type="text"
             placeholder="Post title"
@@ -128,6 +144,7 @@ export default function UpdatePost() {
             required
           />
 
+          {/* Short Description */}
           <input
             type="text"
             placeholder="Short description"
@@ -137,7 +154,7 @@ export default function UpdatePost() {
             required
           />
 
-          {/* Image upload */}
+          {/* Image Upload */}
           <div>
             <label className="block font-semibold cursor-pointer mb-2">Upload image</label>
             <input type="file" onChange={handleImage} />
@@ -165,12 +182,13 @@ export default function UpdatePost() {
             ))}
           </select>
 
-          {/* Tiptap Editor */}
+          {/* Content Editor */}
           <div>
             <label className="block font-semibold mb-2">Content</label>
             <Editor content={content} onChange={setContent} />
           </div>
 
+          {/* Submit Button */}
           <button className="w-full bg-[#33006F] text-white p-3 cursor-pointer rounded font-semibold">
             Update Post
           </button>

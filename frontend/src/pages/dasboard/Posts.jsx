@@ -1,75 +1,86 @@
 // src/pages/dashboard/Posts.jsx
+
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import 'remixicon/fonts/remixicon.css'
+import 'remixicon/fonts/remixicon.css';
+
 const Posts = () => {
   const { user } = useContext(AuthContext);
-
-  const [page, setPage] = useState(1);
-const [totalPages, setTotalPages] = useState(1);
-
   const navigate = useNavigate();
 
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  // Posts and categories state
   const [blogs, setBlogs] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  // Category filter state
   const [selectedCategory, setSelectedCategory] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
+  // Fetch posts whenever page or selected category changes
   useEffect(() => {
-  fetchPosts(selectedCategory, page);
-}, [page, selectedCategory]);
+    fetchPosts(selectedCategory, page);
+  }, [page, selectedCategory]);
 
-useEffect(() => {
-  fetchCategories();
-}, []);
+  // Fetch categories on component mount
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
-
-  // Fetch categories
+  /**
+   * Fetch all categories from API
+   */
   const fetchCategories = async () => {
-	try {
-		// Only send Authorization header when a token exists
-		const config = user?.token
-			? { headers: { Authorization: `Bearer ${user.token}` } }
-			: {};
+    try {
+      const config = user?.token
+        ? { headers: { Authorization: `Bearer ${user.token}` } }
+        : {};
 
-		const res = await api.get("/categories", config);
+      const res = await api.get("/categories", config);
+      setCategories(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.log("Fetch categories error:", err.response?.data || err.message);
+    }
+  };
 
-		setCategories(Array.isArray(res.data) ? res.data : []);
-	} catch (err) {
-		console.log("Fetch categories error:", err.response?.data || err.message);
-	}
-};
+  /**
+   * Fetch posts from API with optional category filter and pagination
+   */
+  const fetchPosts = async (categoryId = "", pageNumber = 1) => {
+    try {
+      let url = `/posts?page=${pageNumber}&limit=6`;
+      if (categoryId) url += `&category=${categoryId}`;
 
-  // Fetch posts 
- const fetchPosts = async (categoryId = "", pageNumber = 1) => {
-  try {
-    let url = `/posts?page=${pageNumber}&limit=6`;
-    if (categoryId) url += `&category=${categoryId}`;
+      const res = await api.get(url, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      });
 
-    const res = await api.get(url, {
-      headers: { Authorization: `Bearer ${user?.token}` },
-    });
+      setBlogs(res.data.posts);            // Set posts
+      setPage(res.data.currentPage);       // Set current page
+      setTotalPages(res.data.totalPages);  // Set total pages
+    } catch (err) {
+      console.log("Fetch posts error:", err.response?.data || err.message);
+    }
+  };
 
-    setBlogs(res.data.posts);            // ✅ correct
-    setPage(res.data.currentPage);       // ✅ correct
-    setTotalPages(res.data.totalPages);  // ✅ correct
-
-  } catch (err) {
-    console.log("Fetch posts error:", err.response?.data || err.message);
-  }
-};
-
-
+  /**
+   * Handle category selection from dropdown
+   */
   const handleCategorySelect = (catId) => {
-  setSelectedCategory(catId);
-  setShowDropdown(false);
-  setPage(1); // ✅ REQUIRED
-};
+    setSelectedCategory(catId);
+    setShowDropdown(false);
+    setPage(1); // Reset to first page when category changes
+  };
 
-
+  /**
+   * Delete a post
+   */
   const handleDelete = async (postId) => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
@@ -106,6 +117,7 @@ useEffect(() => {
             exit={{ opacity: 0 }}
             className="absolute mt-1 w-full bg-white shadow rounded z-50"
           >
+            {/* Option to show all posts */}
             <button
               onClick={() => handleCategorySelect("")}
               className="block w-full text-left px-4 py-2 hover:bg-purple-100"
@@ -113,6 +125,7 @@ useEffect(() => {
               All
             </button>
 
+            {/* Render categories */}
             {categories.map((cat) => (
               <button
                 key={cat._id}
@@ -139,13 +152,16 @@ useEffect(() => {
                 transition={{ duration: 0.3 }}
                 className="backdrop-blur-md bg-[#603F83] rounded-xl shadow-lg overflow-hidden flex flex-col max-w-md w-full"
               >
+                {/* Post image */}
                 <img
                   src={post.image}
                   alt={post.title}
                   className="h-64 p-3 rounded-2xl w-full object-cover"
                 />
 
+                {/* Post content */}
                 <div className="p-4 flex flex-col flex-1">
+                  {/* Title and navigate button */}
                   <div className="flex gap-2 items-start justify-between">
                     <h2 className="text-xl font-bold mb-2 line-clamp-1">
                       {post.title}
@@ -154,20 +170,23 @@ useEffect(() => {
                       onClick={() => navigate(`/post/${post._id}`)}
                       className="text-blue-600 hover:underline text-sm flex items-center"
                     >
-                     <i class="ri-arrow-right-up-line"></i>
+                      <i className="ri-arrow-right-up-line"></i>
                     </button>
                   </div>
 
+                  {/* Post category */}
                   {post.category && (
                     <span className="inline-block bg-purple-200 text-purple-900 px-3 py-1 rounded-full font-semibold mb-2 text-sm">
                       {post.category.name}
                     </span>
                   )}
 
+                  {/* Short description */}
                   <p className="text-gray-700 mb-2 line-clamp-1">
                     {post.short_desc}
                   </p>
 
+                  {/* Author info */}
                   <div className="flex gap-4 items-center mt-auto">
                     <img src="/profile.jpg" alt="" className="w-12 rounded-full" />
                     <div>
@@ -178,7 +197,8 @@ useEffect(() => {
                     </div>
                   </div>
 
-                  {post.author._id === user._id && (
+                  {/* Actions for post owner */}
+                  {post.author?._id === user._id && (
                     <div className="flex gap-2 mt-4">
                       <button
                         onClick={() =>
@@ -211,28 +231,29 @@ useEffect(() => {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Pagination */}
       <div className="flex justify-center gap-2 mt-10">
-  <button
-    disabled={page === 1}
-    onClick={() => setPage(page - 1)}
-    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
-  >
-    Prev
-  </button>
+        <button
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+          className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+        >
+          Prev
+        </button>
 
-  <span className="px-4 py-2 font-semibold">
-    Page {page} of {totalPages}
-  </span>
+        <span className="px-4 py-2 font-semibold">
+          Page {page} of {totalPages}
+        </span>
 
-  <button
-    disabled={page === totalPages}
-    onClick={() => setPage(page + 1)}
-    className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
-  >
-    Next
-  </button>
-</div>
-
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage(page + 1)}
+          className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

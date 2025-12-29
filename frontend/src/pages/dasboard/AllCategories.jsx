@@ -10,14 +10,14 @@ export default function AllCategories() {
   const [editingName, setEditingName] = useState("");
   const { user } = useContext(AuthContext);
 
-  // Fetch all categories (admin + user)
+  // Fetch all categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await api.get("/categories", {
           headers: { Authorization: `Bearer ${user?.token}` },
         });
-        setCategories(res.data); // res.data already filtered by backend
+        setCategories(res.data);
       } catch (err) {
         console.log("Fetch categories error:", err.response?.data || err.message);
       }
@@ -99,7 +99,7 @@ export default function AllCategories() {
           />
           <button
             type="submit"
-            className="bg-[#7c6ee6]  cursor-pointer text-white px-5 font-medium py-2.5 rounded-lg hover:bg-[#6a5be2] text-sm"
+            className="bg-[#7c6ee6] text-white px-5 font-medium py-2.5 rounded-lg hover:bg-[#6a5be2] text-sm"
           >
             Add
           </button>
@@ -120,45 +120,41 @@ export default function AllCategories() {
                   <input
                     value={editingName}
                     onChange={(e) => setEditingName(e.target.value)}
-className="border border-[#E5E7EB] px-3 py-2 rounded-lg text-sm flex-1 mr-2 focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40"
+                    className="border border-[#E5E7EB] px-3 py-2 rounded-lg text-sm flex-1 mr-2 focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40"
                   />
                 ) : (
                   <span className="font-medium text-sm text-[#3b3363]">{cat.name}</span>
                 )}
 
                 <div className="flex gap-2">
-                  {/* Only user-owned categories are editable */}
+                  {/* Editable & deletable only if user owns the category */}
                   {cat.createdBy === user._id ? (
-                    editingId === cat._id ? (
+                    <>
+                      {editingId === cat._id ? (
+                        <button
+                          onClick={() => saveEdit(cat._id)}
+                          className="bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white px-3 py-1.5 text-sm rounded-lg transition"
+                        >
+                          Save
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => startEdit(cat._id, cat.name)}
+                          className="bg-[#7C6EE6] hover:bg-[#6A5BE2] text-white px-3 py-1.5 text-sm rounded-lg transition"
+                        >
+                          Edit
+                        </button>
+                      )}
+
                       <button
-                        onClick={() => saveEdit(cat._id)}
-                        className="bg-[#7C6EE6] hover:bg-[#6A5BE2] transition text-white px-3 py-1.5 text-sm rounded-lg"
-
+                        onClick={() => handleDelete(cat._id)}
+                        className="bg-red-500 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-red-600 transition"
                       >
-                        Save
+                        Delete
                       </button>
-                    ) : (
-                      <button
-                        onClick={() => startEdit(cat._id, cat.name)}
-                        className="bg-[#7C6EE6] hover:bg-[#6A5BE2] transition text-white px-3 py-1.5 text-sm rounded-lg"
-
-
-                      >
-                        Edit
-                      </button>
-                    )
+                    </>
                   ) : (
                     <span className="text-[#6b7280] text-xs font-medium">Admin</span>
-                  )}
-
-                  {/* Only user-owned categories are deletable */}
-                  {cat.createdBy === user._id && (
-                    <button
-                      onClick={() => handleDelete(cat._id)}
-                      className="bg-red-500 text-white transition px-3 py-1.5 text-sm rounded-lg hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
                   )}
                 </div>
               </div>

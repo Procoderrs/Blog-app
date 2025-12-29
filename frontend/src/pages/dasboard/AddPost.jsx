@@ -4,11 +4,15 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Editor from "../../components/Editor";
 import imageCompression from "browser-image-compression";
+import Header from "../../components/Header";
 
 export default function AddPost() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // ===============================
+  // State
+  // ===============================
   const [categories, setCategories] = useState([]);
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -20,7 +24,9 @@ export default function AddPost() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
-  // Generate slug dynamically when title changes
+  // ===============================
+  // Generate slug dynamically
+  // ===============================
   useEffect(() => {
     const generateSlug = (text) =>
       text
@@ -32,6 +38,9 @@ export default function AddPost() {
     setSlug(generateSlug(title));
   }, [title]);
 
+  // ===============================
+  // Fetch categories
+  // ===============================
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -40,12 +49,15 @@ export default function AddPost() {
         });
         setCategories(res.data || []);
       } catch (error) {
-        console.log("Fetch categories error:", error.response?.data || error.message);
+        console.error("Fetch categories error:", error.response?.data || error.message);
       }
     };
     fetchCategories();
   }, [user]);
 
+  // ===============================
+  // Handle image upload & compression
+  // ===============================
   const handleImage = async (e) => {
     let file = e.target.files[0];
     if (!file) return;
@@ -66,6 +78,9 @@ export default function AddPost() {
     }
   };
 
+  // ===============================
+  // Validate form
+  // ===============================
   const validateForm = () => {
     let newErrors = {};
     if (!title.trim()) newErrors.title = "Title is required.";
@@ -77,6 +92,9 @@ export default function AddPost() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // ===============================
+  // Submit form
+  // ===============================
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return;
@@ -93,7 +111,10 @@ export default function AddPost() {
 
     try {
       await api.post("/posts/create", formData, {
-        headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${user?.token}` },
+        headers: { 
+          "Content-Type": "multipart/form-data", 
+          Authorization: `Bearer ${user?.token}` 
+        },
       });
       alert("Post created successfully!");
       navigate("/");
@@ -106,6 +127,10 @@ export default function AddPost() {
   };
 
   return (
+    <>
+    <div>
+<Header/>
+   
     <div className="w-full max-w-4xl mx-auto mt-10 bg-white p-6 md:p-8 rounded-2xl shadow-sm">
       <h1 className="text-2xl md:text-3xl text-[#3b3363] font-bold mb-8 tracking-tight">Create New Post</h1>
 
@@ -147,24 +172,30 @@ export default function AddPost() {
 
         {/* Image */}
         <div>
-<label className="block mb-2 text-sm font-medium text-[#3B3363]">
-  Featured Image
-</label>          <input type="file" className="font-medium cursor-pointer hover:bg-purple-50 w-fit " accept="image/*" onChange={handleImage} />
-          {preview && <img
-  src={preview}
-  alt="preview"
-  className="w-40 h-40 object-cover rounded-xl border border-[#E5E7EB] mt-3"
-/>}
+          <label className="block mb-2 text-sm font-medium text-[#3B3363]">Featured Image</label>
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handleImage} 
+            className="cursor-pointer w-fit hover:bg-purple-50"
+          />
+          {preview && (
+            <img
+              src={preview}
+              alt="preview"
+              className="w-40 h-40 object-cover rounded-xl border border-[#E5E7EB] mt-3"
+            />
+          )}
           {errors.image && <p className="text-red-600 text-sm mt-1">{errors.image}</p>}
         </div>
 
         {/* Category */}
         <div>
           <select
-  value={selectedCategory}
-  onChange={(e) => setSelectedCategory(e.target.value)}
-  className="w-full border border-[#E5E7EB] px-3 py-2.5 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40"
->
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full border border-[#E5E7EB] px-3 py-2.5 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#7C6EE6]/40"
+          >
             <option value="">Select Category</option>
             {categories.map((c) => (
               <option key={c._id} value={c._id}>
@@ -177,22 +208,27 @@ export default function AddPost() {
 
         {/* Content */}
         <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
-  <Editor content={content} onChange={setContent} />
-</div>
+          <Editor content={content} onChange={setContent} />
+          {errors.content && <p className="text-red-600 text-sm mt-1 px-3">{errors.content}</p>}
+        </div>
 
         {/* Submit */}
         <button
-  type="submit"
-  disabled={isSubmitting}
-  className="w-full py-3 rounded-lg font-semibold text-white bg-[#7C6EE6] hover:bg-[#6A5BE2] transition disabled:opacity-50"
->
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full py-3 rounded-lg font-semibold text-white bg-[#7C6EE6] hover:bg-[#6A5BE2] transition disabled:opacity-50"
+        >
           {isSubmitting ? "Publishing..." : "Publish Post"}
         </button>
 
-        {errors.submit && <p className="bg-red-50 text-red-600 text-sm p-3 rounded-lg mt-4">
-  {errors.submit}
-</p>}
+        {errors.submit && (
+          <p className="bg-red-50 text-red-600 text-sm p-3 rounded-lg mt-4">
+            {errors.submit}
+          </p>
+        )}
       </form>
     </div>
+     </div>
+    </>
   );
 }
